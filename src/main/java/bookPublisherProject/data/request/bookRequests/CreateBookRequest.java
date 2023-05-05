@@ -7,7 +7,7 @@ import lombok.Builder;
 
 @Builder
 public record CreateBookRequest(
-        String title,
+        String name,
         String description,
         String releaseDate,
         //Yazarı belirtiyoruz.

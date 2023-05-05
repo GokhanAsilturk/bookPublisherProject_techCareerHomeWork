@@ -11,4 +11,6 @@ import java.util.Optional;
 public interface AuthorRepository extends MongoRepository<Author, Integer> {
 
     Optional<List<Author>> findAllByIsDeletedFalse();
+
+    Optional<Author> findByName(String name);
 }

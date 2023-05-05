@@ -2,6 +2,7 @@ package bookPublisherProject.data.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import org.springframework.data.annotation.Id;
@@ -11,6 +12,7 @@ import javax.persistence.*;
 
 
 @Data
+@EqualsAndHashCode(callSuper = true)
 @Document("books")
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,7 +22,7 @@ public class Book extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String title;
+    private String name;
     private String description;
     private String releaseDate;
 

@@ -5,7 +5,7 @@ import lombok.Builder;
 
 @Builder
 public record BookDto(
-        String title,
+        String bookName,
         String description,
         String releaseDate,
         AuthorDto authorDto) {

@@ -1,6 +1,7 @@
 package bookPublisherProject.service.authorServices;
 
 import bookPublisherProject.data.entity.Author;
+import bookPublisherProject.data.entity.Book;
 import bookPublisherProject.repository.AuthorRepository;
 import bookPublisherProject.service.bookServices.BookService;
 import lombok.RequiredArgsConstructor;
@@ -25,8 +26,7 @@ public class AuthorEntityService implements IAuthorEntityService {
     @Override
     public Author permanentlyDelete(int id) {
 
-        Author author = this.authorRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Author not found!"));
+        Author author = this.getById(id);
 
         //Sistemden tamamen silinen yazarın bütün kitaplarını da kalıcı olarak siliyoruz.
         author.getBooks().forEach(book -> {
@@ -40,16 +40,12 @@ public class AuthorEntityService implements IAuthorEntityService {
 
     @Override
     public Author softDelete(int id) {
+        Author deletedAuthor = this.getById(id);
         //Sistemden silinen yazarın bütün kitaplarını da siliyoruz.
-        this.authorRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Author not found!"))
-                .getBooks()
-                .forEach(book -> {
-                    this.bookService.softDeleteBook(book.getId());
-                });
+        deletedAuthor.getBooks().forEach(book -> this.bookService.softDeleteBook(book.getId()));
 
-        this.authorRepository.findById(id).orElseThrow().setIsDeleted(true);
-        return this.authorRepository.findById(id).orElseThrow(() -> new NotFoundException("Author not found!"));
+        this.getById(id).setIsDeleted(true);
+        return deletedAuthor;
     }
 
     @Override
@@ -60,5 +56,21 @@ public class AuthorEntityService implements IAuthorEntityService {
     @Override
     public Author getById(int id) {
         return this.authorRepository.findById(id).orElseThrow(() -> new NotFoundException("Author not found!"));
+    }
+
+    @Override
+    public Author getByName(String name) {
+        return this.authorRepository.findByName(name).orElseThrow(() -> new NotFoundException("Author not found"));
+    }
+
+    @Override
+    public List<Book> getBooksByName(String authorName) {
+        return this.getByName(authorName).getBooks();
+    }
+
+    @Override
+    public Author updateName(int id, String name) {
+        this.getById(id).setName(name);
+        return this.getById(id);
     }
 }
