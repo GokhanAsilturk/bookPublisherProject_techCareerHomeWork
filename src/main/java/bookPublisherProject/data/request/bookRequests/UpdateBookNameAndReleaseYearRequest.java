@@ -4,7 +4,7 @@ import lombok.Builder;
 
 @Builder
 public record UpdateBookNameAndReleaseYearRequest(
-        String name,
+        String bookName,
         String releaseYear
 ) {
 }

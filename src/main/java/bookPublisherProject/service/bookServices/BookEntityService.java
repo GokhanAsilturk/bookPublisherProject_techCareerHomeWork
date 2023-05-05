@@ -1,6 +1,9 @@
 package bookPublisherProject.service.bookServices;
 
+import bookPublisherProject.data.entity.Author;
 import bookPublisherProject.data.entity.Book;
+import bookPublisherProject.data.request.authorRequests.PublishNewBookRequest;
+import bookPublisherProject.data.request.bookRequests.UpdateBookRequest;
 import bookPublisherProject.repository.BookRepository;
 import bookPublisherProject.service.authorServices.AuthorService;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +20,7 @@ public class BookEntityService implements IBookEntityService {
 
     private final BookRepository bookRepository;
     private final AuthorService authorService;
+
 
     @Override
     public Book save(Book book) {
@@ -96,6 +100,35 @@ public class BookEntityService implements IBookEntityService {
     }
 
     @Override
+    public Book update(int id, String newBookName, String newDescription, String newReleaseDate) {
+        this.getById(id).setName(newBookName);
+        this.getById(id).setDescription(newDescription);
+        this.getById(id).setReleaseDate(newReleaseDate);
+        return null;
+    }
+
+    @Override
+    public Book updateBookAndAuthor(int bookId, Book newBook, Author newAuthor) {
+        //Kitabı güncelliyoruz.
+        Book book = this.getById(bookId);
+        book.setName(newBook.getName());
+        book.setDescription(newBook.getDescription());
+        book.setReleaseDate(newBook.getReleaseDate());
+
+        //Yazarı güncelliyoruz.
+        Author author = book.getAuthor();
+        author.setName(newAuthor.getName());
+        author.setEmailAddress(newAuthor.getEmailAddress());
+        author.setBio(newAuthor.getBio());
+
+        //kitaba yeni yazarı kaydediyoruz.
+        book.setAuthor(author);
+
+        //kitabı güncellenmiş hali ile kaydediyoruz.
+        return this.save(book);
+    }
+
+    @Override
     public Book updateNameOfAuthorByBook(int bookId, String authorName) {
         this.authorService.updateAuthorName(this.getById(bookId).getAuthor().getId(), authorName);
         this.getById(bookId).setAuthor(this.getById(bookId).getAuthor());
@@ -104,6 +137,12 @@ public class BookEntityService implements IBookEntityService {
 
     @Override
     public Book updateBookNameAndReleaseYear(String bookName, String releaseYear) {
+
+        return null;
+    }
+
+    @Override
+    public Book publish(PublishNewBookRequest publishNewBookRequest) {
         return null;
     }
 }

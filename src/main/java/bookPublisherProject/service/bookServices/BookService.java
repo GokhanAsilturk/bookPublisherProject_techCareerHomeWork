@@ -2,14 +2,14 @@ package bookPublisherProject.service.bookServices;
 
 import bookPublisherProject.data.dto.BookDto;
 import bookPublisherProject.data.entity.Book;
-import bookPublisherProject.data.request.bookRequests.CreateBookRequest;
-import bookPublisherProject.data.request.bookRequests.DeleteBookRequest;
-import bookPublisherProject.data.request.bookRequests.UpdateBookNameAndReleaseYearRequest;
+import bookPublisherProject.data.request.authorRequests.PublishNewBookRequest;
+import bookPublisherProject.data.request.bookRequests.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static bookPublisherProject.data.mapper.AuthorMapper.AUTHOR_MAPPER;
 import static bookPublisherProject.data.mapper.BookMapper.BOOK_MAPPER;
 
 @Service
@@ -22,9 +22,14 @@ public class BookService implements IBookService {
 
     @Override
     public BookDto createBook(CreateBookRequest createBookRequest) {
+        return null;
+    }
+
+    @Override
+    public BookDto createBookAndAuthor(CreateBookAndAuthorRequest createBookAndAuthorRequest) {
 
         return this.convertToDto(
-                this.bookEntityService.save(BOOK_MAPPER.createBook(createBookRequest)));
+                this.bookEntityService.save(BOOK_MAPPER.createBookAndAuthor(createBookAndAuthorRequest)));
     }
 
     //silme işlemini nasıl yapacağımıza karar veriyoruz.
@@ -64,7 +69,28 @@ public class BookService implements IBookService {
     public List<BookDto> getBooksByAuthorName(String authorName) {
         return this.bookEntityService.getByAuthorName(authorName)
                 .stream()
-                .map(BOOK_MAPPER::convertToBookDto).toList();
+                .map(this::convertToDto)
+                .toList();
+    }
+
+    @Override
+    public BookDto updateBook(UpdateBookRequest updateBookRequest) {
+
+        return this.convertToDto(this.bookEntityService.update(
+                updateBookRequest.bookId(),
+                updateBookRequest.newBookName(),
+                updateBookRequest.newDescription(),
+                updateBookRequest.newReleaseDate()
+        ));
+    }
+
+    @Override
+    public BookDto updateBookAndAuthor(UpdateBookAndAuthorRequest updateBookAndAuthorRequest) {
+
+        return this.convertToDto(this.bookEntityService.updateBookAndAuthor(
+                updateBookAndAuthorRequest.updateBookRequest().bookId(),
+                BOOK_MAPPER.updateBook(updateBookAndAuthorRequest.updateBookRequest()),
+                AUTHOR_MAPPER.updateAuthor(updateBookAndAuthorRequest.updateAuthorRequest())));
     }
 
     @Override
@@ -75,8 +101,13 @@ public class BookService implements IBookService {
     @Override
     public BookDto updateBookNameAndReleaseYear(UpdateBookNameAndReleaseYearRequest updateBookNameAndReleaseYearRequest) {
         return convertToDto(this.bookEntityService.updateBookNameAndReleaseYear(
-                updateBookNameAndReleaseYearRequest.name()
-                ,updateBookNameAndReleaseYearRequest.releaseYear()));
+                updateBookNameAndReleaseYearRequest.bookName()
+                , updateBookNameAndReleaseYearRequest.releaseYear()));
+    }
+
+    @Override
+    public BookDto publishNewBook(PublishNewBookRequest publishNewBookRequest) {
+        return null;
     }
 
     public BookDto convertToDto(Book book) {

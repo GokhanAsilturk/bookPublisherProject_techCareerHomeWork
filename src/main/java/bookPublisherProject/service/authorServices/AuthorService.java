@@ -6,19 +6,20 @@ import bookPublisherProject.data.entity.Author;
 import bookPublisherProject.data.mapper.BookMapper;
 import bookPublisherProject.data.request.authorRequests.CreateAuthorRequest;
 import bookPublisherProject.data.request.authorRequests.DeleteAuthorRequest;
+import bookPublisherProject.data.request.authorRequests.UpdateAuthorRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 import static bookPublisherProject.data.mapper.AuthorMapper.AUTHOR_MAPPER;
+import static bookPublisherProject.data.mapper.BookMapper.BOOK_MAPPER;
 
 @Service
 @RequiredArgsConstructor
 public class AuthorService implements IAuthorService {
 
     private final AuthorEntityService authorEntityService;
-    private final BookMapper bookMapper;
 
     @Override
     public AuthorDto createAuthor(CreateAuthorRequest createAuthorRequest) {
@@ -68,8 +69,18 @@ public class AuthorService implements IAuthorService {
     public List<BookDto> getBooksByAuthorName(String authorName) {
         return this.authorEntityService.getBooksByName(authorName)
                 .stream()
-                .map(bookMapper::convertToBookDto)
+                .map(BOOK_MAPPER::convertToBookDto)
                 .toList();
+    }
+
+    @Override
+    public AuthorDto updateAuthor(UpdateAuthorRequest updateAuthorRequest) {
+        return this.convertToDto(this.authorEntityService.update(
+                updateAuthorRequest.authorId(),
+                updateAuthorRequest.newAuthorName(),
+                updateAuthorRequest.newEmailAddress(),
+                updateAuthorRequest.newBio()
+        ));
     }
 
     @Override

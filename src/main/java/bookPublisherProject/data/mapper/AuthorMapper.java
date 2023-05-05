@@ -3,6 +3,7 @@ package bookPublisherProject.data.mapper;
 import bookPublisherProject.data.dto.AuthorDto;
 import bookPublisherProject.data.entity.Author;
 import bookPublisherProject.data.request.authorRequests.CreateAuthorRequest;
+import bookPublisherProject.data.request.authorRequests.UpdateAuthorRequest;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -14,4 +15,6 @@ public interface AuthorMapper {
  AuthorDto convertToAuthorDto(Author author);
 
  Author createAuthor(CreateAuthorRequest createAuthorRequest);
+
+ Author updateAuthor(UpdateAuthorRequest updateAuthorRequest);
 }
