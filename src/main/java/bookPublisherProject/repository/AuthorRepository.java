@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface AuthorRepository extends MongoRepository<Author, Integer> {
+public interface AuthorRepository extends MongoRepository<Author, String> {
 
     Optional<List<Author>> findAllByIsDeletedFalse();
 

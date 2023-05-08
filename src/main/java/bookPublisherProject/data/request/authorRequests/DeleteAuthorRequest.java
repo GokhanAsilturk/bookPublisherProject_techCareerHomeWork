@@ -4,7 +4,7 @@ import lombok.Builder;
 
 @Builder
 public record DeleteAuthorRequest(
-        int id,
+        String id,
         boolean permanentlyDelete
 ) {
 }

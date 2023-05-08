@@ -11,15 +11,15 @@ public interface IBookService {
     BookDto createBook(CreateBookRequest createBookRequest);
     BookDto createBookAndAuthor(CreateBookAndAuthorRequest createBookAndAuthorRequest);
 
-    BookDto deleteBook(DeleteBookRequest deleteBookRequest);
+    void deleteBook(DeleteBookRequest deleteBookRequest);
 
-    BookDto softDeleteBook(int id);
+    void softDeleteBook(String id);
 
-    BookDto permanentlyDeleteBook(int id);
+    void permanentlyDeleteBook(String id);
 
     List<BookDto> getAllBooks();
 
-    BookDto getBookById(int id);
+    BookDto getBookById(String id);
 
     List<BookDto> getBooksByAuthorName(String authorName);
 
@@ -27,7 +27,7 @@ public interface IBookService {
 
     BookDto updateBookAndAuthor(UpdateBookAndAuthorRequest updateBookAndAuthorRequest);
 
-    BookDto updateNameOfAuthorByBook(int bookId, String authorName);
+    BookDto updateNameOfAuthorByBook(String bookId, String authorName);
 
     BookDto updateBookNameAndReleaseYear(UpdateBookNameAndReleaseYearRequest updateBookNameAndReleaseYearRequest);
 

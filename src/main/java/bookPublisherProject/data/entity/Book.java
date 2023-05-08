@@ -5,10 +5,9 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-import javax.persistence.*;
 
 
 @Data
@@ -20,14 +19,10 @@ import javax.persistence.*;
 public class Book extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private String id;
     private String name;
     private String description;
     private String releaseDate;
-
-    @ManyToOne
-    @JoinColumn(name = "author_")
     private Author author;
 
 }

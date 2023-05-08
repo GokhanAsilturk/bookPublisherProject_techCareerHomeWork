@@ -4,7 +4,7 @@ import lombok.Builder;
 
 @Builder
 public record CreateBookRequest (
-        int authorId,
+        String authorId,
         String name,
         String description,
         String releaseDate

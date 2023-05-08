@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface BookRepository extends MongoRepository<Book, Integer> {
+public interface BookRepository extends MongoRepository<Book, String> {
 
     Optional<List<Book>> findAllByIsDeletedFalse();
 }

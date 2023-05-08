@@ -12,19 +12,19 @@ public interface IAuthorEntityService {
 
     Author save(Author author);
 
-    Author permanentlyDelete(int id);
-    Author softDelete(int id);
+    void permanentlyDelete(String id);
+    Author softDelete(String id);
 
     List<Author> getAll();
 
-    Author getById(int id);
+    Author getById(String id);
 
     Author getByName(String name);
 
     List<Book> getBooksByName(String name);
 
-    Author update(int authorId, String newName, String newEmailAddress, String newBio);
+    Author update(String authorId, String newName, String newEmailAddress, String newBio);
 
-    Author updateName(int id, String name);
+    Author updateName(String id, String name);
 
 }

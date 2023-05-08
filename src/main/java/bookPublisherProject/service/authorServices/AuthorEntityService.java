@@ -1,9 +1,7 @@
 package bookPublisherProject.service.authorServices;
 
-import bookPublisherProject.data.dto.AuthorDto;
 import bookPublisherProject.data.entity.Author;
 import bookPublisherProject.data.entity.Book;
-import bookPublisherProject.data.request.authorRequests.UpdateAuthorRequest;
 import bookPublisherProject.repository.AuthorRepository;
 import bookPublisherProject.service.bookServices.BookService;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +15,7 @@ import java.util.List;
 public class AuthorEntityService implements IAuthorEntityService {
 
     private final AuthorRepository authorRepository;
-    private final BookService bookService;
+
 
     @Override
     public Author save(Author author) {
@@ -26,27 +24,21 @@ public class AuthorEntityService implements IAuthorEntityService {
     }
 
     @Override
-    public Author permanentlyDelete(int id) {
-
-        Author author = this.getById(id);
-
-        //Sistemden tamamen silinen yazarın bütün kitaplarını da kalıcı olarak siliyoruz.
-        author.getBooks().forEach(book -> {
-            this.bookService.permanentlyDeleteBook(book.getId());
-        });
+    public void permanentlyDelete(String id) {
 
         this.authorRepository.deleteById(id);
-
-        return author;
     }
 
     @Override
-    public Author softDelete(int id) {
+    public Author softDelete(String id) {
         Author deletedAuthor = this.getById(id);
-        //Sistemden silinen yazarın bütün kitaplarını da siliyoruz.
-        deletedAuthor.getBooks().forEach(book -> this.bookService.softDeleteBook(book.getId()));
 
-        this.getById(id).setIsDeleted(true);
+        //Sistemden silinen yazarın bütün kitaplarını da siliyoruz.
+        deletedAuthor.getBooks().forEach(book -> book.setIsDeleted(true));
+
+
+        deletedAuthor.setIsDeleted(true);
+        this.authorRepository.save(deletedAuthor);
         return deletedAuthor;
     }
 
@@ -56,7 +48,7 @@ public class AuthorEntityService implements IAuthorEntityService {
     }
 
     @Override
-    public Author getById(int id) {
+    public Author getById(String id) {
         return this.authorRepository.findById(id).orElseThrow(() -> new NotFoundException("Author not found!"));
     }
 
@@ -71,7 +63,7 @@ public class AuthorEntityService implements IAuthorEntityService {
     }
 
     @Override
-    public Author update(int authorId, String newName, String newEmailAddress, String newBio) {
+    public Author update(String authorId, String newName, String newEmailAddress, String newBio) {
         this.getById(authorId).setName(newName);
         getById(authorId).setEmailAddress(newEmailAddress);
         getById(authorId).setBio(newBio);
@@ -79,7 +71,7 @@ public class AuthorEntityService implements IAuthorEntityService {
     }
 
     @Override
-    public Author updateName(int id, String name) {
+    public Author updateName(String id, String name) {
         this.getById(id).setName(name);
         return this.getById(id);
     }

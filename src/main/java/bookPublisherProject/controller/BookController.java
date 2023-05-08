@@ -34,7 +34,7 @@ public class BookController {
     //    2-) API, bir kitap kaydını ID'sine göre almak ve veritabanındaki tüm kitapların bir listesini almak için
     //    "Mürekkep Kalem Kitaplarına" izin vermelidir.
     @GetMapping("{id}/getById")
-    public ResponseEntity<TCResponse<?>> getById(@PathVariable("id") int id) {
+    public ResponseEntity<TCResponse<?>> getById(@PathVariable("id") String id) {
         try {
             return ResponseEntity.ok(TCResponse.builder()
                     .isSuccess(true)
@@ -78,10 +78,10 @@ public class BookController {
     //4-) API, bir kitap kaydını veritabanından silmek için "Mürekkep Kalem Kitaplarına" izin vermeli.
     @DeleteMapping("/delete/book")
     public ResponseEntity<TCResponse<?>> deleteBook(@RequestBody DeleteBookRequest deleteBookRequest) {
+        this.bookService.deleteBook(deleteBookRequest);
         try {
             return ResponseEntity.ok(TCResponse.builder()
                     .isSuccess(true)
-                    .response(this.bookService.deleteBook(deleteBookRequest))
                     .build());
         } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
@@ -90,7 +90,7 @@ public class BookController {
 
     @PutMapping("{id}/authorName/change//{name}")
     public ResponseEntity<TCResponse<?>> updateNameOfAuthorByBook(
-            @PathVariable("id") int bookId, @PathVariable("name") String authorName) {
+            @PathVariable("id") String bookId, @PathVariable("name") String authorName) {
 
         try {
             return ResponseEntity.ok(TCResponse.builder()

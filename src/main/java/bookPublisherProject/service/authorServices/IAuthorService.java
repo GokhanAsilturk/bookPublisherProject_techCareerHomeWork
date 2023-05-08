@@ -14,13 +14,13 @@ public interface IAuthorService {
 
     AuthorDto deleteAuthor(DeleteAuthorRequest deleteAuthorRequest);
 
-    AuthorDto permanentlyDeleteAuthor(int id);
+    void permanentlyDeleteAuthor(String id);
 
-    AuthorDto softDeleteAuthor(int id);
+    AuthorDto softDeleteAuthor(String id);
 
     List<AuthorDto> getAllAuthors();
 
-    AuthorDto getAuthorById(int id);
+    AuthorDto getAuthorById(String id);
 
     AuthorDto getAuthorByName(String authorName);
 
@@ -29,7 +29,7 @@ public interface IAuthorService {
     AuthorDto updateAuthor(UpdateAuthorRequest updateAuthorRequest);
 
 
-    AuthorDto updateAuthorName(int authorId, String authorName);
+    AuthorDto updateAuthorName(String authorId, String authorName);
 
 
 }
