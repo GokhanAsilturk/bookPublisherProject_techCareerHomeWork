@@ -44,6 +44,8 @@ public class BookService implements IBookService {
 
         Book book = this.bookEntityService.create(BOOK_MAPPER
                 .createBookAndAuthor(createBookAndAuthorRequest));
+
+        //Kitaba yazar eklerken aynı zamanda yazarı kaydediyoruz.
         book.setAuthor(authorEntityService.save(AUTHOR_MAPPER
                 .createAuthor(createBookAndAuthorRequest.authorRequest())));
         //Kitapla beraber oluşturduğumuz ve kitabın içerisine kaydettiğimiz yazarı, yazar reposuna da eklerken
@@ -105,7 +107,7 @@ public class BookService implements IBookService {
     public List<BookDto> getAllBooks() {
         return this.bookEntityService.getAll()
                 .stream()
-                .map(book -> convertToDto(book)).toList();
+                .map(this::convertToDto).toList();
     }
 
     @Override
@@ -164,12 +166,10 @@ public class BookService implements IBookService {
 
         //BOOK_MAPPER.publishBook, CreateBookRequest döndürdüğü için, BOOK_MAPPER.createBook kullandık.
         Book book = BOOK_MAPPER.createBook(BOOK_MAPPER.publishBook(publishNewBookRequest));
-        //Yazarı ekliyoruz.
-        book.setAuthor(authorEntityService.getById(publishNewBookRequest.authorId()));
 
-        //kitap eklenirken, hangi yazar girildiyse, o yazarın kitaplar listesine kitabı ekliyoruz.
-        this.authorEntityService
-                .addBookInBookList(authorEntityService.getById(publishNewBookRequest.authorId()), book);
+        //Yazarı kitaba eklerken, hangi yazar girildiyse, o yazarın kitaplar listesine kitabı ekliyoruz.
+        book.setAuthor(authorEntityService
+                .addBookInBookList(authorEntityService.getById(publishNewBookRequest.authorId()), book));
 
         return convertToDto(this.bookEntityService.publish(book));
     }
