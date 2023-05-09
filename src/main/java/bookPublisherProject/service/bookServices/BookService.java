@@ -28,9 +28,7 @@ public class BookService implements IBookService {
     @Override
     public BookDto createBook(CreateBookRequest createBookRequest) {
 
-        Book book = BOOK_MAPPER.createBook(createBookRequest);
-        // BOOK_MAPPER.createBook işlemini yaparken author ataması yapamadığımız için burada ekliyoruz:
-        book.setAuthor(authorEntityService.getById(createBookRequest.authorId()));
+        Book book = createBookRequest.convertToEntity(authorEntityService.getById(createBookRequest.authorId()));
 
         //Kitap eklendikten sonra, yazarın kitap listesine de kitabı ekliyoruz.
         authorEntityService.addBookInBookList(authorEntityService.getById(createBookRequest.authorId())
