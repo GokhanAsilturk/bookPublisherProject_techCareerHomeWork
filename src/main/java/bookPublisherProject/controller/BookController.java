@@ -1,11 +1,9 @@
 package bookPublisherProject.controller;
 
-import bookPublisherProject.data.request.bookRequests.CreateBookAndAuthorRequest;
-import bookPublisherProject.data.request.bookRequests.DeleteBookRequest;
-import bookPublisherProject.data.request.bookRequests.UpdateBookAndAuthorRequest;
-import bookPublisherProject.data.request.bookRequests.UpdateBookNameAndReleaseYearRequest;
+import bookPublisherProject.data.request.bookRequests.*;
 import bookPublisherProject.data.response.TCResponse;
 import bookPublisherProject.service.bookServices.BookService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,12 +11,28 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/book")
 public class BookController {
 
+    private final BookService bookService;
 
-    private BookService bookService;
+    @Autowired
+    public BookController(BookService bookService) {
+        this.bookService = bookService;
+    }
 
-//    1-) API, şirketin veritabanına yeni bir kitap kaydı oluşturmasına izin vermeli ve bu kayıt, kitabın başlığı,
-//    açıklaması, yayın tarihi ve yazar bilgilerini (ad, e-posta ve bio) içermelidir.
     @PostMapping("/create/book")
+    public ResponseEntity<TCResponse<?>> createBook(@RequestBody CreateBookRequest createBookRequest) {
+        try {
+            return ResponseEntity.ok(TCResponse.builder()
+                    .isSuccess(true)
+                    .response(bookService.createBook(createBookRequest))
+                    .build());
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    //    1-) API, şirketin veritabanına yeni bir kitap kaydı oluşturmasına izin vermeli ve bu kayıt, kitabın başlığı,
+//    açıklaması, yayın tarihi ve yazar bilgilerini (ad, e-posta ve bio) içermelidir.
+    @PostMapping("/create/bookAndAuthor")
     public ResponseEntity<TCResponse<?>> createBookAndAuthor(@RequestBody CreateBookAndAuthorRequest createBookAndAuthorRequest) {
         try {
             return ResponseEntity.ok(TCResponse.builder()

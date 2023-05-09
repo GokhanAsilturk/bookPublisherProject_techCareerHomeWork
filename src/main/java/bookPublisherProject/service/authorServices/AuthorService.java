@@ -83,12 +83,8 @@ public class AuthorService implements IAuthorService {
     @Override
     public AuthorDto updateAuthor(UpdateAuthorRequest updateAuthorRequest) {
 
-        return this.convertToDto(this.authorEntityService.update(
-                updateAuthorRequest.authorId(),
-                updateAuthorRequest.newAuthorName(),
-                updateAuthorRequest.newEmailAddress(),
-                updateAuthorRequest.newBio()
-        ));
+        return this.convertToDto(this.authorEntityService
+                .update(AUTHOR_MAPPER.updateAuthor(updateAuthorRequest)));
     }
 
     @Override

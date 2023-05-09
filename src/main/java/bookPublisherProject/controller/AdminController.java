@@ -1,9 +1,8 @@
 package bookPublisherProject.controller;
 
-import bookPublisherProject.data.request.authorRequests.PublishNewBookRequest;
+import bookPublisherProject.data.request.authorRequests.CreateAuthorRequest;
 import bookPublisherProject.data.response.TCResponse;
 import bookPublisherProject.service.authorServices.AuthorService;
-import bookPublisherProject.service.bookServices.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,20 +11,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/author")
-public class AuthorController {
+@RequestMapping("/admin")
+public class AdminController {
+
+
+    private final AuthorService authorService;
 
     @Autowired
-    private AuthorService authorService;
-    @Autowired
-    private BookService bookService;
+    public AdminController(AuthorService authorService) {
+        this.authorService = authorService;
+    }
 
-    @PostMapping("/publish/new/book")
-    public ResponseEntity<TCResponse<?>> publishNewBook(@RequestBody PublishNewBookRequest publishNewBookRequest) {
+
+    @PostMapping("/create/author")
+    public ResponseEntity<TCResponse<?>> createAuthor(@RequestBody CreateAuthorRequest createAuthorRequest) {
         try {
             return ResponseEntity.ok(TCResponse.builder()
                     .isSuccess(true)
-                    .response(this.bookService.publishNewBook(publishNewBookRequest))
+                    .response(this.authorService.createAuthor(createAuthorRequest))
                     .build());
         } catch (Exception e) {
             return ResponseEntity.internalServerError().build();

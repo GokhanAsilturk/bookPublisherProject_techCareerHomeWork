@@ -1,6 +1,8 @@
 package bookPublisherProject.service.bookServices;
 
+import bookPublisherProject.data.dto.AuthorDto;
 import bookPublisherProject.data.dto.BookDto;
+import bookPublisherProject.data.entity.Author;
 import bookPublisherProject.data.entity.Book;
 import bookPublisherProject.data.request.authorRequests.PublishNewBookRequest;
 import bookPublisherProject.data.request.bookRequests.*;
@@ -26,16 +28,29 @@ public class BookService implements IBookService {
     @Override
     public BookDto createBook(CreateBookRequest createBookRequest) {
 
-        return this.convertToDto(
-                this.bookEntityService.create(BOOK_MAPPER
-                        .createBook(createBookRequest)));
+        Book book = BOOK_MAPPER.createBook(createBookRequest);
+        // BOOK_MAPPER.createBook işlemini yaparken author ataması yapamadığımız için burada ekliyoruz:
+        book.setAuthor(authorEntityService.getById(createBookRequest.authorId()));
+
+        //Kitap eklendikten sonra, yazarın kitap listesine de kitabı ekliyoruz.
+        authorEntityService.addBookInBookList(authorEntityService.getById(createBookRequest.authorId())
+                , bookEntityService.create(book));
+
+        return this.convertToDto(book);
     }
 
     @Override
     public BookDto createBookAndAuthor(CreateBookAndAuthorRequest createBookAndAuthorRequest) {
 
-        return this.convertToDto(
-                this.bookEntityService.create(BOOK_MAPPER.createBookAndAuthor(createBookAndAuthorRequest)));
+        Book book = this.bookEntityService.create(BOOK_MAPPER
+                .createBookAndAuthor(createBookAndAuthorRequest));
+        book.setAuthor(authorEntityService.save(AUTHOR_MAPPER
+                .createAuthor(createBookAndAuthorRequest.authorRequest())));
+        //Kitapla beraber oluşturduğumuz ve kitabın içerisine kaydettiğimiz yazarı, yazar reposuna da eklerken
+        //yazarın books listesine oluşturduğumuz kitabı ekliyoruz.
+        authorEntityService.save(authorEntityService.addBookInBookList(book.getAuthor(), book));
+
+        return this.convertToDto(book);
     }
 
     //silme işlemini nasıl yapacağımıza karar veriyoruz.
@@ -53,6 +68,7 @@ public class BookService implements IBookService {
     @Override
     public void softDeleteBook(String id) {
         Book deletedBook = this.bookEntityService.getById(id);
+
         //silme işleminden sonra silinen kitabın yazarının başka bir kitabı kalmıyorsa, yazar da sistemden silinir.
         //kitapları gez ve yazarlarına bak. eğer silinen kitabın yazarı ile eşleşen bir yazar yok ise yazarı sil.
         if (!this.bookEntityService.getAll()
@@ -61,9 +77,9 @@ public class BookService implements IBookService {
                 .toList()
                 .contains(deletedBook.getAuthor())) {
             this.authorEntityService.softDelete(deletedBook.getAuthor().getId());
+        } else {
+            this.bookEntityService.softDelete(this.bookEntityService.getById(id));
         }
-
-        this.bookEntityService.softDelete(this.bookEntityService.getById(id));
     }
 
     @Override
@@ -79,15 +95,17 @@ public class BookService implements IBookService {
                 .toList()
                 .contains(deletedBook.getAuthor())) {
             this.authorEntityService.permanentlyDelete(deletedBook.getAuthor().getId());
+        } else {
+            this.bookEntityService.permanentlyDelete(id);
         }
-        this.bookEntityService.permanentlyDelete(id);
+
     }
 
     @Override
     public List<BookDto> getAllBooks() {
         return this.bookEntityService.getAll()
                 .stream()
-                .map(this::convertToDto).toList();
+                .map(book -> convertToDto(book)).toList();
     }
 
     @Override
@@ -107,12 +125,18 @@ public class BookService implements IBookService {
     @Override
     public BookDto updateBook(UpdateBookRequest updateBookRequest) {
 
-        return this.convertToDto(this.bookEntityService.update(BOOK_MAPPER.updateBook(updateBookRequest)));
+        return this.convertToDto(this.bookEntityService.update(
+                BOOK_MAPPER.updateBook(updateBookRequest,
+                        bookEntityService.getById(updateBookRequest.bookId())
+                )));
     }
 
     @Override
     public BookDto updateBookAndAuthor(UpdateBookAndAuthorRequest updateBookAndAuthorRequest) {
-        Book book = BOOK_MAPPER.updateBook(updateBookAndAuthorRequest.updateBookRequest());
+        Book book = BOOK_MAPPER.updateBook(updateBookAndAuthorRequest.updateBookRequest(),
+                bookEntityService.getById(updateBookAndAuthorRequest.updateBookRequest().bookId())
+        );
+
         book.setAuthor(AUTHOR_MAPPER.updateAuthor(updateBookAndAuthorRequest.updateAuthorRequest()));
         return this.convertToDto(this.bookEntityService.update(book));
     }
@@ -120,8 +144,9 @@ public class BookService implements IBookService {
     @Override
     public BookDto updateNameOfAuthorByBook(String bookId, String authorName) {
         Book book = this.bookEntityService.getById(bookId);
-        book.getAuthor().setName(authorName);
-
+        Author author = book.getAuthor();
+        author.setName(authorName);
+        book.setAuthor(author);
         return this.convertToDto(this.bookEntityService.update(book));
     }
 
@@ -129,18 +154,30 @@ public class BookService implements IBookService {
     public BookDto updateBookNameAndReleaseYear(UpdateBookNameAndReleaseYearRequest updateBookNameAndReleaseYearRequest) {
 
         return this.convertToDto(this.bookEntityService
-                .update(BOOK_MAPPER.updateBookNameAndReleaseYear(updateBookNameAndReleaseYearRequest)));
+                .update(BOOK_MAPPER.updateBookNameAndReleaseYear(updateBookNameAndReleaseYearRequest,
+                        bookEntityService.getById(updateBookNameAndReleaseYearRequest.bookId()))));
     }
 
     @Override
     public BookDto publishNewBook(PublishNewBookRequest publishNewBookRequest) {
 
+
         //BOOK_MAPPER.publishBook, CreateBookRequest döndürdüğü için, BOOK_MAPPER.createBook kullandık.
-        return convertToDto(this.bookEntityService.publish(
-                BOOK_MAPPER.createBook(BOOK_MAPPER.publishBook(publishNewBookRequest))));
+        Book book = BOOK_MAPPER.createBook(BOOK_MAPPER.publishBook(publishNewBookRequest));
+        //Yazarı ekliyoruz.
+        book.setAuthor(authorEntityService.getById(publishNewBookRequest.authorId()));
+
+        //kitap eklenirken, hangi yazar girildiyse, o yazarın kitaplar listesine kitabı ekliyoruz.
+        this.authorEntityService
+                .addBookInBookList(authorEntityService.getById(publishNewBookRequest.authorId()), book);
+
+        return convertToDto(this.bookEntityService.publish(book));
     }
 
     public BookDto convertToDto(Book book) {
+
+        AuthorDto authorDto = AUTHOR_MAPPER.convertToAuthorDto(book.getAuthor());
+
         return BOOK_MAPPER.convertToBookDto(book);
     }
 }

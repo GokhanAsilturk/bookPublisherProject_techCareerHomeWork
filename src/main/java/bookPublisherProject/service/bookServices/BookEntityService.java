@@ -1,9 +1,7 @@
 package bookPublisherProject.service.bookServices;
 
 import bookPublisherProject.data.entity.Book;
-import bookPublisherProject.data.request.authorRequests.PublishNewBookRequest;
 import bookPublisherProject.repository.BookRepository;
-import bookPublisherProject.service.authorServices.AuthorEntityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.webjars.NotFoundException;
@@ -17,12 +15,10 @@ public class BookEntityService implements IBookEntityService {
 
     private final BookRepository bookRepository;
 
-    private final AuthorEntityService authorEntityService;
-
 
     @Override
     public Book create(Book book) {
-        this.authorEntityService.getById(book.getAuthor().getId()).getBooks().add(book);
+
         return this.bookRepository.save(book);
     }
 

@@ -3,7 +3,6 @@ package bookPublisherProject.service.authorServices;
 import bookPublisherProject.data.entity.Author;
 import bookPublisherProject.data.entity.Book;
 import bookPublisherProject.repository.AuthorRepository;
-import bookPublisherProject.service.bookServices.BookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.webjars.NotFoundException;
@@ -19,7 +18,6 @@ public class AuthorEntityService implements IAuthorEntityService {
 
     @Override
     public Author save(Author author) {
-
         return this.authorRepository.save(author);
     }
 
@@ -44,7 +42,8 @@ public class AuthorEntityService implements IAuthorEntityService {
 
     @Override
     public List<Author> getAll() {
-        return this.authorRepository.findAllByIsDeletedFalse().orElseThrow(() -> new NotFoundException("There are no authors here."));
+        return this.authorRepository.findAllByIsDeletedFalse().orElseThrow(() ->
+                new NotFoundException("There are no authors here."));
     }
 
     @Override
@@ -63,16 +62,21 @@ public class AuthorEntityService implements IAuthorEntityService {
     }
 
     @Override
-    public Author update(String authorId, String newName, String newEmailAddress, String newBio) {
-        this.getById(authorId).setName(newName);
-        getById(authorId).setEmailAddress(newEmailAddress);
-        getById(authorId).setBio(newBio);
-        return this.getById(authorId);
+    public Author update(Author author) {
+        return this.save(author);
     }
 
     @Override
     public Author updateName(String id, String name) {
         this.getById(id).setName(name);
         return this.getById(id);
+    }
+
+    public Author addBookInBookList(Author author, Book book) {
+        List<Book> bookList = author.getBooks();
+        bookList.add(book);
+        author.setBooks(bookList);
+
+        return this.update(author);
     }
 }

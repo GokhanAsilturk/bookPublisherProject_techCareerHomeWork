@@ -1,9 +1,10 @@
 package bookPublisherProject.data.request.authorRequests;
 
 public record PublishNewBookRequest(
-        String authorId,
-        String bookName,
+
+        String name,
         String description,
-        String releaseDate
+        String releaseDate,
+        String authorId
 ) {
 }

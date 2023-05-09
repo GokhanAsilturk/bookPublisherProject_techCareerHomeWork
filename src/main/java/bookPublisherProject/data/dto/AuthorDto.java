@@ -5,7 +5,7 @@ import lombok.Builder;
 
 @Builder
 public record AuthorDto(
-        String authorName,
+        String name,
         String emailAddress,
         String bio) {
 

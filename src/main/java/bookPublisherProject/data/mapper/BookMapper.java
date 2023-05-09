@@ -21,9 +21,9 @@ public interface BookMapper {
 
     Book createBookAndAuthor(CreateBookAndAuthorRequest createBookAndAuthorRequest);
 
-    Book updateBook(UpdateBookRequest updateBookRequest);
+    Book updateBook(UpdateBookRequest updateBookRequest,Book book);
 
-    Book updateBookNameAndReleaseYear(UpdateBookNameAndReleaseYearRequest updateBookNameAndReleaseYearRequest);
+    Book updateBookNameAndReleaseYear(UpdateBookNameAndReleaseYearRequest updateBookNameAndReleaseYearRequest,Book book);
 
     CreateBookRequest publishBook(PublishNewBookRequest publishNewBookRequest);
 
