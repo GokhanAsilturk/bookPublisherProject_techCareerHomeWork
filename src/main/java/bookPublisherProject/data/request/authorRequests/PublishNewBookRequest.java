@@ -1,5 +1,8 @@
 package bookPublisherProject.data.request.authorRequests;
 
+import bookPublisherProject.data.entity.Author;
+import bookPublisherProject.data.entity.Book;
+
 public record PublishNewBookRequest(
 
         String name,
@@ -7,4 +10,12 @@ public record PublishNewBookRequest(
         String releaseDate,
         String authorId
 ) {
+    public Book convertToEntity(Author author){
+        return Book.builder()
+                .name(name)
+                .description(description)
+                .releaseDate(releaseDate)
+                .author(author)
+                .build();
+    }
 }

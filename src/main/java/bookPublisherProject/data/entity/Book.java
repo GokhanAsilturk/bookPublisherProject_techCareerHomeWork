@@ -1,5 +1,7 @@
 package bookPublisherProject.data.entity;
 
+import bookPublisherProject.data.dto.AuthorDto;
+import bookPublisherProject.data.dto.BookDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -24,5 +26,18 @@ public class Book extends BaseEntity {
     private String description;
     private String releaseDate;
     private Author author;
+
+    public BookDto convertToDto(){
+        return BookDto.builder()
+                .name(name)
+                .description(description)
+                .releaseDate(releaseDate)
+                .authorDto(AuthorDto.builder()
+                        .name(author.getName())
+                        .emailAddress(author.getEmailAddress())
+                        .bio(author.getBio())
+                        .build())
+                .build();
+    }
 
 }

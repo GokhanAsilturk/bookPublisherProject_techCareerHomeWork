@@ -23,6 +23,6 @@ public interface IAuthorEntityService {
 
     Author update(Author author);
 
-    Author updateName(String id, String name);
+    Author updateName(Author author, String name);
 
 }

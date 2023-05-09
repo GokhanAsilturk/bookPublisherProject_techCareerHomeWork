@@ -67,16 +67,23 @@ public class AuthorEntityService implements IAuthorEntityService {
     }
 
     @Override
-    public Author updateName(String id, String name) {
-        this.getById(id).setName(name);
-        return this.getById(id);
+    public Author updateName(Author author, String name) {
+        author.setName(name);
+        return update(author);
     }
 
-    public Author addBookInBookList(Author author, Book book) {
+    public Author addBookInBookListAndUpdate(Author author, Book book) {
+
         List<Book> bookList = author.getBooks();
         bookList.add(book);
         author.setBooks(bookList);
+        return this.update(author);
+    }
 
+    public Author removeBookInBookListAndUpdate(Author author, Book book) {
+        List<Book> bookList = author.getBooks();
+        bookList.remove(book);
+        author.setBooks(bookList);
         return this.update(author);
     }
 }
