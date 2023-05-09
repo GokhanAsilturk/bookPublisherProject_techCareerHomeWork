@@ -11,8 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static bookPublisherProject.data.mapper.BookMapper.BOOK_MAPPER;
-
 @Service
 @RequiredArgsConstructor
 public class BookService implements IBookService {
@@ -58,7 +56,6 @@ public class BookService implements IBookService {
         } else {
             this.softDeleteBook(deleteBookRequest.id());
         }
-
     }
 
     @Override
@@ -146,12 +143,10 @@ public class BookService implements IBookService {
         Author author = authorEntityService.updateName(
                 bookEntityService.getById(bookId).getAuthor(), newAuthorName);
 
-        author.getBooks().forEach(mappingBook -> {//Yazarın kitaplarını geziyoruz.
-            mappingBook.setAuthor(author);//Yazarın kitap listesindeki kitapların, yazarlarını değiştiriyoruz.
-            bookEntityService.update(mappingBook);//db deki kitapları güncelliyoruz.
+        author.getBooks().forEach(book -> {//Yazarın kitaplarını geziyoruz.
+            book.setAuthor(author);//Yazarın kitap listesindeki kitapların, yazarlarını değiştiriyoruz.
+            bookEntityService.update(book);//DB deki kitapları güncelliyoruz.
         });
-
-
 
         return this.convertToDto(this.bookEntityService.getById(bookId));
     }
@@ -167,12 +162,12 @@ public class BookService implements IBookService {
     @Override
     public BookDto publishNewBook(PublishNewBookRequest publishNewBookRequest) {
 
+        Book book = publishNewBookRequest.convertToEntity(
+                authorEntityService.getById(publishNewBookRequest.authorId()));
 
-        //BOOK_MAPPER.publishBook, CreateBookRequest döndürdüğü için, BOOK_MAPPER.createBook kullandık.
-        Book book = BOOK_MAPPER.createBook(BOOK_MAPPER.publishBook(publishNewBookRequest));
-
-        //Yazarı kitaba eklerken, hangi yazar girildiyse, o yazarın kitaplar listesine kitabı ekliyoruz.
-        book.setAuthor(authorEntityService.addBookInBookListAndUpdate(authorEntityService.getById(publishNewBookRequest.authorId()), book));
+        //hangi yazar girildiyse, o yazarın kitaplar listesine kitabı ekliyoruz.
+        authorEntityService.addBookInBookListAndUpdate(
+                authorEntityService.getById(publishNewBookRequest.authorId()), book);
 
         return convertToDto(this.bookEntityService.publish(book));
     }

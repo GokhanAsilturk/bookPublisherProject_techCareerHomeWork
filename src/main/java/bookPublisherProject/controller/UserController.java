@@ -2,6 +2,7 @@ package bookPublisherProject.controller;
 
 import bookPublisherProject.data.response.TCResponse;
 import bookPublisherProject.service.bookServices.BookService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,7 +12,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/user")
 public class UserController {
 
-    private BookService bookService;
+    private final BookService bookService;
+
+    @Autowired
+    public UserController(BookService bookService) {
+        this.bookService = bookService;
+    }
+
+    @Autowired
+
 
 
     @GetMapping("/getAllBooks")

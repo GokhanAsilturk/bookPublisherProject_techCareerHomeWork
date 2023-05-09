@@ -3,6 +3,7 @@ package bookPublisherProject.service.authorServices;
 import bookPublisherProject.data.dto.AuthorDto;
 import bookPublisherProject.data.dto.BookDto;
 import bookPublisherProject.data.entity.Author;
+import bookPublisherProject.data.entity.Book;
 import bookPublisherProject.data.request.authorRequests.CreateAuthorRequest;
 import bookPublisherProject.data.request.authorRequests.DeleteAuthorRequest;
 import bookPublisherProject.data.request.authorRequests.UpdateAuthorRequest;
@@ -12,8 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static bookPublisherProject.data.mapper.AuthorMapper.AUTHOR_MAPPER;
-import static bookPublisherProject.data.mapper.BookMapper.BOOK_MAPPER;
 
 @Service
 @RequiredArgsConstructor
@@ -26,7 +25,7 @@ public class AuthorService implements IAuthorService {
     public AuthorDto createAuthor(CreateAuthorRequest createAuthorRequest) {
 
         return this.convertToDto(this.authorEntityService
-                .save(AUTHOR_MAPPER.createAuthor(createAuthorRequest)));
+                .save(createAuthorRequest.convertToEntity()));
     }
 
     @Override
@@ -76,7 +75,7 @@ public class AuthorService implements IAuthorService {
     public List<BookDto> getBooksByAuthorName(String authorName) {
         return this.authorEntityService.getBooksByName(authorName)
                 .stream()
-                .map(BOOK_MAPPER::convertToBookDto)
+                .map(Book::convertToDto)
                 .toList();
     }
 
@@ -84,13 +83,13 @@ public class AuthorService implements IAuthorService {
     public AuthorDto updateAuthor(UpdateAuthorRequest updateAuthorRequest) {
 
         return this.convertToDto(this.authorEntityService
-                .update(AUTHOR_MAPPER.updateAuthor(updateAuthorRequest)));
+                .update(updateAuthorRequest.convertToEntity()));
     }
 
     @Override
     public AuthorDto updateAuthorName(String authorId, String authorName) {
         return this.convertToDto(this.authorEntityService
-                        .updateName(authorEntityService.getById(authorId), authorName));
+                .updateName(authorEntityService.getById(authorId), authorName));
     }
 
 
