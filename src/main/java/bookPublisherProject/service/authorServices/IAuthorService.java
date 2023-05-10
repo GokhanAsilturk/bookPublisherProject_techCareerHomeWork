@@ -12,11 +12,11 @@ public interface IAuthorService {
 
     AuthorDto createAuthor(CreateAuthorRequest createAuthorRequest);
 
-    AuthorDto deleteAuthor(DeleteAuthorRequest deleteAuthorRequest);
+    void deleteAuthor(DeleteAuthorRequest deleteAuthorRequest);
 
     void permanentlyDeleteAuthor(String id);
 
-    AuthorDto softDeleteAuthor(String id);
+    void softDeleteAuthor(String id);
 
     List<AuthorDto> getAllAuthors();
 

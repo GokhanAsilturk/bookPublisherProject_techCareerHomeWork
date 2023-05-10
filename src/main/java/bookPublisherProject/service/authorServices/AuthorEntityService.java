@@ -3,6 +3,7 @@ package bookPublisherProject.service.authorServices;
 import bookPublisherProject.data.entity.Author;
 import bookPublisherProject.data.entity.Book;
 import bookPublisherProject.repository.AuthorRepository;
+import bookPublisherProject.service.bookServices.BookEntityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.webjars.NotFoundException;
@@ -15,6 +16,8 @@ public class AuthorEntityService implements IAuthorEntityService {
 
     private final AuthorRepository authorRepository;
 
+    private final BookEntityService bookEntityService;
+
 
     @Override
     public Author save(Author author) {
@@ -22,22 +25,15 @@ public class AuthorEntityService implements IAuthorEntityService {
     }
 
     @Override
-    public void permanentlyDelete(String id) {
+    public void permanentlyDelete(Author author) {
 
-        this.authorRepository.deleteById(id);
+        this.authorRepository.delete(author);
     }
 
     @Override
-    public Author softDelete(String id) {
-        Author deletedAuthor = this.getById(id);
+    public void softDelete(Author author) {
 
-        //Sistemden silinen yazarın bütün kitaplarını da siliyoruz.
-        deletedAuthor.getBooks().forEach(book -> book.setIsDeleted(true));
-
-
-        deletedAuthor.setIsDeleted(true);
-        this.authorRepository.save(deletedAuthor);
-        return deletedAuthor;
+        this.save(author);
     }
 
     @Override
@@ -72,18 +68,18 @@ public class AuthorEntityService implements IAuthorEntityService {
         return update(author);
     }
 
-    public Author addBookInBookListAndUpdate(Author author, Book book) {
+    public void addBookInBookListAndUpdate(Author author, Book book) {
 
         List<Book> bookList = author.getBooks();
         bookList.add(book);
         author.setBooks(bookList);
-        return this.update(author);
+        this.update(author);
     }
 
-    public Author removeBookInBookListAndUpdate(Author author, Book book) {
+    public void removeBookInBookListAndUpdate(Author author, Book book) {
         List<Book> bookList = author.getBooks();
         bookList.remove(book);
         author.setBooks(bookList);
-        return this.update(author);
+        this.update(author);
     }
 }

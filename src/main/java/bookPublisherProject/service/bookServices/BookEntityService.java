@@ -30,8 +30,8 @@ public class BookEntityService implements IBookEntityService {
     }
 
     @Override
-    public void permanentlyDelete(String id) {
-        this.bookRepository.deleteById(id);
+    public void permanentlyDelete(Book book) {
+        this.bookRepository.delete(book);
     }
 
     @Override

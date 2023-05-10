@@ -9,9 +9,9 @@ public interface IAuthorEntityService {
 
     Author save(Author author);
 
-    void permanentlyDelete(String id);
+    void permanentlyDelete(Author author);
 
-    Author softDelete(String id);
+    void softDelete(Author author);
 
     List<Author> getAll();
 

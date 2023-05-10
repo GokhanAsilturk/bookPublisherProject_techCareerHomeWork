@@ -10,7 +10,7 @@ public interface IBookEntityService {
 
     void softDelete(Book book);
 
-    void permanentlyDelete(String id);
+    void permanentlyDelete(Book book);
 
     List<Book> getAll();
 

@@ -7,7 +7,7 @@ import bookPublisherProject.data.entity.Book;
 import bookPublisherProject.data.request.authorRequests.CreateAuthorRequest;
 import bookPublisherProject.data.request.authorRequests.DeleteAuthorRequest;
 import bookPublisherProject.data.request.authorRequests.UpdateAuthorRequest;
-import bookPublisherProject.service.bookServices.BookService;
+import bookPublisherProject.service.bookServices.BookEntityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +19,7 @@ import java.util.List;
 public class AuthorService implements IAuthorService {
 
     private final AuthorEntityService authorEntityService;
-    private final BookService bookService;
+    private final BookEntityService bookEntityService;
 
     @Override
     public AuthorDto createAuthor(CreateAuthorRequest createAuthorRequest) {
@@ -29,40 +29,45 @@ public class AuthorService implements IAuthorService {
     }
 
     @Override
-    public AuthorDto deleteAuthor(DeleteAuthorRequest deleteAuthorRequest) {
+    public void deleteAuthor(DeleteAuthorRequest deleteAuthorRequest) {
 
         if (deleteAuthorRequest.permanentlyDelete()) {
             this.permanentlyDeleteAuthor(deleteAuthorRequest.id());
         }
-        return this.softDeleteAuthor(deleteAuthorRequest.id());
+        this.softDeleteAuthor(deleteAuthorRequest.id());
     }
 
     @Override
     public void permanentlyDeleteAuthor(String id) {
+
         Author author = this.authorEntityService.getById(id);
 
-        //Sistemden tamamen silinen yazarın bütün kitaplarını da kalıcı olarak siliyoruz.
-        author.getBooks().forEach(book -> {
-            this.bookService.permanentlyDeleteBook(book.getId());
-        });
-        this.authorEntityService.permanentlyDelete(id);
+        //Sistemden tamamen silinecek yazarın bütün kitaplarını da kalıcı olarak siliyoruz.
+        author.getBooks().forEach(this.bookEntityService::permanentlyDelete);
+
+        this.authorEntityService.permanentlyDelete(author);
     }
 
     @Override
-    public AuthorDto softDeleteAuthor(String id) {
+    public void softDeleteAuthor(String id) {
+        Author author = this.authorEntityService.getById(id);
 
-        return this.convertToDto(this.authorEntityService.softDelete(id));
+        //Sistemden soft silinecek yazarın bütün kitaplarını da soft siliyoruz.
+        author.getBooks().forEach(bookEntityService::softDelete);
+
+        this.authorEntityService.softDelete(author);
     }
 
     @Override
     public List<AuthorDto> getAllAuthors() {
-
         return this.authorEntityService.getAll().stream()
-                .map(this::convertToDto).toList();
+                .map(this::convertToDto)
+                .toList();
     }
 
     @Override
     public AuthorDto getAuthorById(String id) {
+
         return this.convertToDto(this.authorEntityService.getById(id));
     }
 

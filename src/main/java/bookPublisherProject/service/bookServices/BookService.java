@@ -60,19 +60,28 @@ public class BookService implements IBookService {
 
     @Override
     public void softDeleteBook(String id) {
+        //Nesneye kopya alıyoruz
         Book deletedBook = this.bookEntityService.getById(id);
 
-        //silme işleminden sonra silinen kitabın yazarının başka bir kitabı kalmıyorsa, yazar da sistemden silinir.
-        //kitapları gez ve yazarlarına bak. eğer silinen kitabın yazarı ile eşleşen bir yazar yok ise yazarı sil.
-        if (!this.bookEntityService.getAll()
-                .stream()
-                .map(Book::getAuthor)
-                .toList()
-                .contains(deletedBook.getAuthor())) {
-            this.authorEntityService.softDelete(deletedBook.getAuthor().getId());
-        } else {
-            this.bookEntityService.softDelete(this.bookEntityService.getById(id));
+        //silinen kitabın yazarının kitaplar listesinden silinen kitabı çıkartıyoruz.
+        this.authorEntityService.getById(deletedBook.getAuthor()
+                        .getId())
+                .getBooks()
+                .forEach(book -> {
+                    if(book.getId().equals(deletedBook.getId())){
+                        authorEntityService.removeBookInBookListAndUpdate(book.getAuthor(),book);
+                    }
+                });
+
+        //Kitabı soft siliyoruz.
+        this.bookEntityService.softDelete(deletedBook);
+
+        //silme işleminden sonra silinen kitabın yazarının başka bir kitabı kalmıyorsa, yazar da sistemden soft silinir.
+        //eğer silinen kitabın yazarının başka kitabı yok ise yazarı soft sil.
+        if(authorEntityService.getById(deletedBook.getAuthor().getId()).getBooks().stream().toList().isEmpty()){
+            this.authorEntityService.softDelete(deletedBook.getAuthor());
         }
+
     }
 
     @Override
@@ -80,16 +89,23 @@ public class BookService implements IBookService {
         //Nesneye kopya alıyoruz
         Book deletedBook = this.bookEntityService.getById(id);
 
+        //silinen kitabın yazarının kitaplar listesinden silinen kitabı çıkartıyoruz.
+        this.authorEntityService.getById(deletedBook.getAuthor()
+                .getId())
+                .getBooks()
+                .forEach(book -> {
+            if(book.getId().equals(deletedBook.getId())){
+                authorEntityService.removeBookInBookListAndUpdate(book.getAuthor(),book);
+            }
+        });
+
+        //Kitabı tamamen siliyoruz.
+        this.bookEntityService.permanentlyDelete(deletedBook);
+
         //silme işleminden sonra silinen kitabın yazarının başka bir kitabı kalmıyorsa, yazar da sistemden tamamen silinir.
-        //kitapları gez ve yazarlarına bak. eğer silinen kitabın yazarı ile eşleşen bir yazar yok ise yazarı tamamen sil.
-        if (!this.bookEntityService.getAll()
-                .stream()
-                .map(Book::getAuthor)
-                .toList()
-                .contains(deletedBook.getAuthor())) {
-            this.authorEntityService.permanentlyDelete(deletedBook.getAuthor().getId());
-        } else {
-            this.bookEntityService.permanentlyDelete(id);
+        //eğer silinen kitabın yazarının başka kitabı yok ise yazarı tamamen sil.
+        if(authorEntityService.getById(deletedBook.getAuthor().getId()).getBooks().stream().toList().isEmpty()){
+            this.authorEntityService.permanentlyDelete(deletedBook.getAuthor());
         }
 
     }
@@ -125,13 +141,13 @@ public class BookService implements IBookService {
 
     @Override
     public BookDto updateBookAndAuthor(UpdateBookAndAuthorRequest updateBookAndAuthorRequest) {
-        //kitabı, yazarı ekleyerek update ediyoruz.
+        //kitabı update ediyoruz.
         Book book = bookEntityService.update(
                 updateBookAndAuthorRequest.convertToBookEntity(
                         bookEntityService.getById(updateBookAndAuthorRequest.updateBookRequest().bookId())));
 
-        //yazarı update ediyoruz.
-        this.authorEntityService.update(book.getAuthor());
+        //yazarı, kitaba kaydederken, yazarı update ediyoruz.
+        book.setAuthor(authorEntityService.update(updateBookAndAuthorRequest.convertToAuthorEntity()));
 
         return this.convertToDto(book);
     }
