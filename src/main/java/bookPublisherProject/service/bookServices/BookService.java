@@ -42,7 +42,7 @@ public class BookService implements IBookService {
         Book book = bookEntityService.create(createBookAndAuthorRequest.convertToEntity());
 
         //Kitapla beraber oluşturduğumuz yazarı kaydederken, yazarın books listesine oluşturduğumuz kitabı ekliyoruz.
-        authorEntityService.addBookInBookListAndUpdate(book.getAuthor(), book);
+        authorEntityService.addBookInBookListAndUpdate(authorEntityService.save(book.getAuthor()), book);
 
         return this.convertToDto(book);
     }
@@ -68,8 +68,8 @@ public class BookService implements IBookService {
                         .getId())
                 .getBooks()
                 .forEach(book -> {
-                    if(book.getId().equals(deletedBook.getId())){
-                        authorEntityService.removeBookInBookListAndUpdate(book.getAuthor(),book);
+                    if (book.getId().equals(deletedBook.getId())) {
+                        authorEntityService.removeBookInBookListAndUpdate(book.getAuthor(), book);
                     }
                 });
 
@@ -78,7 +78,7 @@ public class BookService implements IBookService {
 
         //silme işleminden sonra silinen kitabın yazarının başka bir kitabı kalmıyorsa, yazar da sistemden soft silinir.
         //eğer silinen kitabın yazarının başka kitabı yok ise yazarı soft sil.
-        if(authorEntityService.getById(deletedBook.getAuthor().getId()).getBooks().stream().toList().isEmpty()){
+        if (authorEntityService.getById(deletedBook.getAuthor().getId()).getBooks().stream().toList().isEmpty()) {
             this.authorEntityService.softDelete(deletedBook.getAuthor());
         }
 
@@ -91,20 +91,20 @@ public class BookService implements IBookService {
 
         //silinen kitabın yazarının kitaplar listesinden silinen kitabı çıkartıyoruz.
         this.authorEntityService.getById(deletedBook.getAuthor()
-                .getId())
+                        .getId())
                 .getBooks()
                 .forEach(book -> {
-            if(book.getId().equals(deletedBook.getId())){
-                authorEntityService.removeBookInBookListAndUpdate(book.getAuthor(),book);
-            }
-        });
+                    if (book.getId().equals(deletedBook.getId())) {
+                        authorEntityService.removeBookInBookListAndUpdate(book.getAuthor(), book);
+                    }
+                });
 
         //Kitabı tamamen siliyoruz.
         this.bookEntityService.permanentlyDelete(deletedBook);
 
         //silme işleminden sonra silinen kitabın yazarının başka bir kitabı kalmıyorsa, yazar da sistemden tamamen silinir.
         //eğer silinen kitabın yazarının başka kitabı yok ise yazarı tamamen sil.
-        if(authorEntityService.getById(deletedBook.getAuthor().getId()).getBooks().stream().toList().isEmpty()){
+        if (authorEntityService.getById(deletedBook.getAuthor().getId()).getBooks().stream().toList().isEmpty()) {
             this.authorEntityService.permanentlyDelete(deletedBook.getAuthor());
         }
 

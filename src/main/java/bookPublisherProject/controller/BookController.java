@@ -129,6 +129,20 @@ public class BookController {
         }
     }
 
+    @PatchMapping("/update/book")
+    public ResponseEntity<TCResponse<?>> updateBook(
+            @RequestBody UpdateBookRequest updateBookRequest) {
+
+        try {
+            return ResponseEntity.ok(TCResponse.builder()
+                    .isSuccess(true)
+                    .response(bookService.updateBook(updateBookRequest))
+                    .build());
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
     @PatchMapping("/update/bookNameAndReleaseYear")
     public ResponseEntity<TCResponse<?>> updateBookNameAndReleaseYear(
             @RequestBody UpdateBookNameAndReleaseYearRequest request) {

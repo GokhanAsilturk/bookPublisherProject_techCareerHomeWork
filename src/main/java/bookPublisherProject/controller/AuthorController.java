@@ -2,7 +2,6 @@ package bookPublisherProject.controller;
 
 import bookPublisherProject.data.request.authorRequests.PublishNewBookRequest;
 import bookPublisherProject.data.response.TCResponse;
-import bookPublisherProject.service.authorServices.AuthorService;
 import bookPublisherProject.service.bookServices.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,10 +14,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/author")
 public class AuthorController {
 
+    private final BookService bookService;
+
     @Autowired
-    private AuthorService authorService;
-    @Autowired
-    private BookService bookService;
+    public AuthorController(BookService bookService) {
+
+        this.bookService = bookService;
+    }
 
     @PostMapping("/publish/new/book")
     public ResponseEntity<TCResponse<?>> publishNewBook(@RequestBody PublishNewBookRequest publishNewBookRequest) {
