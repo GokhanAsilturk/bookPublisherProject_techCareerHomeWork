@@ -6,6 +6,7 @@ import bookPublisherProject.data.entity.Author;
 import bookPublisherProject.data.entity.Book;
 import bookPublisherProject.data.request.authorRequests.CreateAuthorRequest;
 import bookPublisherProject.data.request.authorRequests.DeleteAuthorRequest;
+import bookPublisherProject.data.request.authorRequests.RegisterAuthorRequest;
 import bookPublisherProject.data.request.authorRequests.UpdateAuthorRequest;
 import bookPublisherProject.service.bookServices.BookEntityService;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,13 @@ public class AuthorService implements IAuthorService {
 
         return this.convertToDto(this.authorEntityService
                 .save(createAuthorRequest.convertToEntity()));
+    }
+
+    @Override
+    public AuthorDto registerAuthor(RegisterAuthorRequest registerAuthorRequest) {
+        return this.convertToDto(authorEntityService.register(
+                registerAuthorRequest.convertToCreateAuthorRequest().convertToEntity()
+        ));
     }
 
     @Override
@@ -96,6 +104,8 @@ public class AuthorService implements IAuthorService {
         return this.convertToDto(this.authorEntityService
                 .updateName(authorEntityService.getById(authorId), authorName));
     }
+
+
 
 
     public AuthorDto convertToDto(Author author) {

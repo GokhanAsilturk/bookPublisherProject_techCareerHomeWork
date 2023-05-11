@@ -4,6 +4,7 @@ import bookPublisherProject.data.dto.AuthorDto;
 import bookPublisherProject.data.dto.BookDto;
 import bookPublisherProject.data.request.authorRequests.CreateAuthorRequest;
 import bookPublisherProject.data.request.authorRequests.DeleteAuthorRequest;
+import bookPublisherProject.data.request.authorRequests.RegisterAuthorRequest;
 import bookPublisherProject.data.request.authorRequests.UpdateAuthorRequest;
 
 import java.util.List;
@@ -11,6 +12,8 @@ import java.util.List;
 public interface IAuthorService {
 
     AuthorDto createAuthor(CreateAuthorRequest createAuthorRequest);
+
+    AuthorDto registerAuthor(RegisterAuthorRequest registerAuthorRequest);
 
     void deleteAuthor(DeleteAuthorRequest deleteAuthorRequest);
 
@@ -30,6 +33,8 @@ public interface IAuthorService {
 
 
     AuthorDto updateAuthorName(String authorId, String authorName);
+
+
 
 
 }

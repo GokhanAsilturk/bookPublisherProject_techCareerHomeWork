@@ -91,8 +91,8 @@ public class BookController {
 
     //4-) API, bir kitap kaydını veritabanından silmek için "Mürekkep Kalem Kitaplarına" izin vermeli.
     @DeleteMapping("/delete/book")
-    public ResponseEntity<TCResponse<?>> deleteBook(@RequestBody DeleteBookRequest deleteBookRequest) {
-        this.bookService.deleteBook(deleteBookRequest);
+    public ResponseEntity<TCResponse<?>> deleteBook(@RequestBody SoftDeleteBookRequest softDeleteBookRequest) {
+        this.bookService.deleteBook(softDeleteBookRequest.convertToDeleteRequest());
         try {
             return ResponseEntity.ok(TCResponse.builder()
                     .isSuccess(true)

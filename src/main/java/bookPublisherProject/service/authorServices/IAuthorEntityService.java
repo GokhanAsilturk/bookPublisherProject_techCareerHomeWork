@@ -9,6 +9,8 @@ public interface IAuthorEntityService {
 
     Author save(Author author);
 
+    Author register(Author author);
+
     void permanentlyDelete(Author author);
 
     void softDelete(Author author);

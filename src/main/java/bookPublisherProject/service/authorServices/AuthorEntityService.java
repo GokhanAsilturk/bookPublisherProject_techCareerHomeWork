@@ -25,6 +25,11 @@ public class AuthorEntityService implements IAuthorEntityService {
     }
 
     @Override
+    public Author register(Author author) {
+        return this.save(author);
+    }
+
+    @Override
     public void permanentlyDelete(Author author) {
 
         this.authorRepository.delete(author);
