@@ -1,6 +1,6 @@
-package bookPublisherProject.data.request.authorRequests;
+package bookPublisherProject.data.request.adminRequests;
 
-import bookPublisherProject.data.entity.Author;
+import bookPublisherProject.data.entity.users.Author;
 import lombok.Builder;
 
 

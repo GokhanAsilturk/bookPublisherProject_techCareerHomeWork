@@ -1,6 +1,6 @@
 package bookPublisherProject.service.authorServices;
 
-import bookPublisherProject.data.entity.Author;
+import bookPublisherProject.data.entity.users.Author;
 import bookPublisherProject.data.entity.Book;
 
 import java.util.List;
@@ -27,4 +27,5 @@ public interface IAuthorEntityService {
 
     Author updateName(Author author, String name);
 
+    Author getByEmailAdress(String emailAddress);
 }

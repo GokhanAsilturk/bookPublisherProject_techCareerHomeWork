@@ -1,6 +1,6 @@
 package bookPublisherProject.data.request.bookRequests;
 
-import bookPublisherProject.data.entity.Author;
+import bookPublisherProject.data.entity.users.Author;
 import bookPublisherProject.data.entity.Book;
 import bookPublisherProject.data.request.authorRequests.UpdateAuthorRequest;
 import lombok.Builder;
@@ -17,6 +17,7 @@ public record UpdateBookAndAuthorRequest(
     }
 
     public Author convertToAuthorEntity() {
+
         return updateAuthorRequest.convertToEntity();
     }
 }

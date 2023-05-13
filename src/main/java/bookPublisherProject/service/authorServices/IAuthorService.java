@@ -2,8 +2,9 @@ package bookPublisherProject.service.authorServices;
 
 import bookPublisherProject.data.dto.AuthorDto;
 import bookPublisherProject.data.dto.BookDto;
-import bookPublisherProject.data.request.authorRequests.CreateAuthorRequest;
-import bookPublisherProject.data.request.authorRequests.DeleteAuthorRequest;
+import bookPublisherProject.data.entity.users.Author;
+import bookPublisherProject.data.request.adminRequests.CreateAuthorRequest;
+import bookPublisherProject.data.request.adminRequests.DeleteAuthorRequest;
 import bookPublisherProject.data.request.authorRequests.RegisterAuthorRequest;
 import bookPublisherProject.data.request.authorRequests.UpdateAuthorRequest;
 
@@ -34,6 +35,7 @@ public interface IAuthorService {
 
     AuthorDto updateAuthorName(String authorId, String authorName);
 
+    Author getAuthorByEmailAdress(String emailAddress);
 
 
 

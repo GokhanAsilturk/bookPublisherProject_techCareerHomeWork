@@ -1,6 +1,6 @@
 package bookPublisherProject.data.request.authorRequests;
 
-import bookPublisherProject.data.entity.Author;
+import bookPublisherProject.data.entity.users.Author;
 
 public record UpdateAuthorRequest(
         String authorId,

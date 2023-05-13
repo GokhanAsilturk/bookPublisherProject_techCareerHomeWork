@@ -1,11 +1,10 @@
-package bookPublisherProject.data.request.bookRequests;
+package bookPublisherProject.data.request.adminRequests;
 
 import lombok.Builder;
 
 @Builder
-public record DeleteBookRequest(
+public record DeleteAuthorRequest(
         String id,
         boolean permanentlyDelete
 ) {
-
 }

@@ -1,6 +1,6 @@
 package bookPublisherProject.data.request.authorRequests;
 
-import bookPublisherProject.data.entity.Author;
+import bookPublisherProject.data.entity.users.Author;
 import bookPublisherProject.data.entity.Book;
 
 public record PublishNewBookRequest(

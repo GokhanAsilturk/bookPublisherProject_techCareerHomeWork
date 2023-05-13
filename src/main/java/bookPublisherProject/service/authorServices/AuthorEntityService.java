@@ -1,6 +1,6 @@
 package bookPublisherProject.service.authorServices;
 
-import bookPublisherProject.data.entity.Author;
+import bookPublisherProject.data.entity.users.Author;
 import bookPublisherProject.data.entity.Book;
 import bookPublisherProject.repository.AuthorRepository;
 import bookPublisherProject.service.bookServices.BookEntityService;
@@ -21,6 +21,7 @@ public class AuthorEntityService implements IAuthorEntityService {
 
     @Override
     public Author save(Author author) {
+
         return this.authorRepository.save(author);
     }
 
@@ -37,7 +38,7 @@ public class AuthorEntityService implements IAuthorEntityService {
 
     @Override
     public void softDelete(Author author) {
-
+        author.setIsDeleted(true);
         this.save(author);
     }
 
@@ -64,6 +65,7 @@ public class AuthorEntityService implements IAuthorEntityService {
 
     @Override
     public Author update(Author author) {
+
         return this.save(author);
     }
 
@@ -71,6 +73,11 @@ public class AuthorEntityService implements IAuthorEntityService {
     public Author updateName(Author author, String name) {
         author.setName(name);
         return update(author);
+    }
+
+    @Override
+    public Author getByEmailAdress(String emailAddress) {
+        return this.authorRepository.findByEmailAddress(emailAddress).orElseThrow();
     }
 
     public void addBookInBookListAndUpdate(Author author, Book book) {

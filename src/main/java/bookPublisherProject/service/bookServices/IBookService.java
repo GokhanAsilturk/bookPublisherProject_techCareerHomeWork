@@ -1,6 +1,7 @@
 package bookPublisherProject.service.bookServices;
 
 import bookPublisherProject.data.dto.BookDto;
+import bookPublisherProject.data.request.adminRequests.DeleteBookRequest;
 import bookPublisherProject.data.request.authorRequests.PublishNewBookRequest;
 import bookPublisherProject.data.request.bookRequests.*;
 

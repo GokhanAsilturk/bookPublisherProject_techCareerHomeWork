@@ -1,8 +1,9 @@
 package bookPublisherProject.service.bookServices;
 
 import bookPublisherProject.data.dto.BookDto;
-import bookPublisherProject.data.entity.Author;
+import bookPublisherProject.data.entity.users.Author;
 import bookPublisherProject.data.entity.Book;
+import bookPublisherProject.data.request.adminRequests.DeleteBookRequest;
 import bookPublisherProject.data.request.authorRequests.PublishNewBookRequest;
 import bookPublisherProject.data.request.bookRequests.*;
 import bookPublisherProject.service.authorServices.AuthorEntityService;
@@ -64,8 +65,7 @@ public class BookService implements IBookService {
         Book deletedBook = this.bookEntityService.getById(id);
 
         //silinen kitabın yazarının kitaplar listesinden silinen kitabı çıkartıyoruz.
-        this.authorEntityService.getById(deletedBook.getAuthor()
-                        .getId())
+        this.authorEntityService.getById(deletedBook.getAuthor().getId())
                 .getBooks()
                 .forEach(book -> {
                     if (book.getId().equals(deletedBook.getId())) {
@@ -76,11 +76,11 @@ public class BookService implements IBookService {
         //Kitabı soft siliyoruz.
         this.bookEntityService.softDelete(deletedBook);
 
-        //silme işleminden sonra silinen kitabın yazarının başka bir kitabı kalmıyorsa, yazar da sistemden soft silinir.
-        //eğer silinen kitabın yazarının başka kitabı yok ise yazarı soft sil.
-        if (authorEntityService.getById(deletedBook.getAuthor().getId()).getBooks().stream().toList().isEmpty()) {
-            this.authorEntityService.softDelete(deletedBook.getAuthor());
-        }
+//        //silme işleminden sonra silinen kitabın yazarının başka bir kitabı kalmıyorsa, yazar da sistemden soft silinir.
+//        //eğer silinen kitabın yazarının başka kitabı yok ise yazarı soft sil.
+//        if (authorEntityService.getById(deletedBook.getAuthor().getId()).getBooks().stream().toList().isEmpty()) {
+//            this.authorEntityService.softDelete(deletedBook.getAuthor());
+//        }
 
     }
 

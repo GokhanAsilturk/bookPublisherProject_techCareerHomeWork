@@ -1,6 +1,6 @@
 package bookPublisherProject.data.request.bookRequests;
 
-import bookPublisherProject.data.entity.Author;
+import bookPublisherProject.data.entity.users.Author;
 import bookPublisherProject.data.entity.Book;
 import lombok.Builder;
 

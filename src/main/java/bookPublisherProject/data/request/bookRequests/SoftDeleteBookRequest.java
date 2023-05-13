@@ -1,6 +1,6 @@
 package bookPublisherProject.data.request.bookRequests;
 
-import bookPublisherProject.data.request.authorRequests.DeleteAuthorRequest;
+import bookPublisherProject.data.request.adminRequests.DeleteBookRequest;
 import lombok.Builder;
 
 @Builder

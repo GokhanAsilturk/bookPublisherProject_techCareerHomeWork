@@ -2,10 +2,10 @@ package bookPublisherProject.service.authorServices;
 
 import bookPublisherProject.data.dto.AuthorDto;
 import bookPublisherProject.data.dto.BookDto;
-import bookPublisherProject.data.entity.Author;
+import bookPublisherProject.data.entity.users.Author;
 import bookPublisherProject.data.entity.Book;
-import bookPublisherProject.data.request.authorRequests.CreateAuthorRequest;
-import bookPublisherProject.data.request.authorRequests.DeleteAuthorRequest;
+import bookPublisherProject.data.request.adminRequests.CreateAuthorRequest;
+import bookPublisherProject.data.request.adminRequests.DeleteAuthorRequest;
 import bookPublisherProject.data.request.authorRequests.RegisterAuthorRequest;
 import bookPublisherProject.data.request.authorRequests.UpdateAuthorRequest;
 import bookPublisherProject.service.bookServices.BookEntityService;
@@ -61,7 +61,7 @@ public class AuthorService implements IAuthorService {
         Author author = this.authorEntityService.getById(id);
 
         //Sistemden soft silinecek yazarın bütün kitaplarını da soft siliyoruz.
-        author.getBooks().forEach(bookEntityService::softDelete);
+            author.getBooks().forEach(this.bookEntityService::softDelete);
 
         this.authorEntityService.softDelete(author);
     }
@@ -105,7 +105,10 @@ public class AuthorService implements IAuthorService {
                 .updateName(authorEntityService.getById(authorId), authorName));
     }
 
-
+    @Override
+    public Author getAuthorByEmailAdress(String emailAddress) {
+        return authorEntityService.getByEmailAdress(emailAddress);
+    }
 
 
     public AuthorDto convertToDto(Author author) {

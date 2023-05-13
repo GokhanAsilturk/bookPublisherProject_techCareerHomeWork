@@ -1,9 +1,8 @@
 package bookPublisherProject.data.request.bookRequests;
 
 
-import bookPublisherProject.data.entity.Author;
 import bookPublisherProject.data.entity.Book;
-import bookPublisherProject.data.request.authorRequests.CreateAuthorRequest;
+import bookPublisherProject.data.request.adminRequests.CreateAuthorRequest;
 import lombok.Builder;
 
 

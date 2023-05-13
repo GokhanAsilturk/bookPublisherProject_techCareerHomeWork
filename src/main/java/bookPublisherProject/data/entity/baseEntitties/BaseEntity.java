@@ -1,4 +1,4 @@
-package bookPublisherProject.data.entity;
+package bookPublisherProject.data.entity.baseEntitties;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -2,6 +2,8 @@ package bookPublisherProject.data.entity;
 
 import bookPublisherProject.data.dto.AuthorDto;
 import bookPublisherProject.data.dto.BookDto;
+import bookPublisherProject.data.entity.baseEntitties.BaseEntity;
+import bookPublisherProject.data.entity.users.Author;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
