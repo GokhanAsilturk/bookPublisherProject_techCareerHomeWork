@@ -7,11 +7,15 @@ import bookPublisherProject.data.request.bookRequests.CreateBookAndAuthorRequest
 import bookPublisherProject.data.request.bookRequests.CreateBookRequest;
 import bookPublisherProject.data.request.bookRequests.UpdateBookNameAndReleaseYearRequest;
 import bookPublisherProject.data.response.TCResponse;
+import bookPublisherProject.exception.BookException;
+import bookPublisherProject.exception.ErrorResponse;
 import bookPublisherProject.service.authorServices.AuthorService;
 import bookPublisherProject.service.bookServices.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
 
 @RestController
 @RequestMapping("/admin")
@@ -38,7 +42,15 @@ public class AdminController {
                     .isSuccess(true)
                     .response(bookService.createBookAndAuthor(createBookAndAuthorRequest))
                     .build());
-        } catch (Exception e) {
+        }
+        catch (BookException bookException){
+            return ResponseEntity.ok(
+                    TCResponse.<ErrorResponse>builder()
+                            .isSuccess(false)
+                            .response(new ErrorResponse(new ArrayList<>()))
+                            .build());
+        }
+        catch (Exception e) {
             return ResponseEntity.internalServerError().build();
         }
     }

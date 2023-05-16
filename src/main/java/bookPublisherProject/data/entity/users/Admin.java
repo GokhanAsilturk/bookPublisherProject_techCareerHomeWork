@@ -13,7 +13,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @EqualsAndHashCode(callSuper = true)
 @Document("admins")
 @AllArgsConstructor
-@NoArgsConstructor
 @SuperBuilder
 public class Admin extends User {
 

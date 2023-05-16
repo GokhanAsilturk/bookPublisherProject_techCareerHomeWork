@@ -9,7 +9,6 @@ import bookPublisherProject.data.request.bookRequests.UpdateBookAndAuthorRequest
 import bookPublisherProject.data.request.bookRequests.UpdateBookNameAndReleaseYearRequest;
 import bookPublisherProject.data.request.bookRequests.UpdateBookRequest;
 import bookPublisherProject.data.response.TCResponse;
-import bookPublisherProject.exception.BookRuntimeException;
 import bookPublisherProject.service.authorServices.AuthorService;
 import bookPublisherProject.service.bookServices.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,8 +31,7 @@ public class AuthorController {
         this.bookService = bookService;
         this.authorService = authorService;
     }
-    @ExceptionHandler({BookRuntimeException.class})
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+
     @PostMapping("/register")
     public ResponseEntity<TCResponse<?>> register(@RequestBody RegisterAuthorRequest registerAuthorRequest) {
         try {

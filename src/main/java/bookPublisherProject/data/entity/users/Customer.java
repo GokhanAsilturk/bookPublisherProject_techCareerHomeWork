@@ -13,7 +13,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @EqualsAndHashCode(callSuper = true)
 @Document("customers")
 @AllArgsConstructor
-@NoArgsConstructor
 @SuperBuilder
 public class Customer extends User {
 

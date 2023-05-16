@@ -9,6 +9,7 @@ public class BookLogger {
 
 
     public static void logError(String errorMessage){
+
         logger.error(errorMessage);
     }
 }

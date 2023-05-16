@@ -23,7 +23,6 @@ import java.util.List;
 public class Author extends User {
 
     private String name;
-    private String emailAddress;
     private String bio;
     private List<Book> books;
 
@@ -31,14 +30,14 @@ public class Author extends User {
     public AuthorDto convertToDto() {
         return AuthorDto.builder()
                 .name(name)
-                .emailAddress(emailAddress)
+                .emailAddress(getEmailAddress())
                 .bio(bio)
                 .build();
     }
 
     public UserDto convertToUserDto(){
         return UserDto.builder()
-                .emailAddress(emailAddress)
+                .emailAddress(getEmailAddress())
                 .build();
     }
 

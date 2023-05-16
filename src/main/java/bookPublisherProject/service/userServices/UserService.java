@@ -32,6 +32,8 @@ public class UserService implements IUserService {
 //        userTypeMap.put(CUSTOMER, new Customer());
 //        userTypeMap.put(AUTHOR, new Author());
 
+
+        //!!!! PASSWORD KONTROLÜ HENÜZ YAPILMADI
         if (authorEntityService.getAll()
                 .stream()
                 .map(Author::getEmailAddress)

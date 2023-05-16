@@ -25,7 +25,7 @@ public class UserController {
         this.userService = userService;
     }
 
-@PostMapping
+@GetMapping("/login")
 public ResponseEntity<TCResponse<?>> login(@RequestBody LoginRequest loginRequest){
     try {
         return ResponseEntity.ok(TCResponse.builder()
