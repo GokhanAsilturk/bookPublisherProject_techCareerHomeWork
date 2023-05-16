@@ -1,26 +1,25 @@
 package bookPublisherProject.data.request.adminRequests;
 
-import bookPublisherProject.data.entity.users.Author;
+import bookPublisherProject.data.entity.users.Admin;
 import bookPublisherProject.data.types.UserType;
 import lombok.Builder;
 
-
 @Builder
-public record CreateAuthorRequest(
+public record CreateAdminRequest(
         String name,
         String emailAddress,
-
         String password,
 
-        String bio) {
+        String position
+) {
 
-    public Author convertToEntity(){
-        return Author.builder()
+    public Admin convertToEntity(){
+        return Admin.builder()
                 .name(name)
                 .emailAddress(emailAddress)
                 .password(password)
-                .bio(bio)
-                .userType(UserType.AUTHOR)
+                .position(position)
+                .userType(UserType.ADMIN)
                 .build();
     }
 }

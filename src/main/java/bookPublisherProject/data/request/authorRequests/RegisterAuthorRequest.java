@@ -13,7 +13,7 @@ public record RegisterAuthorRequest (
        return CreateAuthorRequest.builder()
                 .name(name)
                 .emailAddress(emailAddress)
-               .password(password)
+                .password(password)
                 .bio(bio)
                 .build();
     }

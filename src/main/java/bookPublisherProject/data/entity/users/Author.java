@@ -5,6 +5,7 @@ import bookPublisherProject.data.dto.AuthorDto;
 import bookPublisherProject.data.dto.UserDto;
 import bookPublisherProject.data.entity.Book;
 import bookPublisherProject.data.entity.baseEntitties.User;
+import bookPublisherProject.data.types.UserType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -38,6 +39,7 @@ public class Author extends User {
     public UserDto convertToUserDto(){
         return UserDto.builder()
                 .emailAddress(getEmailAddress())
+                .userType(UserType.AUTHOR)
                 .build();
     }
 
