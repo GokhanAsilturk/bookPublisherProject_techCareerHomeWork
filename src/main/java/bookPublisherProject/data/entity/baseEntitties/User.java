@@ -1,5 +1,6 @@
 package bookPublisherProject.data.entity.baseEntitties;
 
+import bookPublisherProject.data.dto.UserDto;
 import bookPublisherProject.data.types.UserType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,4 +26,13 @@ public class User extends BaseEntity{
     private String emailAddress;
     private String password;
     private UserType userType;
+
+
+    public UserDto convertToUserDto() {
+        return UserDto.builder()
+                .emailAddress(emailAddress)
+                .userType(userType)
+                .build();
+    }
+
 }

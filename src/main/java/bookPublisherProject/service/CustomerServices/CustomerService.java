@@ -1,8 +1,8 @@
 package bookPublisherProject.service.CustomerServices;
 
-import bookPublisherProject.data.dto.UserDto;
-import bookPublisherProject.data.entity.users.Admin;
+import bookPublisherProject.data.dto.CustomerDto;
 import bookPublisherProject.data.entity.users.Customer;
+import bookPublisherProject.data.request.customerRequests.RegisterCustomerRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,17 +21,24 @@ public class CustomerService implements ICustomerService {
 //    }
 
     @Override
-    public List<Customer> getAllCustomers() {
-        return customerEntityService.getAll();
+    public CustomerDto registerCustomer(RegisterCustomerRequest registerCustomerRequest) {
+        return customerEntityService.create(registerCustomerRequest.convertToEntity()).convertToDto();
     }
 
     @Override
-    public UserDto getByEmailAdress(String emailAddress) {
-        return convertToUserDto(customerEntityService.getByEmailAddress(emailAddress));
+    public List<CustomerDto> getAllCustomers() {
+        return customerEntityService.getAll().stream().map(Customer::convertToDto).toList();
     }
 
-    public UserDto convertToUserDto(Customer customer){
-        return customer.convertToUserDto();
+    @Override
+    public CustomerDto getByEmailAdress(String emailAddress) {
+        return customerEntityService.getByEmailAddress(emailAddress).convertToDto();
     }
+
+    @Override
+    public CustomerDto getCustomerById(String id) {
+        return customerEntityService.getById(id).convertToDto();
+    }
+
 }
 

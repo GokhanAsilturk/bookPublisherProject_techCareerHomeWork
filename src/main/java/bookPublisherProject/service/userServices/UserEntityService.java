@@ -17,7 +17,7 @@ public class UserEntityService implements IUserEntityService {
     @Override
     public User login(User user) {
 
-        return null;
+        return this.getByEmailAddress(user.getEmailAddress());
     }
 
     @Override

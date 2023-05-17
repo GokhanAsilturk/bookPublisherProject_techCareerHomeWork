@@ -8,9 +8,10 @@ import java.util.List;
 
 public interface ICustomerEntityService {
 
+    Customer create(Customer customer);
     List<Customer> getAll();
 
-    User login(Customer customer);
-
     Customer getByEmailAddress(String emailAddress);
+
+    Customer getById(String id);
 }

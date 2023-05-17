@@ -2,11 +2,7 @@ package bookPublisherProject.service.userServices;
 
 import bookPublisherProject.data.dto.UserDto;
 import bookPublisherProject.data.entity.baseEntitties.User;
-import bookPublisherProject.data.entity.users.Admin;
-import bookPublisherProject.data.entity.users.Author;
-import bookPublisherProject.data.entity.users.Customer;
 import bookPublisherProject.data.request.userRequests.LoginRequest;
-import bookPublisherProject.data.types.UserType;
 import bookPublisherProject.service.CustomerServices.CustomerEntityService;
 import bookPublisherProject.service.adminServices.AdminEntityService;
 import bookPublisherProject.service.authorServices.AuthorEntityService;
@@ -29,10 +25,11 @@ public class UserService implements IUserService {
     @Override
     public UserDto login(LoginRequest loginRequest) {
 
-        if(userIsValid(loginRequest)){
-        return authorEntityService.getByEmailAdress(loginRequest.emailAddress()).convertToUserDto();
+        if (userIsValid(loginRequest)) {
+            return userEntityService.getByEmailAddress(loginRequest.emailAddress()).convertToUserDto();
+        }else{
+            throw new IllegalStateException("yanlış yaptın");
         }
-        return null;
     }
 
 
@@ -42,7 +39,7 @@ public class UserService implements IUserService {
                 userEntityService.getByEmailAddress(loginRequest.emailAddress()).getPassword());
     }
 
-    public boolean emailIsValid(LoginRequest loginRequest){
+    public boolean emailIsValid(LoginRequest loginRequest) {
         return userEntityService.getAllUsers()
                 .stream()
                 .map(User::getEmailAddress)
@@ -50,7 +47,7 @@ public class UserService implements IUserService {
                 .contains(loginRequest.emailAddress());
     }
 
-    public boolean userIsValid(LoginRequest loginRequest){
+    public boolean userIsValid(LoginRequest loginRequest) {
 
         return (emailIsValid(loginRequest) && passwordIsValid(loginRequest));
     }

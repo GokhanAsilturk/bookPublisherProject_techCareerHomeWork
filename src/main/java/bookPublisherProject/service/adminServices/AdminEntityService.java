@@ -15,6 +15,11 @@ public class AdminEntityService implements IAdminEntityService{
     private final AdminRepository adminRepository;
 
     @Override
+    public Admin create(Admin admin) {
+        return adminRepository.save(admin);
+    }
+
+    @Override
     public List<Admin> getAll() {
         return adminRepository.findAll();
     }

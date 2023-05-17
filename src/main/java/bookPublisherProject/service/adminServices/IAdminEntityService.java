@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface IAdminEntityService {
 
+    Admin create(Admin admin);
     List<Admin> getAll();
     User login(Admin admin);
 

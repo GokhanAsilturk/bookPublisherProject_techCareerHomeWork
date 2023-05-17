@@ -1,8 +1,7 @@
 package bookPublisherProject.service.CustomerServices;
 
-import bookPublisherProject.data.dto.UserDto;
-import bookPublisherProject.data.entity.users.Admin;
-import bookPublisherProject.data.entity.users.Customer;
+import bookPublisherProject.data.dto.CustomerDto;
+import bookPublisherProject.data.request.customerRequests.RegisterCustomerRequest;
 
 import java.util.List;
 
@@ -10,7 +9,10 @@ public interface ICustomerService {
 
 //UserDto login(LoginRequest loginRequest);
 
-    List<Customer> getAllCustomers();
+    CustomerDto registerCustomer(RegisterCustomerRequest registerCustomerRequest);
+    List<CustomerDto> getAllCustomers();
 
-    UserDto getByEmailAdress(String emailAddress);
+    CustomerDto getByEmailAdress(String emailAddress);
+
+    CustomerDto getCustomerById(String id);
 }

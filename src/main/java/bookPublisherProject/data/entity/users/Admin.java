@@ -1,5 +1,6 @@
 package bookPublisherProject.data.entity.users;
 
+import bookPublisherProject.data.dto.AdminDto;
 import bookPublisherProject.data.dto.UserDto;
 import bookPublisherProject.data.entity.baseEntitties.User;
 import bookPublisherProject.data.types.UserType;
@@ -24,6 +25,14 @@ public class Admin extends User {
         return UserDto.builder()
                 .emailAddress(getEmailAddress())
                 .userType(UserType.ADMIN)
+                .build();
+    }
+
+    public AdminDto convertToDto() {
+       return AdminDto.builder()
+                .name(name)
+                .position(position)
+                .emailAddress(getEmailAddress())
                 .build();
     }
 }
