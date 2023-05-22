@@ -3,7 +3,7 @@ package bookPublisherProject.data.entity;
 import bookPublisherProject.data.dto.AuthorDto;
 import bookPublisherProject.data.dto.BookDto;
 import bookPublisherProject.data.entity.baseEntitties.BaseEntity;
-import bookPublisherProject.data.entity.users.Author;
+import bookPublisherProject.data.entity.users.AuthorEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -16,18 +16,20 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-@Document("books")
+@Document("bookEntities")
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
-public class Book extends BaseEntity {
+public class BookEntity extends BaseEntity {
 
     @Id
     private String id;
     private String name;
     private String description;
     private String releaseDate;
-    private Author author;
+
+    private AuthorEntity authorEntity;
+
 
     public BookDto convertToDto(){
         return BookDto.builder()
@@ -35,9 +37,9 @@ public class Book extends BaseEntity {
                 .description(description)
                 .releaseDate(releaseDate)
                 .authorDto(AuthorDto.builder()
-                        .name(author.getName())
-                        .emailAddress(author.getEmailAddress())
-                        .bio(author.getBio())
+                        .name(authorEntity.getName())
+                        .emailAddress(authorEntity.getEmailAddress())
+                        .bio(authorEntity.getBio())
                         .build())
                 .build();
     }

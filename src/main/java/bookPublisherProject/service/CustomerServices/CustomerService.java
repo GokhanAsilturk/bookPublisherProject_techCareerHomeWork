@@ -1,7 +1,7 @@
 package bookPublisherProject.service.CustomerServices;
 
 import bookPublisherProject.data.dto.CustomerDto;
-import bookPublisherProject.data.entity.users.Customer;
+import bookPublisherProject.data.entity.users.CustomerEntity;
 import bookPublisherProject.data.request.customerRequests.RegisterCustomerRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,7 +27,7 @@ public class CustomerService implements ICustomerService {
 
     @Override
     public List<CustomerDto> getAllCustomers() {
-        return customerEntityService.getAll().stream().map(Customer::convertToDto).toList();
+        return customerEntityService.getAll().stream().map(CustomerEntity::convertToDto).toList();
     }
 
     @Override

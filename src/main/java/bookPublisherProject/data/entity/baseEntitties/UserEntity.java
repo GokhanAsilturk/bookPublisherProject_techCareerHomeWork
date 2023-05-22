@@ -18,7 +18,7 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
-public class User extends BaseEntity{
+public class UserEntity extends BaseEntity{
 
     @Id
     private String id;

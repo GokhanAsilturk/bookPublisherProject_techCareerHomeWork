@@ -1,8 +1,8 @@
 package bookPublisherProject.data.entity.users;
 
-import bookPublisherProject.data.dto.AdminDto;
+import bookPublisherProject.data.dto.CustomerDto;
 import bookPublisherProject.data.dto.UserDto;
-import bookPublisherProject.data.entity.baseEntitties.User;
+import bookPublisherProject.data.entity.baseEntitties.UserEntity;
 import bookPublisherProject.data.types.UserType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,26 +12,23 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-@Document("admins")
+@Document("customers")
 @AllArgsConstructor
 @SuperBuilder
-public class Admin extends User {
+public class CustomerEntity extends UserEntity {
 
     String name;
-    String position;
-
 
     public UserDto convertToUserDto() {
         return UserDto.builder()
                 .emailAddress(getEmailAddress())
-                .userType(UserType.ADMIN)
+                .userType(UserType.CUSTOMER)
                 .build();
     }
 
-    public AdminDto convertToDto() {
-       return AdminDto.builder()
+    public CustomerDto convertToDto() {
+       return CustomerDto.builder()
                 .name(name)
-                .position(position)
                 .emailAddress(getEmailAddress())
                 .build();
     }

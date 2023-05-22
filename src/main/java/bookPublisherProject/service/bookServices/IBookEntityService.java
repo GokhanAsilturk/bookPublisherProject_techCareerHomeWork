@@ -1,22 +1,25 @@
 package bookPublisherProject.service.bookServices;
 
-import bookPublisherProject.data.entity.Book;
+import bookPublisherProject.data.entity.BookEntity;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface IBookEntityService {
 
-    Book create(Book book);
+    BookEntity create(BookEntity bookEntity);
 
-    void softDelete(Book book);
+    void softDelete(BookEntity bookEntity);
 
-    void permanentlyDelete(Book book);
+    void permanentlyDelete(BookEntity bookEntity);
 
-    List<Book> getAll();
+    List<BookEntity> getAll();
 
-    Book getById(String id);
+    BookEntity getById(String id);
 
-    Book update(Book book);
+    BookEntity update(BookEntity bookEntity);
 
-    Book publish(Book book);
+    BookEntity publish(BookEntity bookEntity);
+
+    Optional<List<BookEntity>> retrieveAllByAuthorId(String authorId, boolean allData);
 }

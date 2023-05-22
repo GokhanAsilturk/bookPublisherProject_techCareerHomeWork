@@ -1,6 +1,6 @@
 package bookPublisherProject.data.request.userRequests;
 
-import bookPublisherProject.data.entity.baseEntitties.User;
+import bookPublisherProject.data.entity.baseEntitties.UserEntity;
 import bookPublisherProject.data.types.UserType;
 import lombok.Builder;
 
@@ -10,8 +10,8 @@ public record LoginRequest(
         String password
 ) {
 
-    public User convertToEntity(UserType userType) {
-        return User.builder()
+    public UserEntity convertToEntity(UserType userType) {
+        return UserEntity.builder()
                 .emailAddress(emailAddress)
                 .password(password)
                 .userType(userType)

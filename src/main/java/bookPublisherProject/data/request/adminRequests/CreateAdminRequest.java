@@ -1,6 +1,6 @@
 package bookPublisherProject.data.request.adminRequests;
 
-import bookPublisherProject.data.entity.users.Admin;
+import bookPublisherProject.data.entity.users.AdminEntity;
 import bookPublisherProject.data.types.UserType;
 import lombok.Builder;
 
@@ -13,8 +13,8 @@ public record CreateAdminRequest(
         String position
 ) {
 
-    public Admin convertToEntity(){
-        return Admin.builder()
+    public AdminEntity convertToEntity(){
+        return AdminEntity.builder()
                 .name(name)
                 .emailAddress(emailAddress)
                 .password(password)

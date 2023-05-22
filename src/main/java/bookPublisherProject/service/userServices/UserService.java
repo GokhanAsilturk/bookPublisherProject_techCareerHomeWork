@@ -1,7 +1,7 @@
 package bookPublisherProject.service.userServices;
 
 import bookPublisherProject.data.dto.UserDto;
-import bookPublisherProject.data.entity.baseEntitties.User;
+import bookPublisherProject.data.entity.baseEntitties.UserEntity;
 import bookPublisherProject.data.request.userRequests.LoginRequest;
 import bookPublisherProject.service.CustomerServices.CustomerEntityService;
 import bookPublisherProject.service.adminServices.AdminEntityService;
@@ -42,7 +42,7 @@ public class UserService implements IUserService {
     public boolean emailIsValid(LoginRequest loginRequest) {
         return userEntityService.getAllUsers()
                 .stream()
-                .map(User::getEmailAddress)
+                .map(UserEntity::getEmailAddress)
                 .toList()
                 .contains(loginRequest.emailAddress());
     }

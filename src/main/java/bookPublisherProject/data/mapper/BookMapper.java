@@ -1,7 +1,7 @@
 //package bookPublisherProject.data.mapper;
 //
 //import bookPublisherProject.data.dto.BookDto;
-//import bookPublisherProject.data.entity.Book;
+//import bookPublisherProject.data.entity.BookEntity;
 //import bookPublisherProject.data.request.authorRequests.PublishNewBookRequest;
 //import bookPublisherProject.data.request.bookRequests.CreateBookAndAuthorRequest;
 //import bookPublisherProject.data.request.bookRequests.CreateBookRequest;
@@ -15,15 +15,15 @@
 //
 //    BookMapper BOOK_MAPPER = Mappers.getMapper(BookMapper.class);
 //
-//    BookDto convertToBookDto(Book book);
+//    BookDto convertToBookDto(BookEntity book);
 //
-//    Book createBook(CreateBookRequest createBookRequest);
+//    BookEntity createBook(CreateBookRequest createBookRequest);
 //
-//    Book createBookAndAuthor(CreateBookAndAuthorRequest createBookAndAuthorRequest);
+//    BookEntity createBookAndAuthor(CreateBookAndAuthorRequest createBookAndAuthorRequest);
 //
-//    Book updateBook(UpdateBookRequest updateBookRequest,Book book);
+//    BookEntity updateBook(UpdateBookRequest updateBookRequest,BookEntity book);
 //
-//    Book updateBookNameAndReleaseYear(UpdateBookNameAndReleaseYearRequest updateBookNameAndReleaseYearRequest,Book book);
+//    BookEntity updateBookNameAndReleaseYear(UpdateBookNameAndReleaseYearRequest updateBookNameAndReleaseYearRequest,BookEntity book);
 //
 //    CreateBookRequest publishBook(PublishNewBookRequest publishNewBookRequest);
 //

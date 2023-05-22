@@ -1,15 +1,15 @@
 package bookPublisherProject.service.adminServices;
 
-import bookPublisherProject.data.entity.users.Admin;
-import bookPublisherProject.data.entity.baseEntitties.User;
+import bookPublisherProject.data.entity.baseEntitties.UserEntity;
+import bookPublisherProject.data.entity.users.AdminEntity;
 
 import java.util.List;
 
 public interface IAdminEntityService {
 
-    Admin create(Admin admin);
-    List<Admin> getAll();
-    User login(Admin admin);
+    AdminEntity create(AdminEntity adminEntity);
+    List<AdminEntity> getAll();
+    UserEntity login(AdminEntity adminEntity);
 
-    Admin getByEmailAddress(String emailAddress);
+    AdminEntity getByEmailAddress(String emailAddress);
 }

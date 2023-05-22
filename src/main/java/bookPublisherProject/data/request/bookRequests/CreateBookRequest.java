@@ -1,7 +1,7 @@
 package bookPublisherProject.data.request.bookRequests;
 
-import bookPublisherProject.data.entity.users.Author;
-import bookPublisherProject.data.entity.Book;
+import bookPublisherProject.data.entity.BookEntity;
+import bookPublisherProject.data.entity.users.AuthorEntity;
 import lombok.Builder;
 
 @Builder
@@ -12,12 +12,12 @@ public record CreateBookRequest (
         String releaseDate
 ){
 
-    public Book convertToEntity(Author author){
-        return Book.builder()
-                .author(author)
+    public BookEntity convertToEntity(AuthorEntity authorEntity){
+        return BookEntity.builder()
                 .name(name)
                 .description(description)
                 .releaseDate(releaseDate)
+                .authorEntity(authorEntity)
                 .build();
     }
 }

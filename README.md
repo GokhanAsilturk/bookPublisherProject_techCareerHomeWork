@@ -9,20 +9,20 @@ Specifically, you need to create a backend API that allows the company to store 
 
 The API has these requirements:
 
-1-) The API should allow the company to create a new book record in the database and this record should include the book's title, 
-description, publication date and author information (name, email and bio).
+1-) The API should allow the company to create a new bookEntity record in the database and this record should include the bookEntity's title, 
+description, publication date and authorEntity information (name, email and bio).
  
-2-) API should allow "Ink Pen Books" to retrieve a book record by its ID and get a list of all books in the database.
+2-) API should allow "Ink Pen Books" to retrieve a bookEntity record by its ID and get a list of all books in the database.
 
-3-) The API should allow "Ink Pen Books" to update the information of a book record including the author's information.
+3-) The API should allow "Ink Pen Books" to update the information of a bookEntity record including the authorEntity's information.
  
-4-) API should allow "Ink Pen Books" to delete a book record from database.
+4-) API should allow "Ink Pen Books" to delete a bookEntity record from database.
 
 5-) The API should properly handle all request errors and provide informative error messages to the client.
 To implement these requirements you will need to use MongoDB as the database and implement common error handling methods for all points. 
 You should also include appropriate tests to verify that the API is working as expected.
 
-As a bonus, you can add additional features like tracking book sales, generating reports or user authentication.
+As a bonus, you can add additional features like tracking bookEntity sales, generating reports or userEntity authentication.
 
 # bookPublisherProject Requirements (in turkish)
 Hayal edin ki, "Mürekkep Kalem Kitapları" adlı bir yayınevinde çalışan bir yazılım geliştiricisisiniz. Bir gün, şirket yeni bir yazardan, 

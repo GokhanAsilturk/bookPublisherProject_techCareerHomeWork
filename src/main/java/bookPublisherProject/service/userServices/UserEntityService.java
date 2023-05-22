@@ -1,6 +1,6 @@
 package bookPublisherProject.service.userServices;
 
-import bookPublisherProject.data.entity.baseEntitties.User;
+import bookPublisherProject.data.entity.baseEntitties.UserEntity;
 import bookPublisherProject.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,27 +15,27 @@ public class UserEntityService implements IUserEntityService {
     private final UserRepository userRepository;
 
     @Override
-    public User login(User user) {
+    public UserEntity login(UserEntity userEntity) {
 
-        return this.getByEmailAddress(user.getEmailAddress());
+        return this.getByEmailAddress(userEntity.getEmailAddress());
     }
 
     @Override
-    public User getUserById(String id) {
+    public UserEntity getUserById(String id) {
 
         return userRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("user not found:)"));
     }
 
     @Override
-    public User getByEmailAddress(String emailAddress) {
+    public UserEntity getByEmailAddress(String emailAddress) {
 
-        return (User) userRepository.findByEmailAddress(emailAddress)
+        return (UserEntity) userRepository.findByEmailAddress(emailAddress)
                 .orElseThrow(() -> new NotFoundException("user not found:)"));
     }
 
     @Override
-    public List<User> getAllUsers() {
+    public List<UserEntity> getAllUsers() {
 
         return userRepository.findAll();
     }

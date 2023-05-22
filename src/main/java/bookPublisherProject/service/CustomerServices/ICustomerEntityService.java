@@ -1,17 +1,15 @@
 package bookPublisherProject.service.CustomerServices;
 
-import bookPublisherProject.data.entity.baseEntitties.User;
-import bookPublisherProject.data.entity.users.Admin;
-import bookPublisherProject.data.entity.users.Customer;
+import bookPublisherProject.data.entity.users.CustomerEntity;
 
 import java.util.List;
 
 public interface ICustomerEntityService {
 
-    Customer create(Customer customer);
-    List<Customer> getAll();
+    CustomerEntity create(CustomerEntity customerEntity);
+    List<CustomerEntity> getAll();
 
-    Customer getByEmailAddress(String emailAddress);
+    CustomerEntity getByEmailAddress(String emailAddress);
 
-    Customer getById(String id);
+    CustomerEntity getById(String id);
 }

@@ -1,6 +1,6 @@
 package bookPublisherProject.data.request.bookRequests;
 
-import bookPublisherProject.data.entity.Book;
+import bookPublisherProject.data.entity.BookEntity;
 import lombok.Builder;
 
 @Builder
@@ -9,14 +9,14 @@ public record UpdateBookNameAndReleaseYearRequest(
         String bookName,
         String releaseDate
 ) {
-    public Book convertToEntity(Book book) {
+    public BookEntity convertToEntity(BookEntity bookEntity) {
 
-        return Book.builder()
-                .id(book.getId())
+        return BookEntity.builder()
+                .id(bookEntity.getId())
                 .name(bookName)
-                .description(book.getDescription())
+                .description(bookEntity.getDescription())
                 .releaseDate(releaseDate)
-                .author(book.getAuthor())
+                .authorEntity(bookEntity.getAuthorEntity())
                 .build();
     }
 }

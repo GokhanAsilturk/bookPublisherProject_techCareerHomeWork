@@ -1,12 +1,13 @@
 package bookPublisherProject.service.bookServices;
 
-import bookPublisherProject.data.entity.Book;
+import bookPublisherProject.data.entity.BookEntity;
 import bookPublisherProject.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.webjars.NotFoundException;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -17,46 +18,66 @@ public class BookEntityService implements IBookEntityService {
 
 
     @Override
-    public Book create(Book book) {
+    public BookEntity create(BookEntity bookEntity) {
 
-        return this.bookRepository.save(book);
+        return this.bookRepository.save(bookEntity);
     }
 
     @Override
-    public void softDelete(Book book) {
+    public void softDelete(BookEntity bookEntity) {
         //siliyoruz
-        book.setIsDeleted(true);
-        this.save(book);
+        bookEntity.setIsDeleted(true);
+        this.save(bookEntity);
     }
 
     @Override
-    public void permanentlyDelete(Book book) {
-        this.bookRepository.delete(book);
+    public void permanentlyDelete(BookEntity bookEntity) {
+        this.bookRepository.delete(bookEntity);
     }
 
     @Override
-    public List<Book> getAll() {
+    public List<BookEntity> getAll() {
         return this.bookRepository.findAllByIsDeletedFalse().orElseThrow(() ->
-                new NotFoundException("There is no books here."));
+                new NotFoundException("There is no bookEntities here."));
     }
 
     @Override
-    public Book getById(String id) {
+    public BookEntity getById(String id) {
         return this.bookRepository.findById(id).orElseThrow(() ->
-                new NotFoundException("Book not found!"));
+                new NotFoundException("BookEntity not found!"));
     }
 
     @Override
-    public Book update(Book book) {
-        return this.save(book);
+    public BookEntity update(BookEntity bookEntity) {
+        return this.save(bookEntity);
     }
 
     @Override
-    public Book publish(Book book) {
-        return this.save(book);
+    public BookEntity publish(BookEntity bookEntity) {
+        return this.save(bookEntity);
     }
 
-    public Book save(Book book) {
-        return this.bookRepository.save(book);
+
+
+    public BookEntity save(BookEntity bookEntity) {
+        return this.bookRepository.save(bookEntity);
+    }
+
+    public Optional<List<BookEntity>> retrieveAllByAuthorId(String authorId, boolean allData) {
+
+        Optional<List<BookEntity>> bookEntityList = this.bookRepository.findAllByAuthorId(authorId);
+
+        if (!allData) {
+            // AllData izni yok ise soft silinen kitapları listeden çıkartmak için
+            // isDelete attribute u true ise kitabı listeden çıkartıyoruz.
+            bookEntityList.ifPresent(bookEntities ->
+                    bookEntities.forEach(bookEntity -> {
+                        if (bookEntity.getIsDeleted()) {
+                            bookEntities.remove(bookEntity);
+                        }
+                    }));
+        }
+
+        return bookEntityList;
     }
 }

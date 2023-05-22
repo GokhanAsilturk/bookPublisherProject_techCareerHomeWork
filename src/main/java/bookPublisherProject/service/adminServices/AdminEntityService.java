@@ -1,7 +1,7 @@
 package bookPublisherProject.service.adminServices;
 
-import bookPublisherProject.data.entity.users.Admin;
-import bookPublisherProject.data.entity.baseEntitties.User;
+import bookPublisherProject.data.entity.baseEntitties.UserEntity;
+import bookPublisherProject.data.entity.users.AdminEntity;
 import bookPublisherProject.repository.AdminRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,22 +15,22 @@ public class AdminEntityService implements IAdminEntityService{
     private final AdminRepository adminRepository;
 
     @Override
-    public Admin create(Admin admin) {
-        return adminRepository.save(admin);
+    public AdminEntity create(AdminEntity adminEntity) {
+        return adminRepository.save(adminEntity);
     }
 
     @Override
-    public List<Admin> getAll() {
+    public List<AdminEntity> getAll() {
         return adminRepository.findAll();
     }
 
     @Override
-    public User login(Admin admin) {
+    public UserEntity login(AdminEntity adminEntity) {
         return null;
     }
 
     @Override
-    public Admin getByEmailAddress(String emailAddress) {
+    public AdminEntity getByEmailAddress(String emailAddress) {
         return adminRepository.findByEmailAddress(emailAddress);
     }
 }

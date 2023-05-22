@@ -1,7 +1,7 @@
 package bookPublisherProject.data.request.bookRequests;
 
-import bookPublisherProject.data.entity.users.Author;
-import bookPublisherProject.data.entity.Book;
+import bookPublisherProject.data.entity.users.AuthorEntity;
+import bookPublisherProject.data.entity.BookEntity;
 import bookPublisherProject.data.request.authorRequests.UpdateAuthorRequest;
 import lombok.Builder;
 
@@ -10,13 +10,14 @@ public record UpdateBookAndAuthorRequest(
         UpdateBookRequest updateBookRequest,
         UpdateAuthorRequest updateAuthorRequest
 ) {
-    public Book convertToBookEntity(Book book) {
-        Book updatedBook = updateBookRequest.convertToEntity(book);
-        updatedBook.setAuthor(convertToAuthorEntity());
-        return updatedBook;
+    public BookEntity convertToBookEntity(BookEntity bookEntity) {
+        BookEntity updatedBookEntity = updateBookRequest.convertToEntity(bookEntity);
+
+        updatedBookEntity.setAuthorEntity(convertToAuthorEntity());
+        return updatedBookEntity;
     }
 
-    public Author convertToAuthorEntity() {
+    public AuthorEntity convertToAuthorEntity() {
 
         return updateAuthorRequest.convertToEntity();
     }

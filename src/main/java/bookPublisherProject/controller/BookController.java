@@ -1,7 +1,7 @@
 package bookPublisherProject.controller;
 
 import bookPublisherProject.data.request.bookRequests.*;
-import bookPublisherProject.data.response.TCResponse;
+import bookPublisherProject.data.types.response.TCResponse;
 import bookPublisherProject.service.bookServices.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -116,7 +116,7 @@ public class BookController {
 //    }
 
 
-//    @GetMapping("{authorID}/getBooks/by/authorName")
+//    @GetMapping("{authorID}/getBookEntities/by/authorName")
 //    public ResponseEntity<TCResponse<?>> getBooksByAuthorName(@PathVariable("authorName") String authorName) {
 //        try {
 //            return ResponseEntity.ok(TCResponse.builder()

@@ -1,9 +1,8 @@
 package bookPublisherProject.service.adminServices;
 
 import bookPublisherProject.data.dto.UserDto;
-import bookPublisherProject.data.entity.users.Admin;
+import bookPublisherProject.data.entity.users.AdminEntity;
 import bookPublisherProject.data.request.adminRequests.CreateAdminRequest;
-import bookPublisherProject.data.request.userRequests.LoginRequest;
 
 import java.util.List;
 
@@ -13,7 +12,7 @@ public interface IAdminService {
 
     UserDto createAdmin(CreateAdminRequest createAdminRequest);
 
-    List<Admin> getAllAdmins();
+    List<AdminEntity> getAllAdmins();
 
     UserDto getByEmailAdress(String emailAddress);
 }

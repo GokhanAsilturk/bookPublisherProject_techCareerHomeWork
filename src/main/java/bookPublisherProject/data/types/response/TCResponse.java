@@ -1,4 +1,4 @@
-package bookPublisherProject.data.response;
+package bookPublisherProject.data.types.response;
 
 import lombok.Builder;
 

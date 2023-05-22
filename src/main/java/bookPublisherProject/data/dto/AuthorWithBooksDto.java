@@ -1,7 +1,9 @@
 package bookPublisherProject.data.dto;
 
-import java.util.List;
+import lombok.Builder;
 
+import java.util.List;
+@Builder
 public record AuthorWithBooksDto(
         String name,
         String emailAddress,

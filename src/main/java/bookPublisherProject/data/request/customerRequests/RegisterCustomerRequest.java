@@ -1,6 +1,6 @@
 package bookPublisherProject.data.request.customerRequests;
 
-import bookPublisherProject.data.entity.users.Customer;
+import bookPublisherProject.data.entity.users.CustomerEntity;
 import bookPublisherProject.data.types.UserType;
 import lombok.Builder;
 
@@ -10,8 +10,8 @@ public record RegisterCustomerRequest(
         String emailAddress,
         String password
 ) {
-    public Customer convertToEntity() {
-        return Customer.builder()
+    public CustomerEntity convertToEntity() {
+        return CustomerEntity.builder()
                 .name(name)
                 .emailAddress(emailAddress)
                 .password(password)

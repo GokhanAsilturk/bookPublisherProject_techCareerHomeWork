@@ -1,31 +1,31 @@
 package bookPublisherProject.service.authorServices;
 
-import bookPublisherProject.data.entity.users.Author;
-import bookPublisherProject.data.entity.Book;
+import bookPublisherProject.data.entity.users.AuthorEntity;
+import bookPublisherProject.data.entity.BookEntity;
 
 import java.util.List;
 
 public interface IAuthorEntityService {
 
-    Author save(Author author);
+    AuthorEntity save(AuthorEntity authorEntity);
 
-    Author register(Author author);
+    AuthorEntity register(AuthorEntity authorEntity);
 
-    void permanentlyDelete(Author author);
+    void permanentlyDelete(AuthorEntity authorEntity);
 
-    void softDelete(Author author);
+    void softDelete(AuthorEntity authorEntity);
 
-    List<Author> getAll();
+    List<AuthorEntity> getAll();
 
-    Author getById(String id);
+    AuthorEntity getById(String id);
 
-    Author getByName(String name);
+    AuthorEntity getByName(String name);
 
-    List<Book> getBooksByName(String name);
+    List<BookEntity> getBooksByName(String name);
 
-    Author update(Author author);
+    AuthorEntity update(AuthorEntity authorEntity);
 
-    Author updateName(Author author, String name);
+    AuthorEntity updateName(AuthorEntity authorEntity, String name);
 
-    Author getByEmailAdress(String emailAddress);
+    AuthorEntity getByEmailAdress(String emailAddress);
 }

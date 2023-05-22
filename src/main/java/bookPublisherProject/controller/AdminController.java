@@ -6,7 +6,7 @@ import bookPublisherProject.data.request.adminRequests.DeleteBookRequest;
 import bookPublisherProject.data.request.bookRequests.CreateBookAndAuthorRequest;
 import bookPublisherProject.data.request.bookRequests.CreateBookRequest;
 import bookPublisherProject.data.request.bookRequests.UpdateBookNameAndReleaseYearRequest;
-import bookPublisherProject.data.response.TCResponse;
+import bookPublisherProject.data.types.response.TCResponse;
 import bookPublisherProject.exception.BookException;
 import bookPublisherProject.exception.ErrorResponse;
 import bookPublisherProject.service.authorServices.AuthorService;
@@ -42,20 +42,18 @@ public class AdminController {
                     .isSuccess(true)
                     .response(bookService.createBookAndAuthor(createBookAndAuthorRequest))
                     .build());
-        }
-        catch (BookException bookException){
+        } catch (BookException bookException) {
             return ResponseEntity.ok(
                     TCResponse.<ErrorResponse>builder()
                             .isSuccess(false)
                             .response(new ErrorResponse(new ArrayList<>()))
                             .build());
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
         }
     }
 
-    @PostMapping("/create/author")
+    @PostMapping("/create/authorEntity")
     public ResponseEntity<TCResponse<?>> createAuthor(@RequestBody CreateAuthorRequest createAuthorRequest) {
         try {
             return ResponseEntity.ok(TCResponse.builder()
@@ -72,17 +70,18 @@ public class AdminController {
         try {
             return ResponseEntity.ok(TCResponse.builder()
                     .isSuccess(true)
-                    .response(bookService.createBook(createBookRequest))
+                    .response(this.bookService.createBook(createBookRequest))
                     .build());
         } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
         }
     }
 
-    @DeleteMapping("/delete/author")
+    @DeleteMapping("/delete/authorEntity")
     public ResponseEntity<TCResponse<?>> deleteAuthor(@RequestBody DeleteAuthorRequest deleteAuthorRequest) {
-        this.authorService.deleteAuthor(deleteAuthorRequest);
+
         try {
+            this.authorService.deleteAuthor(deleteAuthorRequest);
             return ResponseEntity.ok(TCResponse.builder()
                     .isSuccess(true)
                     .build());
@@ -98,6 +97,12 @@ public class AdminController {
             return ResponseEntity.ok(TCResponse.builder()
                     .isSuccess(true)
                     .build());
+        } catch (BookException bookException) {
+            return ResponseEntity.ok(
+                    TCResponse.<ErrorResponse>builder()
+                            .isSuccess(false)
+                            .response(new ErrorResponse(new ArrayList<>()))
+                            .build());
         } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
         }

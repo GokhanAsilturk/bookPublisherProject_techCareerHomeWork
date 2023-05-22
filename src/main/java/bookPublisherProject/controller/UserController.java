@@ -1,7 +1,7 @@
 package bookPublisherProject.controller;
 
 import bookPublisherProject.data.request.userRequests.LoginRequest;
-import bookPublisherProject.data.response.TCResponse;
+import bookPublisherProject.data.types.response.TCResponse;
 import bookPublisherProject.service.authorServices.AuthorService;
 import bookPublisherProject.service.bookServices.BookService;
 import bookPublisherProject.service.userServices.UserService;
@@ -72,7 +72,7 @@ public ResponseEntity<TCResponse<?>> login(@RequestBody LoginRequest loginReques
         }
     }
 
-    @GetMapping("{authorID}/getBooks/by/authorName")
+    @GetMapping("{authorID}/getBookEntities/by/authorName")
     public ResponseEntity<TCResponse<?>> getBooksByAuthorName(@PathVariable("authorName") String authorName) {
         try {
             return ResponseEntity.ok(TCResponse.builder()

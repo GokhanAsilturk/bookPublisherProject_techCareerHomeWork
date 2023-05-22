@@ -1,7 +1,7 @@
 //package bookPublisherProject.data.mapper;
 //
 //import bookPublisherProject.data.dto.AuthorDto;
-//import bookPublisherProject.data.entity.Author;
+//import bookPublisherProject.data.entity.AuthorEntity;
 //import bookPublisherProject.data.request.authorRequests.CreateAuthorRequest;
 //import bookPublisherProject.data.request.authorRequests.UpdateAuthorRequest;
 //import org.mapstruct.Mapper;
@@ -12,9 +12,9 @@
 //
 //    AuthorMapper AUTHOR_MAPPER = Mappers.getMapper(AuthorMapper.class);
 //
-//    AuthorDto convertToAuthorDto(Author author);
+//    AuthorDto convertToAuthorDto(AuthorEntity authorEntity);
 //
-//    Author createAuthor(CreateAuthorRequest createAuthorRequest);
+//    AuthorEntity createAuthor(CreateAuthorRequest createAuthorRequest);
 //
-//    Author updateAuthor(UpdateAuthorRequest updateAuthorRequest);
+//    AuthorEntity updateAuthor(UpdateAuthorRequest updateAuthorRequest);
 //}

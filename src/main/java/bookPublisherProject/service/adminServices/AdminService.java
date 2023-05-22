@@ -1,9 +1,8 @@
 package bookPublisherProject.service.adminServices;
 
 import bookPublisherProject.data.dto.UserDto;
-import bookPublisherProject.data.entity.users.Admin;
+import bookPublisherProject.data.entity.users.AdminEntity;
 import bookPublisherProject.data.request.adminRequests.CreateAdminRequest;
-import bookPublisherProject.data.request.userRequests.LoginRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +26,7 @@ public class AdminService implements IAdminService {
     }
 
     @Override
-    public List<Admin> getAllAdmins() {
+    public List<AdminEntity> getAllAdmins() {
         return adminEntityService.getAll();
     }
 
@@ -36,8 +35,8 @@ public class AdminService implements IAdminService {
         return convertToUserDto(adminEntityService.getByEmailAddress(emailAddress));
     }
 
-    public UserDto convertToUserDto(Admin admin){
-        return admin.convertToUserDto();
+    public UserDto convertToUserDto(AdminEntity adminEntity){
+        return adminEntity.convertToUserDto();
     }
 }
 

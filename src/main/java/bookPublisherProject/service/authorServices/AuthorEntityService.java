@@ -1,7 +1,7 @@
 package bookPublisherProject.service.authorServices;
 
-import bookPublisherProject.data.entity.users.Author;
-import bookPublisherProject.data.entity.Book;
+import bookPublisherProject.data.entity.BookEntity;
+import bookPublisherProject.data.entity.users.AuthorEntity;
 import bookPublisherProject.repository.AuthorRepository;
 import bookPublisherProject.service.bookServices.BookEntityService;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.webjars.NotFoundException;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -20,78 +21,69 @@ public class AuthorEntityService implements IAuthorEntityService {
 
 
     @Override
-    public Author save(Author author) {
+    public AuthorEntity save(AuthorEntity authorEntity) {
 
-        return this.authorRepository.save(author);
+        return this.authorRepository.save(authorEntity);
     }
 
     @Override
-    public Author register(Author author) {
-        return this.save(author);
+    public AuthorEntity register(AuthorEntity authorEntity) {
+        return this.save(authorEntity);
     }
 
     @Override
-    public void permanentlyDelete(Author author) {
-
-        this.authorRepository.delete(author);
+    public void permanentlyDelete(AuthorEntity authorEntity) {
+        this.authorRepository.delete(authorEntity);
     }
 
     @Override
-    public void softDelete(Author author) {
-        author.setIsDeleted(true);
-        this.save(author);
+    public void softDelete(AuthorEntity authorEntity) {
+        authorEntity.setIsDeleted(true);
+        this.save(authorEntity);
     }
 
     @Override
-    public List<Author> getAll() {
+    public List<AuthorEntity> getAll() {
         return this.authorRepository.findAllByIsDeletedFalse().orElseThrow(() ->
                 new NotFoundException("There are no authors here."));
     }
 
     @Override
-    public Author getById(String id) {
-        return this.authorRepository.findById(id).orElseThrow(() -> new NotFoundException("Author not found!"));
+    public AuthorEntity getById(String id) {
+        return this.authorRepository.findById(id).orElseThrow(() -> new NotFoundException("AuthorEntity not found ! :)"));
     }
 
     @Override
-    public Author getByName(String name) {
-        return this.authorRepository.findByName(name).orElseThrow(() -> new NotFoundException("Author not found"));
+    public AuthorEntity getByName(String name) {
+        return this.authorRepository.findByName(name).orElseThrow(() -> new NotFoundException("AuthorEntity not found ! :)"));
     }
 
     @Override
-    public List<Book> getBooksByName(String authorName) {
-        return this.getByName(authorName).getBooks();
+    public List<BookEntity> getBooksByName(String authorName) {
+
+        AuthorEntity author = this.getByName(authorName);
+        Optional<List<BookEntity>> bookEntityList =
+                bookEntityService.retrieveAllByAuthorId(author.getId(), false);
+
+        return bookEntityList.orElseGet(List::of);
     }
 
     @Override
-    public Author update(Author author) {
+    public AuthorEntity update(AuthorEntity authorEntity) {
 
-        return this.save(author);
+        return this.save(authorEntity);
     }
 
     @Override
-    public Author updateName(Author author, String name) {
-        author.setName(name);
-        return update(author);
+    public AuthorEntity updateName(AuthorEntity authorEntity, String name) {
+        authorEntity.setName(name);
+        return update(authorEntity);
     }
 
     @Override
-    public Author getByEmailAdress(String emailAddress) {
+    public AuthorEntity getByEmailAdress(String emailAddress) {
         return this.authorRepository.findByEmailAddress(emailAddress).orElseThrow();
     }
 
-    public void addBookInBookListAndUpdate(Author author, Book book) {
 
-        List<Book> bookList = author.getBooks();
-        bookList.add(book);
-        author.setBooks(bookList);
-        this.update(author);
-    }
-
-    public void removeBookInBookListAndUpdate(Author author, Book book) {
-        List<Book> bookList = author.getBooks();
-        bookList.remove(book);
-        author.setBooks(bookList);
-        this.update(author);
-    }
 }

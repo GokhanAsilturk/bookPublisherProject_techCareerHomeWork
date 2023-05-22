@@ -1,6 +1,6 @@
 package bookPublisherProject.data.request.authorRequests;
 
-import bookPublisherProject.data.entity.users.Author;
+import bookPublisherProject.data.entity.users.AuthorEntity;
 
 public record UpdateAuthorRequest(
         String authorId,
@@ -9,8 +9,8 @@ public record UpdateAuthorRequest(
         String newBio
 ) {
 
-    public Author convertToEntity() {
-        return Author.builder()
+    public AuthorEntity convertToEntity() {
+        return AuthorEntity.builder()
                 .id(authorId)
                 .name(newAuthorName)
                 .emailAddress(newEmailAddress)

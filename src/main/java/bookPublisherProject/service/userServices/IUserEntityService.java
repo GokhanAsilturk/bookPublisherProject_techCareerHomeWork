@@ -1,17 +1,17 @@
 package bookPublisherProject.service.userServices;
 
-import bookPublisherProject.data.entity.baseEntitties.User;
+import bookPublisherProject.data.entity.baseEntitties.UserEntity;
 
 import java.util.List;
 
 public interface IUserEntityService {
 
-    User login(User user);
+    UserEntity login(UserEntity userEntity);
 
-    User getUserById(String id);
+    UserEntity getUserById(String id);
 
-    User getByEmailAddress(String emailAddress);
+    UserEntity getByEmailAddress(String emailAddress);
 
-    List<User> getAllUsers();
+    List<UserEntity> getAllUsers();
 
 }

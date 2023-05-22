@@ -1,6 +1,6 @@
 package bookPublisherProject.service.CustomerServices;
 
-import bookPublisherProject.data.entity.users.Customer;
+import bookPublisherProject.data.entity.users.CustomerEntity;
 import bookPublisherProject.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,22 +14,22 @@ public class CustomerEntityService implements ICustomerEntityService {
     private final CustomerRepository customerRepository;
 
     @Override
-    public Customer create(Customer customer) {
-        return customerRepository.save(customer);
+    public CustomerEntity create(CustomerEntity customerEntity) {
+        return customerRepository.save(customerEntity);
     }
 
     @Override
-    public List<Customer> getAll() {
+    public List<CustomerEntity> getAll() {
         return customerRepository.findAll();
     }
 
     @Override
-    public Customer getByEmailAddress(String emailAddress) {
+    public CustomerEntity getByEmailAddress(String emailAddress) {
         return customerRepository.findByEmailAddress(emailAddress);
     }
 
     @Override
-    public Customer getById(String id) {
+    public CustomerEntity getById(String id) {
         return customerRepository.findById(id).orElseThrow();
     }
 }
