@@ -1,6 +1,7 @@
 package bookPublisherProject.service.bookServices;
 
 import bookPublisherProject.data.entity.BookEntity;
+import bookPublisherProject.data.entity.users.AuthorEntity;
 import bookPublisherProject.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -65,7 +66,7 @@ public class BookEntityService implements IBookEntityService {
 
     public Optional<List<BookEntity>> retrieveAllByAuthorId(String authorId, boolean allData) {
 
-        Optional<List<BookEntity>> bookEntityList = this.bookRepository.findAllByAuthorId(authorId);
+        Optional<List<BookEntity>> bookEntityList = this.bookRepository.findAllByAuthorEntityId(authorId);
 
         if (!allData) {
             // AllData izni yok ise soft silinen kitapları listeden çıkartmak için

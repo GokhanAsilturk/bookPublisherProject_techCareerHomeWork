@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 
+
 @RestController
 @RequestMapping("/admin")
 public class AdminController {
@@ -53,7 +54,7 @@ public class AdminController {
         }
     }
 
-    @PostMapping("/create/authorEntity")
+    @PostMapping("/create/author")
     public ResponseEntity<TCResponse<?>> createAuthor(@RequestBody CreateAuthorRequest createAuthorRequest) {
         try {
             return ResponseEntity.ok(TCResponse.builder()
@@ -77,7 +78,7 @@ public class AdminController {
         }
     }
 
-    @DeleteMapping("/delete/authorEntity")
+    @DeleteMapping("/delete/author")
     public ResponseEntity<TCResponse<?>> deleteAuthor(@RequestBody DeleteAuthorRequest deleteAuthorRequest) {
 
         try {
