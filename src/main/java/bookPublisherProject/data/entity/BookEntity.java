@@ -9,7 +9,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -31,7 +30,7 @@ public class BookEntity extends BaseEntity {
     private AuthorEntity authorEntity;
 
 
-    public BookDto convertToDto(){
+    public BookDto convertToDto() {
         return BookDto.builder()
                 .name(name)
                 .description(description)

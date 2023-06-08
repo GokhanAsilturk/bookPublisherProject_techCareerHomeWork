@@ -2,12 +2,16 @@ package bookPublisherProject.controller;
 
 import bookPublisherProject.data.request.userRequests.LoginRequest;
 import bookPublisherProject.data.types.response.TCResponse;
+import bookPublisherProject.exception.BookException;
+import bookPublisherProject.exception.ErrorResponse;
 import bookPublisherProject.service.authorServices.AuthorService;
 import bookPublisherProject.service.bookServices.BookService;
 import bookPublisherProject.service.userServices.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
 
 @RestController
 @RequestMapping("/user")
@@ -25,24 +29,32 @@ public class UserController {
         this.userService = userService;
     }
 
-@GetMapping("/login")
-public ResponseEntity<TCResponse<?>> login(@RequestBody LoginRequest loginRequest){
-    try {
-        return ResponseEntity.ok(TCResponse.builder()
-                .isSuccess(true)
-                .response(userService.login(loginRequest))
-                .build());
-    } catch (Exception e) {
-        return ResponseEntity.internalServerError().build();
+    @GetMapping("/login")
+    public ResponseEntity<TCResponse<?>> login(@RequestBody LoginRequest loginRequest) {
+        try {
+            return ResponseEntity.ok(TCResponse.builder()
+                    .isSuccess(true)
+                    .response(userService.login(loginRequest))
+                    .build());
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
     }
-}
+
     @GetMapping("{id}/get/book/by/id")
-    public ResponseEntity<TCResponse<?>> getById(@PathVariable("id") String id) {
+    public ResponseEntity<TCResponse<?>> getById(@RequestParam("id") String id) {
         try {
             return ResponseEntity.ok(TCResponse.builder()
                     .isSuccess(true)
                     .response(bookService.getBookById(id))
                     .build());
+        } catch (BookException bookException) {
+            return ResponseEntity.ok(
+                    TCResponse.<ErrorResponse>builder()
+                            .isSuccess(false)
+                            .errorMessage(bookException.getMessage())
+                            .response(new ErrorResponse(new ArrayList<>()))
+                            .build());
         } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
         }
@@ -55,6 +67,13 @@ public ResponseEntity<TCResponse<?>> login(@RequestBody LoginRequest loginReques
                     .isSuccess(true)
                     .response(bookService.getAllBooks())
                     .build());
+        } catch (BookException bookException) {
+            return ResponseEntity.ok(
+                    TCResponse.<ErrorResponse>builder()
+                            .isSuccess(false)
+                            .errorMessage(bookException.getMessage())
+                            .response(new ErrorResponse(new ArrayList<>()))
+                            .build());
         } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
         }
@@ -72,13 +91,20 @@ public ResponseEntity<TCResponse<?>> login(@RequestBody LoginRequest loginReques
         }
     }
 
-    @GetMapping("{authorID}/getBookEntities/by/authorName")
+    @GetMapping("{authorName}/getBookEntities/by/authorName")
     public ResponseEntity<TCResponse<?>> getBooksByAuthorName(@PathVariable("authorName") String authorName) {
         try {
             return ResponseEntity.ok(TCResponse.builder()
                     .isSuccess(true)
                     .response(bookService.getBooksByAuthorName(authorName))
                     .build());
+        } catch (BookException bookException) {
+            return ResponseEntity.ok(
+                    TCResponse.<ErrorResponse>builder()
+                            .isSuccess(false)
+                            .errorMessage(bookException.getMessage())
+                            .response(new ErrorResponse(new ArrayList<>()))
+                            .build());
         } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
         }

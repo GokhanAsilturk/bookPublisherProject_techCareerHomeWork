@@ -35,7 +35,7 @@ public class AdminService implements IAdminService {
         return convertToUserDto(adminEntityService.getByEmailAddress(emailAddress));
     }
 
-    public UserDto convertToUserDto(AdminEntity adminEntity){
+    public UserDto convertToUserDto(AdminEntity adminEntity) {
         return adminEntity.convertToUserDto();
     }
 }

@@ -6,16 +6,16 @@ import lombok.Builder;
 @Builder
 public record UpdateBookNameAndReleaseYearRequest(
         String bookId,
-        String bookName,
-        String releaseDate
+        String newBookName,
+        String newReleaseYear
 ) {
     public BookEntity convertToEntity(BookEntity bookEntity) {
 
         return BookEntity.builder()
                 .id(bookEntity.getId())
-                .name(bookName)
+                .name(newBookName)
                 .description(bookEntity.getDescription())
-                .releaseDate(releaseDate)
+                .releaseDate(newReleaseYear)
                 .authorEntity(bookEntity.getAuthorEntity())
                 .build();
     }

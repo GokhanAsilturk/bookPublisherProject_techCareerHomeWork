@@ -7,8 +7,8 @@ import lombok.Builder;
 public record SoftDeleteAuthorRequest(
         String id
 ) {
-    public DeleteAuthorRequest convertToDeleteRequest(){
-       return DeleteAuthorRequest.builder()
+    public DeleteAuthorRequest convertToDeleteRequest() {
+        return DeleteAuthorRequest.builder()
                 .id(id)
                 .permanentlyDelete(false)
                 .build();

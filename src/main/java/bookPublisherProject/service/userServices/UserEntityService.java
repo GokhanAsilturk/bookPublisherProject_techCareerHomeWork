@@ -37,6 +37,6 @@ public class UserEntityService implements IUserEntityService {
     @Override
     public List<UserEntity> getAllUsers() {
 
-        return userRepository.findAll();
+        return userRepository.findAllByIsDeletedFalse().orElseThrow(() -> new NotFoundException("users not found! :)"));
     }
 }

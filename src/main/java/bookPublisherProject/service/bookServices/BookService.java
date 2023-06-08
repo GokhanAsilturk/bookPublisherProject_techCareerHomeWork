@@ -36,11 +36,12 @@ public class BookService implements IBookService {
         return convertToDto(bookEntity);
     }
 
+
     @Override
     public BookDto createBookAndAuthor(CreateBookAndAuthorRequest createBookAndAuthorRequest) {
 
         BookEntity bookEntity = bookEntityService.create(createBookAndAuthorRequest.convertToEntity());
-
+        AuthorEntity authorEntity = authorEntityService.save(bookEntity.getAuthorEntity());
         return convertToDto(bookEntity);
     }
 
@@ -65,14 +66,21 @@ public class BookService implements IBookService {
         bookEntityService.softDelete(deletedBookEntity);
 
         //Yazarın kitaplarını çağırıyoruz.
-        Optional<List<BookEntity>> bookEntityList = bookEntityService
-                .retrieveAllByAuthorId(deletedAuthorEntity.getId(), false);
+//        Optional<List<BookEntity>> bookEntityList = bookEntityService
+//                .retrieveAllByAuthorId(deletedAuthorEntity.getId(), false);
 
         //silme işleminden sonra silinen kitabın yazarının başka bir kitabı kalmıyorsa, yazar da sistemden soft silinir.
         //eğer silinen kitabın yazarının başka kitabı yok ise yazarı soft sil.
-        if (bookEntityList.isEmpty()) {
-            authorEntityService.softDelete(deletedAuthorEntity);
+        if (bookEntityService.retrieveAllByAuthorId(deletedAuthorEntity.getId(), false).isPresent()) {
+            List<BookEntity> bookEntityList = bookEntityService
+                    .retrieveAllByAuthorId(deletedAuthorEntity.getId(), false).get();
+            if (bookEntityList.isEmpty()) {
+                authorEntityService.softDelete(deletedAuthorEntity);
+            }
         }
+//        if (bookEntityService.retrieveAllByAuthorId(deletedAuthorEntity.getId(), false).get().isEmpty()) {
+//            authorEntityService.softDelete(deletedAuthorEntity);
+//        }
 
     }
 
@@ -104,7 +112,7 @@ public class BookService implements IBookService {
     @Override
     public BookDto getBookById(String id) {
 
-        return this.convertToDto(this.bookEntityService.getById(id));
+        return this.convertToDto(bookEntityService.getById(id));
     }
 
     @Override
@@ -132,15 +140,14 @@ public class BookService implements IBookService {
 
     @Override
     public BookDto updateBookAndAuthor(UpdateBookAndAuthorRequest updateBookAndAuthorRequest) {
-        //kitabı update ediyoruz.
-        BookEntity bookEntity = bookEntityService.update(
+        //kitabı, yazarını da katarak update ediyoruz.
+        BookEntity updatedBookEntity = bookEntityService.update(
                 updateBookAndAuthorRequest.convertToBookEntity(
                         bookEntityService.getById(updateBookAndAuthorRequest.updateBookRequest().bookId())));
+        // Yazarı update ediyoruz
+        authorEntityService.update(updatedBookEntity.getAuthorEntity());
 
-        //yazarı, kitaba kaydederken, yazarı update ediyoruz.
-        bookEntity.setAuthorEntity(authorEntityService.update(updateBookAndAuthorRequest.convertToAuthorEntity()));
-
-        return this.convertToDto(bookEntity);
+        return this.convertToDto(updatedBookEntity);
     }
 
     @Override
@@ -168,9 +175,11 @@ public class BookService implements IBookService {
     @Override
     public BookDto updateBookNameAndReleaseYear(UpdateBookNameAndReleaseYearRequest updateBookNameAndReleaseYearRequest) {
 
-        return this.convertToDto(this.bookEntityService
+        BookEntity updatedBookEntity = this.bookEntityService
                 .update(updateBookNameAndReleaseYearRequest.convertToEntity(
-                        bookEntityService.getById(updateBookNameAndReleaseYearRequest.bookId()))));
+                        bookEntityService.getById(updateBookNameAndReleaseYearRequest.bookId())));
+
+        return convertToDto(updatedBookEntity);
     }
 
     @Override

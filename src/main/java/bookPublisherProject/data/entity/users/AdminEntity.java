@@ -12,7 +12,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-@Document("admins")
+@Document("adminEntities")
 @AllArgsConstructor
 @SuperBuilder
 public class AdminEntity extends UserEntity {
@@ -29,7 +29,7 @@ public class AdminEntity extends UserEntity {
     }
 
     public AdminDto convertToDto() {
-       return AdminDto.builder()
+        return AdminDto.builder()
                 .name(name)
                 .position(position)
                 .emailAddress(getEmailAddress())

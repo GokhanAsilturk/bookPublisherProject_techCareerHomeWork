@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 
 @RestController
-@RequestMapping("/authorEntity")
+@RequestMapping("/author")
 public class AuthorController {
 
     private final BookService bookService;
@@ -66,21 +66,20 @@ public class AuthorController {
             return ResponseEntity.ok(TCResponse.builder()
                     .isSuccess(true)
                     .build());
-        }
-        catch (BookException bookException){
+        } catch (BookException bookException) {
             return ResponseEntity.ok(
                     TCResponse.<ErrorResponse>builder()
                             .isSuccess(false)
+                            .errorMessage(bookException.getMessage())
                             .response(new ErrorResponse(new ArrayList<>()))
                             .build());
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
         }
     }
 
 
-    @DeleteMapping("/delete/authorEntity")
+    @DeleteMapping("/delete/author")
     public ResponseEntity<TCResponse<?>> deleteAuthor(@RequestBody SoftDeleteAuthorRequest softDeleteAuthorRequest) {
         this.authorService.deleteAuthor(softDeleteAuthorRequest.convertToDeleteRequest());
         try {
@@ -103,6 +102,13 @@ public class AuthorController {
                     .isSuccess(true)
                     .response(bookService.updateBookAndAuthor(request))
                     .build());
+        } catch (BookException bookException) {
+            return ResponseEntity.ok(
+                    TCResponse.<ErrorResponse>builder()
+                            .isSuccess(false)
+                            .errorMessage(bookException.getMessage())
+                            .response(new ErrorResponse(new ArrayList<>()))
+                            .build());
         } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
         }
@@ -117,12 +123,19 @@ public class AuthorController {
                     .isSuccess(true)
                     .response(bookService.updateBook(updateBookRequest))
                     .build());
+        } catch (BookException bookException) {
+            return ResponseEntity.ok(
+                    TCResponse.<ErrorResponse>builder()
+                            .isSuccess(false)
+                            .errorMessage(bookException.getMessage())
+                            .response(new ErrorResponse(new ArrayList<>()))
+                            .build());
         } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
         }
     }
 
-    @PatchMapping("/update/authorEntity")
+    @PatchMapping("/update/author")
     public ResponseEntity<TCResponse<?>> updateAuthor(
             @RequestBody UpdateAuthorRequest updateAuthorRequest) {
 
@@ -145,20 +158,36 @@ public class AuthorController {
                     .isSuccess(true)
                     .response(bookService.updateBookNameAndReleaseYear(request))
                     .build());
+        } catch (BookException bookException) {
+            return ResponseEntity.ok(
+                    TCResponse.<ErrorResponse>builder()
+                            .isSuccess(false)
+                            .errorMessage(bookException.getMessage())
+                            .response(new ErrorResponse(new ArrayList<>()))
+                            .build());
         } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
         }
     }
 
+    //TODO burası sıkıntılı. 404 döndürüyor.
+
     //    2-) API, bir kitap kaydını ID'sine göre almak ve veritabanındaki tüm kitapların bir listesini almak için
     //    "Mürekkep Kalem Kitaplarına" izin vermelidir.
-    @GetMapping("{id}/get/book/by/id")
-    public ResponseEntity<TCResponse<?>> getBookById(@PathVariable("id") String id) {
+    @GetMapping("{bookId}/get/book/by/id")
+    public ResponseEntity<TCResponse<?>> getBookById(@RequestParam("bookId") String id) {
         try {
             return ResponseEntity.ok(TCResponse.builder()
                     .isSuccess(true)
                     .response(bookService.getBookById(id))
                     .build());
+        } catch (BookException bookException) {
+            return ResponseEntity.ok(
+                    TCResponse.<ErrorResponse>builder()
+                            .isSuccess(false)
+                            .errorMessage(bookException.getMessage())
+                            .response(new ErrorResponse(new ArrayList<>()))
+                            .build());
         } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
         }
@@ -173,6 +202,13 @@ public class AuthorController {
                     .isSuccess(true)
                     .response(bookService.getAllBooks())
                     .build());
+        } catch (BookException bookException) {
+            return ResponseEntity.ok(
+                    TCResponse.<ErrorResponse>builder()
+                            .isSuccess(false)
+                            .errorMessage(bookException.getMessage())
+                            .response(new ErrorResponse(new ArrayList<>()))
+                            .build());
         } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
         }

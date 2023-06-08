@@ -13,7 +13,7 @@ public record CreateAdminRequest(
         String position
 ) {
 
-    public AdminEntity convertToEntity(){
+    public AdminEntity convertToEntity() {
         return AdminEntity.builder()
                 .name(name)
                 .emailAddress(emailAddress)

@@ -10,7 +10,7 @@ public record PublishNewBookRequest(
         String releaseDate,
         String authorId
 ) {
-    public BookEntity convertToEntity(AuthorEntity authorEntity){
+    public BookEntity convertToEntity(AuthorEntity authorEntity) {
         return BookEntity.builder()
                 .name(name)
                 .description(description)

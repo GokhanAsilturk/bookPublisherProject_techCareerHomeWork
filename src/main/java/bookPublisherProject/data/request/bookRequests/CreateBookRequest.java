@@ -5,14 +5,14 @@ import bookPublisherProject.data.entity.users.AuthorEntity;
 import lombok.Builder;
 
 @Builder
-public record CreateBookRequest (
+public record CreateBookRequest(
         String authorId,
         String name,
         String description,
         String releaseDate
-){
+) {
 
-    public BookEntity convertToEntity(AuthorEntity authorEntity){
+    public BookEntity convertToEntity(AuthorEntity authorEntity) {
         return BookEntity.builder()
                 .name(name)
                 .description(description)

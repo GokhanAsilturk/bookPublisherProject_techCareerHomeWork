@@ -8,7 +8,9 @@ import java.util.List;
 public interface IAdminEntityService {
 
     AdminEntity create(AdminEntity adminEntity);
+
     List<AdminEntity> getAll();
+
     UserEntity login(AdminEntity adminEntity);
 
     AdminEntity getByEmailAddress(String emailAddress);

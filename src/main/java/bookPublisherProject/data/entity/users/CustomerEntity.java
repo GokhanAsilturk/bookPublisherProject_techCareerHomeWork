@@ -12,7 +12,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-@Document("customers")
+@Document("customerEntities")
 @AllArgsConstructor
 @SuperBuilder
 public class CustomerEntity extends UserEntity {
@@ -27,7 +27,7 @@ public class CustomerEntity extends UserEntity {
     }
 
     public CustomerDto convertToDto() {
-       return CustomerDto.builder()
+        return CustomerDto.builder()
                 .name(name)
                 .emailAddress(getEmailAddress())
                 .build();

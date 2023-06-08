@@ -10,6 +10,7 @@ public interface ICustomerService {
 //UserDto login(LoginRequest loginRequest);
 
     CustomerDto registerCustomer(RegisterCustomerRequest registerCustomerRequest);
+
     List<CustomerDto> getAllCustomers();
 
     CustomerDto getByEmailAdress(String emailAddress);

@@ -64,6 +64,7 @@ public class AuthorService implements IAuthorService {
     public void softDeleteAuthor(String id) {
         AuthorEntity authorEntity = this.authorEntityService.getById(id);
 
+
         Optional<List<BookEntity>> bookEntityList =
                 bookEntityService.retrieveAllByAuthorId(authorEntity.getId(), false);
 
@@ -100,6 +101,7 @@ public class AuthorService implements IAuthorService {
                 .toList();
     }
 
+    //TODO burada kaldım
     @Override
     public AuthorDto updateAuthor(UpdateAuthorRequest updateAuthorRequest) {
 

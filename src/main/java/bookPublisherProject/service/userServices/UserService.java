@@ -27,7 +27,7 @@ public class UserService implements IUserService {
 
         if (userIsValid(loginRequest)) {
             return userEntityService.getByEmailAddress(loginRequest.emailAddress()).convertToUserDto();
-        }else{
+        } else {
             throw new IllegalStateException("yanlış yaptın");
         }
     }

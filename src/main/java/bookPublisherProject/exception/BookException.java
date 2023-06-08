@@ -1,20 +1,21 @@
 package bookPublisherProject.exception;
 
 
-
+import bookPublisherProject.exception.logger.BookLogger;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
 public class BookException extends ResponseStatusException {
 
-    public BookException(HttpStatus httpStatus,String reason) {
+
+    public BookException(HttpStatus httpStatus, String reason) {
         super(httpStatus, reason);
-        logException(reason);
+        logException(getMessage());
     }
 
     public void logException(String reason) {
-
+        BookLogger.logError(reason);
     }
 
     @Override

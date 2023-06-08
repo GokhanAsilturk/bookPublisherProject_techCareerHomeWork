@@ -1,11 +1,11 @@
 package bookPublisherProject.service.bookServices;
 
 import bookPublisherProject.data.entity.BookEntity;
-import bookPublisherProject.data.entity.users.AuthorEntity;
+import bookPublisherProject.exception.BookException;
 import bookPublisherProject.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.webjars.NotFoundException;
 
 import java.util.List;
 import java.util.Optional;
@@ -39,13 +39,13 @@ public class BookEntityService implements IBookEntityService {
     @Override
     public List<BookEntity> getAll() {
         return this.bookRepository.findAllByIsDeletedFalse().orElseThrow(() ->
-                new NotFoundException("There is no bookEntities here."));
+                new BookException(HttpStatus.NOT_FOUND, "There is no bookEntities here."));
     }
 
     @Override
     public BookEntity getById(String id) {
-        return this.bookRepository.findById(id).orElseThrow(() ->
-                new NotFoundException("BookEntity not found!"));
+        return bookRepository.findById(id).orElseThrow(() ->
+                new BookException(HttpStatus.NOT_FOUND, "BookEntity not found! :)"));
     }
 
     @Override
@@ -59,7 +59,6 @@ public class BookEntityService implements IBookEntityService {
     }
 
 
-
     public BookEntity save(BookEntity bookEntity) {
         return this.bookRepository.save(bookEntity);
     }
@@ -70,13 +69,8 @@ public class BookEntityService implements IBookEntityService {
 
         if (!allData) {
             // AllData izni yok ise soft silinen kitapları listeden çıkartmak için
-            // isDelete attribute u true ise kitabı listeden çıkartıyoruz.
-            bookEntityList.ifPresent(bookEntities ->
-                    bookEntities.forEach(bookEntity -> {
-                        if (bookEntity.getIsDeleted()) {
-                            bookEntities.remove(bookEntity);
-                        }
-                    }));
+            //isdeleted = false olan bütün kitapları çağırıyoruz.
+            bookEntityList = bookRepository.findAllByIsDeletedFalseAndAuthorEntityId(authorId);
         }
 
         return bookEntityList;

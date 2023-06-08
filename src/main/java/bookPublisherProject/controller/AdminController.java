@@ -111,12 +111,18 @@ public class AdminController {
 
     @PutMapping("{bookId}/authorName/change/{authorName}")
     public ResponseEntity<TCResponse<?>> updateNameOfAuthorByBook(
-            @PathVariable("bookId") String bookId, @PathVariable("authorName") String authorName) {
+            @RequestParam("bookId") String bookId, @RequestParam("authorName") String authorName) {
         try {
             return ResponseEntity.ok(TCResponse.builder()
                     .isSuccess(true)
                     .response(bookService.updateNameOfAuthorByBook(bookId, authorName))
                     .build());
+        } catch (BookException bookException) {
+            return ResponseEntity.ok(
+                    TCResponse.<ErrorResponse>builder()
+                            .isSuccess(false)
+                            .response(new ErrorResponse(new ArrayList<>()))
+                            .build());
         } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
         }
@@ -131,6 +137,12 @@ public class AdminController {
                     .isSuccess(true)
                     .response(bookService.updateBookNameAndReleaseYear(request))
                     .build());
+        } catch (BookException bookException) {
+            return ResponseEntity.ok(
+                    TCResponse.<ErrorResponse>builder()
+                            .isSuccess(false)
+                            .response(new ErrorResponse(new ArrayList<>()))
+                            .build());
         } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
         }

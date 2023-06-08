@@ -1,7 +1,7 @@
 package bookPublisherProject.data.request.bookRequests;
 
-import bookPublisherProject.data.entity.users.AuthorEntity;
 import bookPublisherProject.data.entity.BookEntity;
+import bookPublisherProject.data.entity.users.AuthorEntity;
 import bookPublisherProject.data.request.authorRequests.UpdateAuthorRequest;
 import lombok.Builder;
 
