@@ -31,61 +31,48 @@ public class UserController {
 
     @GetMapping("/login")
     public ResponseEntity<TCResponse<?>> login(@RequestBody LoginRequest loginRequest) {
-        try {
+
             return ResponseEntity.ok(TCResponse.builder()
                     .isSuccess(true)
                     .response(userService.login(loginRequest))
                     .build());
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().build();
-        }
+
     }
 
     @GetMapping("{id}/get/book/by/id")
     public ResponseEntity<TCResponse<?>> getById(@RequestParam("id") String id) {
-        try {
+
             return ResponseEntity.ok(TCResponse.builder()
                     .isSuccess(true)
                     .response(bookService.getBookById(id))
                     .build());
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().build();
-        }
+
     }
 
     @GetMapping("/getAllBooks")
     public ResponseEntity<TCResponse<?>> getAllBooks() {
-        try {
             return ResponseEntity.ok(TCResponse.builder()
                     .isSuccess(true)
                     .response(bookService.getAllBooks())
                     .build());
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().build();
-        }
     }
 
     @GetMapping("/getAllAuthors")
     public ResponseEntity<TCResponse<?>> getAllAuthors() {
-        try {
+
             return ResponseEntity.ok(TCResponse.builder()
                     .isSuccess(true)
                     .response(authorService.getAllAuthors())
                     .build());
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().build();
-        }
     }
 
     @GetMapping("{authorName}/getBookEntities/by/authorName")
     public ResponseEntity<TCResponse<?>> getBooksByAuthorName(@PathVariable("authorName") String authorName) {
-        try {
+
             return ResponseEntity.ok(TCResponse.builder()
                     .isSuccess(true)
                     .response(bookService.getBooksByAuthorName(authorName))
                     .build());
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().build();
-        }
+
     }
 }

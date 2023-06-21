@@ -23,14 +23,12 @@ public class BookController {
 
     @PostMapping("/create/book")
     public ResponseEntity<TCResponse<?>> createBook(@RequestBody CreateBookRequest createBookRequest) {
-        try {
+
             return ResponseEntity.ok(TCResponse.builder()
                     .isSuccess(true)
                     .response(bookService.createBook(createBookRequest))
                     .build());
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().build();
-        }
+
     }
 
 //    //    1-) API, şirketin veritabanına yeni bir kitap kaydı oluşturmasına izin vermeli ve bu kayıt, kitabın başlığı,

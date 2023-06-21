@@ -103,6 +103,7 @@ public class AuthorService implements IAuthorService {
     @Override
     public AuthorDto getAuthorByName(String authorName) {
         AuthorEntity authorEntity = authorEntityService.getByName(authorName);
+
         if (authorEntity.getId().isEmpty()) {
             throw new AuthorNotFoundException("Author Not Found! :D");
         }

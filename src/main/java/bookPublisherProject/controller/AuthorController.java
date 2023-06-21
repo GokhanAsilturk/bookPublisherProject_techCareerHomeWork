@@ -37,51 +37,40 @@ public class AuthorController {
 
     @PostMapping("/register")
     public ResponseEntity<TCResponse<?>> register(@RequestBody RegisterAuthorRequest registerAuthorRequest) {
-        try {
+
             return ResponseEntity.ok(TCResponse.builder()
                     .isSuccess(true)
                     .response(this.authorService.registerAuthor(registerAuthorRequest))
                     .build());
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().build();
-        }
+
     }
 
     @PostMapping("/publish/new/book")
     public ResponseEntity<TCResponse<?>> publishNewBook(@RequestBody PublishNewBookRequest publishNewBookRequest) {
-        try {
             return ResponseEntity.ok(TCResponse.builder()
                     .isSuccess(true)
                     .response(this.bookService.publishNewBook(publishNewBookRequest))
                     .build());
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().build();
-        }
     }
 
     @DeleteMapping("/delete/book")
     public ResponseEntity<TCResponse<?>> deleteBook(@RequestBody SoftDeleteBookRequest softDeleteBookRequest) {
         this.bookService.deleteBook(softDeleteBookRequest.convertToDeleteRequest());
-        try {
+
             return ResponseEntity.ok(TCResponse.builder()
                     .isSuccess(true)
                     .build());
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().build();
-        }
+
     }
 
 
     @DeleteMapping("/delete/author")
     public ResponseEntity<TCResponse<?>> deleteAuthor(@RequestBody SoftDeleteAuthorRequest softDeleteAuthorRequest) {
         this.authorService.deleteAuthor(softDeleteAuthorRequest.convertToDeleteRequest());
-        try {
+
             return ResponseEntity.ok(TCResponse.builder()
                     .isSuccess(true)
                     .build());
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().build();
-        }
     }
 
     //3-) API, yazarın bilgilerini de içeren bir kitap kaydının bilgilerini güncellemek için
@@ -89,57 +78,44 @@ public class AuthorController {
     @PatchMapping("/update/bookAndAuthor")
     public ResponseEntity<TCResponse<?>> updateBookAndAuthor(
             @RequestBody UpdateBookAndAuthorRequest request) {
-
-        try {
             return ResponseEntity.ok(TCResponse.builder()
                     .isSuccess(true)
                     .response(bookService.updateBookAndAuthor(request))
                     .build());
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().build();
-        }
+
     }
 
     @PatchMapping("/update/book")
     public ResponseEntity<TCResponse<?>> updateBook(
             @RequestBody UpdateBookRequest updateBookRequest) {
 
-        try {
             return ResponseEntity.ok(TCResponse.builder()
                     .isSuccess(true)
                     .response(bookService.updateBook(updateBookRequest))
                     .build());
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().build();
-        }
+
     }
 
     @PatchMapping("/update/author")
     public ResponseEntity<TCResponse<?>> updateAuthor(
             @RequestBody UpdateAuthorRequest updateAuthorRequest) {
 
-        try {
             return ResponseEntity.ok(TCResponse.builder()
                     .isSuccess(true)
                     .response(authorService.updateAuthor(updateAuthorRequest))
                     .build());
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().build();
-        }
+
     }
 
     @PatchMapping("/update/bookNameAndReleaseYear")
     public ResponseEntity<TCResponse<?>> updateBookNameAndReleaseYear(
             @RequestBody UpdateBookNameAndReleaseYearRequest request) {
 
-        try {
             return ResponseEntity.ok(TCResponse.builder()
                     .isSuccess(true)
                     .response(bookService.updateBookNameAndReleaseYear(request))
                     .build());
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().build();
-        }
+
     }
 
     //TODO burası sıkıntılı. 404 döndürüyor.
@@ -148,28 +124,24 @@ public class AuthorController {
     //    "Mürekkep Kalem Kitaplarına" izin vermelidir.
     @GetMapping("{bookId}/get/book/by/id")
     public ResponseEntity<TCResponse<?>> getBookById(@RequestParam("bookId") String id) {
-        try {
+
             return ResponseEntity.ok(TCResponse.builder()
                     .isSuccess(true)
                     .response(bookService.getBookById(id))
                     .build());
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().build();
-        }
+
     }
 
     //    2-) API, bir kitap kaydını ID'sine göre almak ve veritabanındaki tüm kitapların bir listesini almak için
     //    "Mürekkep Kalem Kitaplarına" izin vermelidir.
     @GetMapping("/getAllBooks")
     public ResponseEntity<TCResponse<?>> getAllBooks() {
-        try {
+
             return ResponseEntity.ok(TCResponse.builder()
                     .isSuccess(true)
                     .response(bookService.getAllBooks())
                     .build());
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().build();
-        }
+
     }
 
 

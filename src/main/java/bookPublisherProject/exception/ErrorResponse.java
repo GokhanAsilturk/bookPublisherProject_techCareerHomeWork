@@ -1,11 +1,15 @@
 package bookPublisherProject.exception;
 
+import org.apache.tomcat.jni.Local;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class ErrorResponse {
     private boolean status;
     private String message;
-    private long timestamp = new Date().getTime();
+    private LocalDateTime timestamp = LocalDateTime.now();
     private String details;
 
     public ErrorResponse(boolean status, String message, String details) {
@@ -22,11 +26,11 @@ public class ErrorResponse {
         this.message = message;
     }
 
-    public long getTimestamp() {
+    public LocalDateTime getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(long timestamp) {
+    public void setTimestamp(LocalDateTime timestamp) {
         this.timestamp = timestamp;
     }
 
