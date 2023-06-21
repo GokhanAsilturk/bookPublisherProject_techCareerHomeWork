@@ -1,10 +1,6 @@
 package bookPublisherProject.exception;
 
-import org.apache.tomcat.jni.Local;
-
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 public class ErrorResponse {
     private boolean status;
