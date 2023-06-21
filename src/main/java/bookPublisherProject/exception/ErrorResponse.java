@@ -1,36 +1,48 @@
 package bookPublisherProject.exception;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
-import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Date;
 
 public class ErrorResponse {
+    private boolean status;
+    private String message;
+    private long timestamp = new Date().getTime();
+    private String details;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
-    private LocalDateTime timestamp;
-    private List<String> message;
+    public ErrorResponse(boolean status, String message, String details) {
+        this.status = status;
+        this.message = message;
+        this.details = details;
+    }
 
-    public ErrorResponse(List<String> message) {
-        this.timestamp = LocalDateTime.now();
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
         this.message = message;
     }
 
-    public LocalDateTime getTimestamp() {
-        return this.timestamp;
+    public long getTimestamp() {
+        return timestamp;
     }
 
-    public void setTimestamp(LocalDateTime timestamp) {
+    public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
     }
 
-    public List<String> getMessage() {
-        return this.message;
+    public String getDetails() {
+        return details;
     }
 
-    public void setMessage(List<String> message) {
-        this.message = message;
+    public void setDetails(String details) {
+        this.details = details;
     }
 
+    public boolean isStatus() {
+        return status;
+    }
 
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
 }

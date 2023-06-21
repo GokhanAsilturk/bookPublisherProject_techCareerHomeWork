@@ -3,6 +3,8 @@ package bookPublisherProject.service.CustomerServices;
 import bookPublisherProject.data.dto.CustomerDto;
 import bookPublisherProject.data.entity.users.CustomerEntity;
 import bookPublisherProject.data.request.customerRequests.RegisterCustomerRequest;
+import bookPublisherProject.exception.CustomerNotFoundException;
+import bookPublisherProject.exception.UserListIsEmptyException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -27,17 +29,29 @@ public class CustomerService implements ICustomerService {
 
     @Override
     public List<CustomerDto> getAllCustomers() {
-        return customerEntityService.getAll().stream().map(CustomerEntity::convertToDto).toList();
+        List<CustomerEntity> customerEntityList = customerEntityService.getAll();
+        if(customerEntityList.isEmpty()){
+            throw new UserListIsEmptyException("Customer List is Empty! :D");
+        }
+        return customerEntityList.stream().map(CustomerEntity::convertToDto).toList();
     }
 
     @Override
     public CustomerDto getByEmailAdress(String emailAddress) {
-        return customerEntityService.getByEmailAddress(emailAddress).convertToDto();
+        CustomerEntity customerEntity = customerEntityService.getByEmailAddress(emailAddress);
+        if(customerEntity == null || customerEntity.getIsDeleted()){
+            throw new CustomerNotFoundException("Customer Not Found! :D");
+        }
+        return customerEntity.convertToDto();
     }
 
     @Override
     public CustomerDto getCustomerById(String id) {
-        return customerEntityService.getById(id).convertToDto();
+        CustomerEntity customerEntity = customerEntityService.getById(id);
+        if(customerEntity == null){
+            throw new CustomerNotFoundException("Customer Not Found! :D");
+        }
+        return customerEntity.convertToDto();
     }
 
 }

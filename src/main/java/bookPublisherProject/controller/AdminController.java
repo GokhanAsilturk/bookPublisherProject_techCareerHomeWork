@@ -7,7 +7,7 @@ import bookPublisherProject.data.request.bookRequests.CreateBookAndAuthorRequest
 import bookPublisherProject.data.request.bookRequests.CreateBookRequest;
 import bookPublisherProject.data.request.bookRequests.UpdateBookNameAndReleaseYearRequest;
 import bookPublisherProject.data.types.response.TCResponse;
-import bookPublisherProject.exception.BookException;
+import bookPublisherProject.exception.BookNotFoundException;
 import bookPublisherProject.exception.ErrorResponse;
 import bookPublisherProject.service.authorServices.AuthorService;
 import bookPublisherProject.service.bookServices.BookService;
@@ -43,12 +43,6 @@ public class AdminController {
                     .isSuccess(true)
                     .response(bookService.createBookAndAuthor(createBookAndAuthorRequest))
                     .build());
-        } catch (BookException bookException) {
-            return ResponseEntity.ok(
-                    TCResponse.<ErrorResponse>builder()
-                            .isSuccess(false)
-                            .response(new ErrorResponse(new ArrayList<>()))
-                            .build());
         } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
         }
@@ -98,13 +92,7 @@ public class AdminController {
             return ResponseEntity.ok(TCResponse.builder()
                     .isSuccess(true)
                     .build());
-        } catch (BookException bookException) {
-            return ResponseEntity.ok(
-                    TCResponse.<ErrorResponse>builder()
-                            .isSuccess(false)
-                            .response(new ErrorResponse(new ArrayList<>()))
-                            .build());
-        } catch (Exception e) {
+        }catch (Exception e) {
             return ResponseEntity.internalServerError().build();
         }
     }
@@ -117,12 +105,6 @@ public class AdminController {
                     .isSuccess(true)
                     .response(bookService.updateNameOfAuthorByBook(bookId, authorName))
                     .build());
-        } catch (BookException bookException) {
-            return ResponseEntity.ok(
-                    TCResponse.<ErrorResponse>builder()
-                            .isSuccess(false)
-                            .response(new ErrorResponse(new ArrayList<>()))
-                            .build());
         } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
         }
@@ -137,12 +119,6 @@ public class AdminController {
                     .isSuccess(true)
                     .response(bookService.updateBookNameAndReleaseYear(request))
                     .build());
-        } catch (BookException bookException) {
-            return ResponseEntity.ok(
-                    TCResponse.<ErrorResponse>builder()
-                            .isSuccess(false)
-                            .response(new ErrorResponse(new ArrayList<>()))
-                            .build());
         } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
         }

@@ -8,6 +8,8 @@ import bookPublisherProject.data.request.adminRequests.CreateAuthorRequest;
 import bookPublisherProject.data.request.adminRequests.DeleteAuthorRequest;
 import bookPublisherProject.data.request.authorRequests.RegisterAuthorRequest;
 import bookPublisherProject.data.request.authorRequests.UpdateAuthorRequest;
+import bookPublisherProject.exception.AuthorNotFoundException;
+import bookPublisherProject.exception.UserListIsEmptyException;
 import bookPublisherProject.service.bookServices.BookEntityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -38,6 +40,10 @@ public class AuthorService implements IAuthorService {
 
     @Override
     public void deleteAuthor(DeleteAuthorRequest deleteAuthorRequest) {
+
+        if (authorEntityService.getById(deleteAuthorRequest.id()) == null) {
+            throw new AuthorNotFoundException("Author Not Found! :D");
+        }
 
         if (deleteAuthorRequest.permanentlyDelete()) {
             this.permanentlyDeleteAuthor(deleteAuthorRequest.id());
@@ -76,6 +82,9 @@ public class AuthorService implements IAuthorService {
 
     @Override
     public List<AuthorDto> getAllAuthors() {
+        if (authorEntityService.getAll().isEmpty()) {
+            throw new UserListIsEmptyException("Author list is empty! :D");
+        }
         return this.authorEntityService.getAll().stream()
                 .map(AuthorEntity::convertToDto)
                 .toList();
@@ -83,18 +92,28 @@ public class AuthorService implements IAuthorService {
 
     @Override
     public AuthorDto getAuthorById(String id) {
+        AuthorEntity authorEntity = authorEntityService.getById(id);
 
-        return this.authorEntityService.getById(id).convertToDto();
+        if (authorEntity.getId().isEmpty()) {
+            throw new AuthorNotFoundException("Author Not Found! :D");
+        }
+        return authorEntity.convertToDto();
     }
 
     @Override
     public AuthorDto getAuthorByName(String authorName) {
-        return this.authorEntityService.getByName(authorName).convertToDto();
+        AuthorEntity authorEntity = authorEntityService.getByName(authorName);
+        if (authorEntity.getId().isEmpty()) {
+            throw new AuthorNotFoundException("Author Not Found! :D");
+        }
+        return authorEntity.convertToDto();
     }
 
     @Override
     public List<BookDto> getBooksByAuthorName(String authorName) {
-
+        if (authorEntityService.getByName(authorName).getIsDeleted()) {
+            throw new AuthorNotFoundException("Author Not Found! :D");
+        }
         return this.authorEntityService.getBooksByName(authorName)
                 .stream()
                 .map(BookEntity::convertToDto)
@@ -104,7 +123,10 @@ public class AuthorService implements IAuthorService {
     //TODO burada kaldım
     @Override
     public AuthorDto updateAuthor(UpdateAuthorRequest updateAuthorRequest) {
-
+        AuthorEntity authorEntity = authorEntityService.getById(updateAuthorRequest.authorId());
+        if (authorEntity == null || authorEntity.getIsDeleted()) {
+            throw new AuthorNotFoundException("Author not found! :D");
+        }
         //yazarı update ediyoruz
         AuthorEntity updatedAuthorEntity = authorEntityService.update(updateAuthorRequest.convertToEntity());
 
@@ -124,13 +146,22 @@ public class AuthorService implements IAuthorService {
 
     @Override
     public AuthorDto updateAuthorName(String authorId, String authorName) {
+        AuthorEntity authorEntity = authorEntityService.getById(authorId);
+        if (authorEntity == null || authorEntity.getIsDeleted()) {
+            throw new AuthorNotFoundException("Author not found! :D");
+        }
         return this.authorEntityService
-                .updateName(authorEntityService.getById(authorId), authorName).convertToDto();
+                .updateName(authorEntity, authorName).convertToDto();
     }
 
     @Override
     public AuthorDto getAuthorByEmailAdress(String emailAddress) {
-        return authorEntityService.getByEmailAdress(emailAddress).convertToDto();
+        try {
+            return authorEntityService.getByEmailAdress(emailAddress).convertToDto();
+        } catch (AuthorNotFoundException e) {
+            throw new AuthorNotFoundException("Author Not Found! :D");
+        }
+
     }
 
 

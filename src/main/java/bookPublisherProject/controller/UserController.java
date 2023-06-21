@@ -2,7 +2,7 @@ package bookPublisherProject.controller;
 
 import bookPublisherProject.data.request.userRequests.LoginRequest;
 import bookPublisherProject.data.types.response.TCResponse;
-import bookPublisherProject.exception.BookException;
+import bookPublisherProject.exception.BookNotFoundException;
 import bookPublisherProject.exception.ErrorResponse;
 import bookPublisherProject.service.authorServices.AuthorService;
 import bookPublisherProject.service.bookServices.BookService;
@@ -48,13 +48,6 @@ public class UserController {
                     .isSuccess(true)
                     .response(bookService.getBookById(id))
                     .build());
-        } catch (BookException bookException) {
-            return ResponseEntity.ok(
-                    TCResponse.<ErrorResponse>builder()
-                            .isSuccess(false)
-                            .errorMessage(bookException.getMessage())
-                            .response(new ErrorResponse(new ArrayList<>()))
-                            .build());
         } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
         }
@@ -67,13 +60,6 @@ public class UserController {
                     .isSuccess(true)
                     .response(bookService.getAllBooks())
                     .build());
-        } catch (BookException bookException) {
-            return ResponseEntity.ok(
-                    TCResponse.<ErrorResponse>builder()
-                            .isSuccess(false)
-                            .errorMessage(bookException.getMessage())
-                            .response(new ErrorResponse(new ArrayList<>()))
-                            .build());
         } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
         }
@@ -98,13 +84,6 @@ public class UserController {
                     .isSuccess(true)
                     .response(bookService.getBooksByAuthorName(authorName))
                     .build());
-        } catch (BookException bookException) {
-            return ResponseEntity.ok(
-                    TCResponse.<ErrorResponse>builder()
-                            .isSuccess(false)
-                            .errorMessage(bookException.getMessage())
-                            .response(new ErrorResponse(new ArrayList<>()))
-                            .build());
         } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
         }
