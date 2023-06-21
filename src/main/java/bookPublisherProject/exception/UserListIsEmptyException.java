@@ -1,8 +1,8 @@
 package bookPublisherProject.exception;
 
-public class UserListIsEmptyException extends RuntimeException{
+public class UserListIsEmptyException extends RuntimeException {
 
-    public UserListIsEmptyException(String message){
+    public UserListIsEmptyException(String message) {
         super(message);
     }
 }

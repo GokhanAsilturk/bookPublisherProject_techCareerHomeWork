@@ -24,10 +24,10 @@ public class BookController {
     @PostMapping("/create/book")
     public ResponseEntity<TCResponse<?>> createBook(@RequestBody CreateBookRequest createBookRequest) {
 
-            return ResponseEntity.ok(TCResponse.builder()
-                    .isSuccess(true)
-                    .response(bookService.createBook(createBookRequest))
-                    .build());
+        return ResponseEntity.ok(TCResponse.builder()
+                .isSuccess(true)
+                .response(bookService.createBook(createBookRequest))
+                .build());
 
     }
 

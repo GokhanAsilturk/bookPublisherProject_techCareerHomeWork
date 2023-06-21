@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class CustomExceptionHandler {
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<?> exception (Exception exception) {
-        ErrorResponse errorResponse = new ErrorResponse(false,"Error! :)", exception.getMessage());
+    public ResponseEntity<?> exception(Exception exception) {
+        ErrorResponse errorResponse = new ErrorResponse(false, "Error! :)", exception.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 

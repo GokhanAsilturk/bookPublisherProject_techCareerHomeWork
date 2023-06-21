@@ -29,7 +29,7 @@ public class AdminService implements IAdminService {
 
     @Override
     public List<AdminEntity> getAllAdmins() {
-        if(adminEntityService.getAll().isEmpty()){
+        if (adminEntityService.getAll().isEmpty()) {
             throw new UserListIsEmptyException("Admin List is Empty! :D");
         }
         return adminEntityService.getAll();
@@ -37,7 +37,7 @@ public class AdminService implements IAdminService {
 
     @Override
     public UserDto getByEmailAdress(String emailAddress) {
-        if(adminEntityService.getByEmailAddress(emailAddress) == null){
+        if (adminEntityService.getByEmailAddress(emailAddress) == null) {
             throw new AdminNotFoundException("Admin not found! :D");
         }
         return convertToUserDto(adminEntityService.getByEmailAddress(emailAddress));

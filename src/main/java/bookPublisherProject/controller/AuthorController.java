@@ -9,15 +9,11 @@ import bookPublisherProject.data.request.bookRequests.UpdateBookAndAuthorRequest
 import bookPublisherProject.data.request.bookRequests.UpdateBookNameAndReleaseYearRequest;
 import bookPublisherProject.data.request.bookRequests.UpdateBookRequest;
 import bookPublisherProject.data.types.response.TCResponse;
-import bookPublisherProject.exception.BookNotFoundException;
-import bookPublisherProject.exception.ErrorResponse;
 import bookPublisherProject.service.authorServices.AuthorService;
 import bookPublisherProject.service.bookServices.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
 
 @RestController
 @RequestMapping("/author")
@@ -38,28 +34,28 @@ public class AuthorController {
     @PostMapping("/register")
     public ResponseEntity<TCResponse<?>> register(@RequestBody RegisterAuthorRequest registerAuthorRequest) {
 
-            return ResponseEntity.ok(TCResponse.builder()
-                    .isSuccess(true)
-                    .response(this.authorService.registerAuthor(registerAuthorRequest))
-                    .build());
+        return ResponseEntity.ok(TCResponse.builder()
+                .isSuccess(true)
+                .response(this.authorService.registerAuthor(registerAuthorRequest))
+                .build());
 
     }
 
     @PostMapping("/publish/new/book")
     public ResponseEntity<TCResponse<?>> publishNewBook(@RequestBody PublishNewBookRequest publishNewBookRequest) {
-            return ResponseEntity.ok(TCResponse.builder()
-                    .isSuccess(true)
-                    .response(this.bookService.publishNewBook(publishNewBookRequest))
-                    .build());
+        return ResponseEntity.ok(TCResponse.builder()
+                .isSuccess(true)
+                .response(this.bookService.publishNewBook(publishNewBookRequest))
+                .build());
     }
 
     @DeleteMapping("/delete/book")
     public ResponseEntity<TCResponse<?>> deleteBook(@RequestBody SoftDeleteBookRequest softDeleteBookRequest) {
         this.bookService.deleteBook(softDeleteBookRequest.convertToDeleteRequest());
 
-            return ResponseEntity.ok(TCResponse.builder()
-                    .isSuccess(true)
-                    .build());
+        return ResponseEntity.ok(TCResponse.builder()
+                .isSuccess(true)
+                .build());
 
     }
 
@@ -68,9 +64,9 @@ public class AuthorController {
     public ResponseEntity<TCResponse<?>> deleteAuthor(@RequestBody SoftDeleteAuthorRequest softDeleteAuthorRequest) {
         this.authorService.deleteAuthor(softDeleteAuthorRequest.convertToDeleteRequest());
 
-            return ResponseEntity.ok(TCResponse.builder()
-                    .isSuccess(true)
-                    .build());
+        return ResponseEntity.ok(TCResponse.builder()
+                .isSuccess(true)
+                .build());
     }
 
     //3-) API, yazarın bilgilerini de içeren bir kitap kaydının bilgilerini güncellemek için
@@ -78,10 +74,10 @@ public class AuthorController {
     @PatchMapping("/update/bookAndAuthor")
     public ResponseEntity<TCResponse<?>> updateBookAndAuthor(
             @RequestBody UpdateBookAndAuthorRequest request) {
-            return ResponseEntity.ok(TCResponse.builder()
-                    .isSuccess(true)
-                    .response(bookService.updateBookAndAuthor(request))
-                    .build());
+        return ResponseEntity.ok(TCResponse.builder()
+                .isSuccess(true)
+                .response(bookService.updateBookAndAuthor(request))
+                .build());
 
     }
 
@@ -89,10 +85,10 @@ public class AuthorController {
     public ResponseEntity<TCResponse<?>> updateBook(
             @RequestBody UpdateBookRequest updateBookRequest) {
 
-            return ResponseEntity.ok(TCResponse.builder()
-                    .isSuccess(true)
-                    .response(bookService.updateBook(updateBookRequest))
-                    .build());
+        return ResponseEntity.ok(TCResponse.builder()
+                .isSuccess(true)
+                .response(bookService.updateBook(updateBookRequest))
+                .build());
 
     }
 
@@ -100,10 +96,10 @@ public class AuthorController {
     public ResponseEntity<TCResponse<?>> updateAuthor(
             @RequestBody UpdateAuthorRequest updateAuthorRequest) {
 
-            return ResponseEntity.ok(TCResponse.builder()
-                    .isSuccess(true)
-                    .response(authorService.updateAuthor(updateAuthorRequest))
-                    .build());
+        return ResponseEntity.ok(TCResponse.builder()
+                .isSuccess(true)
+                .response(authorService.updateAuthor(updateAuthorRequest))
+                .build());
 
     }
 
@@ -111,10 +107,10 @@ public class AuthorController {
     public ResponseEntity<TCResponse<?>> updateBookNameAndReleaseYear(
             @RequestBody UpdateBookNameAndReleaseYearRequest request) {
 
-            return ResponseEntity.ok(TCResponse.builder()
-                    .isSuccess(true)
-                    .response(bookService.updateBookNameAndReleaseYear(request))
-                    .build());
+        return ResponseEntity.ok(TCResponse.builder()
+                .isSuccess(true)
+                .response(bookService.updateBookNameAndReleaseYear(request))
+                .build());
 
     }
 
@@ -125,10 +121,10 @@ public class AuthorController {
     @GetMapping("{bookId}/get/book/by/id")
     public ResponseEntity<TCResponse<?>> getBookById(@RequestParam("bookId") String id) {
 
-            return ResponseEntity.ok(TCResponse.builder()
-                    .isSuccess(true)
-                    .response(bookService.getBookById(id))
-                    .build());
+        return ResponseEntity.ok(TCResponse.builder()
+                .isSuccess(true)
+                .response(bookService.getBookById(id))
+                .build());
 
     }
 
@@ -137,10 +133,10 @@ public class AuthorController {
     @GetMapping("/getAllBooks")
     public ResponseEntity<TCResponse<?>> getAllBooks() {
 
-            return ResponseEntity.ok(TCResponse.builder()
-                    .isSuccess(true)
-                    .response(bookService.getAllBooks())
-                    .build());
+        return ResponseEntity.ok(TCResponse.builder()
+                .isSuccess(true)
+                .response(bookService.getAllBooks())
+                .build());
 
     }
 

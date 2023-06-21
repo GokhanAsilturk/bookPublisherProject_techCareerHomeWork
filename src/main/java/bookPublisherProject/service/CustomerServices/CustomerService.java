@@ -30,7 +30,7 @@ public class CustomerService implements ICustomerService {
     @Override
     public List<CustomerDto> getAllCustomers() {
         List<CustomerEntity> customerEntityList = customerEntityService.getAll();
-        if(customerEntityList.isEmpty()){
+        if (customerEntityList.isEmpty()) {
             throw new UserListIsEmptyException("Customer List is Empty! :D");
         }
         return customerEntityList.stream().map(CustomerEntity::convertToDto).toList();
@@ -39,7 +39,7 @@ public class CustomerService implements ICustomerService {
     @Override
     public CustomerDto getByEmailAdress(String emailAddress) {
         CustomerEntity customerEntity = customerEntityService.getByEmailAddress(emailAddress);
-        if(customerEntity == null || customerEntity.getIsDeleted()){
+        if (customerEntity == null || customerEntity.getIsDeleted()) {
             throw new CustomerNotFoundException("Customer Not Found! :D");
         }
         return customerEntity.convertToDto();
@@ -48,7 +48,7 @@ public class CustomerService implements ICustomerService {
     @Override
     public CustomerDto getCustomerById(String id) {
         CustomerEntity customerEntity = customerEntityService.getById(id);
-        if(customerEntity == null){
+        if (customerEntity == null) {
             throw new CustomerNotFoundException("Customer Not Found! :D");
         }
         return customerEntity.convertToDto();
