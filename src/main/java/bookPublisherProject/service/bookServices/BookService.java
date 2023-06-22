@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+//TODO null kontrolleri iptal edilecek
 @Service
 @RequiredArgsConstructor
 public class BookService implements IBookService {
@@ -114,7 +115,7 @@ public class BookService implements IBookService {
     @Override
     public BookDto getBookById(String id) {
         BookEntity bookEntity = bookEntityService.getById(id);
-        if (bookEntity == null || bookEntity.getIsDeleted()) {
+        if (bookEntity.getIsDeleted()) {
             throw new BookNotFoundException("Book Not Found! :D");
         }
         return this.convertToDto(bookEntityService.getById(id));
