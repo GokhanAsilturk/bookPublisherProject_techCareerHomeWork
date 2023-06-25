@@ -10,9 +10,9 @@ public interface IAdminService {
 
 //UserDto login(LoginRequest loginRequest);
 
-    UserDto createAdmin(CreateAdminRequest createAdminRequest);
+    UserDto createAdmin(CreateAdminRequest createAdminRequest) throws Exception;
 
-    List<AdminEntity> getAllAdmins();
+    List<AdminEntity> getAllAdmins() throws Exception;
 
     UserDto getByEmailAdress(String emailAddress);
 }

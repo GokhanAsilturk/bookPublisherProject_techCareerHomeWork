@@ -19,6 +19,8 @@ public interface IAuthorEntityService {
 
     AuthorEntity getById(String id);
 
+    AuthorEntity getByIdAndIsDeletedFalse(String id);
+
     AuthorEntity getByName(String name);
 
     List<BookEntity> getBooksByName(String name);

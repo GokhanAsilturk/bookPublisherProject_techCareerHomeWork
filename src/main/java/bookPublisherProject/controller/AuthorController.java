@@ -62,8 +62,8 @@ public class AuthorController {
 
     @DeleteMapping("/delete/author")
     public ResponseEntity<TCResponse<?>> deleteAuthor(@RequestBody SoftDeleteAuthorRequest softDeleteAuthorRequest) {
-        this.authorService.deleteAuthor(softDeleteAuthorRequest.convertToDeleteRequest());
 
+        this.authorService.deleteAuthor(softDeleteAuthorRequest.convertToDeleteRequest());
         return ResponseEntity.ok(TCResponse.builder()
                 .isSuccess(true)
                 .build());

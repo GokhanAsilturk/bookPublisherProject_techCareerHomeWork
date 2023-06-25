@@ -8,8 +8,8 @@ import bookPublisherProject.data.request.adminRequests.CreateAuthorRequest;
 import bookPublisherProject.data.request.adminRequests.DeleteAuthorRequest;
 import bookPublisherProject.data.request.authorRequests.RegisterAuthorRequest;
 import bookPublisherProject.data.request.authorRequests.UpdateAuthorRequest;
-import bookPublisherProject.exception.AuthorNotFoundException;
-import bookPublisherProject.exception.UserListIsEmptyException;
+import bookPublisherProject.exception.DataNotFoundException;
+import bookPublisherProject.exception.ExceptionType;
 import bookPublisherProject.service.bookServices.BookEntityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -41,10 +41,6 @@ public class AuthorService implements IAuthorService {
     @Override
     public void deleteAuthor(DeleteAuthorRequest deleteAuthorRequest) {
 
-        if (authorEntityService.getById(deleteAuthorRequest.id()) == null) {
-            throw new AuthorNotFoundException("Author Not Found! :D");
-        }
-
         if (deleteAuthorRequest.permanentlyDelete()) {
             this.permanentlyDeleteAuthor(deleteAuthorRequest.id());
         } else {
@@ -68,9 +64,8 @@ public class AuthorService implements IAuthorService {
 
     @Override
     public void softDeleteAuthor(String id) {
-        AuthorEntity authorEntity = this.authorEntityService.getById(id);
 
-
+        AuthorEntity authorEntity = this.authorEntityService.getByIdAndIsDeletedFalse(id);
         Optional<List<BookEntity>> bookEntityList =
                 bookEntityService.retrieveAllByAuthorId(authorEntity.getId(), false);
 
@@ -82,21 +77,21 @@ public class AuthorService implements IAuthorService {
 
     @Override
     public List<AuthorDto> getAllAuthors() {
-        if (authorEntityService.getAll().isEmpty()) {
-            throw new UserListIsEmptyException("Author list is empty! :D");
-        }
-        return this.authorEntityService.getAll().stream()
+
+        List<AuthorDto> authorEntities = this.authorEntityService.getAll().stream()
                 .map(AuthorEntity::convertToDto)
                 .toList();
+        if (authorEntities.isEmpty()) {
+            throw new DataNotFoundException(ExceptionType.AUTHOR_LIST_NOT_FOUND, "Author List is Empty! :D");
+        } else {
+            return authorEntities;
+        }
     }
 
     @Override
     public AuthorDto getAuthorById(String id) {
         AuthorEntity authorEntity = authorEntityService.getById(id);
 
-        if (authorEntity.getId().isEmpty()) {
-            throw new AuthorNotFoundException("Author Not Found! :D");
-        }
         return authorEntity.convertToDto();
     }
 
@@ -104,17 +99,12 @@ public class AuthorService implements IAuthorService {
     public AuthorDto getAuthorByName(String authorName) {
         AuthorEntity authorEntity = authorEntityService.getByName(authorName);
 
-        if (authorEntity.getId().isEmpty()) {
-            throw new AuthorNotFoundException("Author Not Found! :D");
-        }
         return authorEntity.convertToDto();
     }
 
     @Override
     public List<BookDto> getBooksByAuthorName(String authorName) {
-        if (authorEntityService.getByName(authorName).getIsDeleted()) {
-            throw new AuthorNotFoundException("Author Not Found! :D");
-        }
+
         return this.authorEntityService.getBooksByName(authorName)
                 .stream()
                 .map(BookEntity::convertToDto)
@@ -125,9 +115,7 @@ public class AuthorService implements IAuthorService {
     @Override
     public AuthorDto updateAuthor(UpdateAuthorRequest updateAuthorRequest) {
         AuthorEntity authorEntity = authorEntityService.getById(updateAuthorRequest.authorId());
-        if (authorEntity == null || authorEntity.getIsDeleted()) {
-            throw new AuthorNotFoundException("Author not found! :D");
-        }
+
         //yazarı update ediyoruz
         AuthorEntity updatedAuthorEntity = authorEntityService.update(updateAuthorRequest.convertToEntity());
 
@@ -148,20 +136,15 @@ public class AuthorService implements IAuthorService {
     @Override
     public AuthorDto updateAuthorName(String authorId, String authorName) {
         AuthorEntity authorEntity = authorEntityService.getById(authorId);
-        if (authorEntity == null || authorEntity.getIsDeleted()) {
-            throw new AuthorNotFoundException("Author not found! :D");
-        }
+
         return this.authorEntityService
                 .updateName(authorEntity, authorName).convertToDto();
     }
 
     @Override
     public AuthorDto getAuthorByEmailAdress(String emailAddress) {
-        try {
-            return authorEntityService.getByEmailAdress(emailAddress).convertToDto();
-        } catch (AuthorNotFoundException e) {
-            throw new AuthorNotFoundException("Author Not Found! :D");
-        }
+
+        return authorEntityService.getByEmailAdress(emailAddress).convertToDto();
 
     }
 

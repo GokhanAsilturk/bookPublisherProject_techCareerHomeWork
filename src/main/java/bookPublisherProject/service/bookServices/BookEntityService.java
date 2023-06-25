@@ -1,7 +1,8 @@
 package bookPublisherProject.service.bookServices;
 
 import bookPublisherProject.data.entity.BookEntity;
-import bookPublisherProject.exception.BookNotFoundException;
+import bookPublisherProject.exception.DataNotFoundException;
+import bookPublisherProject.exception.ExceptionType;
 import bookPublisherProject.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -37,14 +38,17 @@ public class BookEntityService implements IBookEntityService {
 
     @Override
     public List<BookEntity> getAll() {
+
         return this.bookRepository.findAllByIsDeletedFalse().orElseThrow(() ->
-                new BookNotFoundException("There is no bookEntities here."));
+                new DataNotFoundException(ExceptionType.BOOK_LIST_NOT_FOUND, "There is no bookEntities here! :) "));
+
+
     }
 
     @Override
     public BookEntity getById(String id) {
         return bookRepository.findById(id).orElseThrow(() ->
-                new BookNotFoundException("BookEntity not found! :)"));
+                new DataNotFoundException(ExceptionType.BOOK_DATA_NOT_FOUND, "BookEntity not found! :)"));
     }
 
     @Override

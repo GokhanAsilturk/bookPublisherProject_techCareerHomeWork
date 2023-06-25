@@ -3,8 +3,9 @@ package bookPublisherProject.service.adminServices;
 import bookPublisherProject.data.dto.UserDto;
 import bookPublisherProject.data.entity.users.AdminEntity;
 import bookPublisherProject.data.request.adminRequests.CreateAdminRequest;
-import bookPublisherProject.exception.AdminNotFoundException;
-import bookPublisherProject.exception.UserListIsEmptyException;
+import bookPublisherProject.exception.CustomExceptionHandler;
+import bookPublisherProject.exception.DataNotFoundException;
+import bookPublisherProject.exception.ExceptionType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +14,6 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class AdminService implements IAdminService {
-
     private final AdminEntityService adminEntityService;
 
 
@@ -23,23 +23,27 @@ public class AdminService implements IAdminService {
 //    }
 
     @Override
-    public UserDto createAdmin(CreateAdminRequest createAdminRequest) {
-        return adminEntityService.create(createAdminRequest.convertToEntity()).convertToUserDto();
+    public UserDto createAdmin(CreateAdminRequest createAdminRequest) throws Exception {
+        try{
+            return adminEntityService.create(createAdminRequest.convertToEntity()).convertToUserDto();
+        }catch(Exception e){
+            throw new Exception();
+        }
+
     }
 
     @Override
-    public List<AdminEntity> getAllAdmins() {
-        if (adminEntityService.getAll().isEmpty()) {
-            throw new UserListIsEmptyException("Admin List is Empty! :D");
-        }
-        return adminEntityService.getAll();
+    public List<AdminEntity> getAllAdmins() throws Exception {
+try {
+    return adminEntityService.getAll();
+}catch(Exception e){
+    throw new Exception(e.getMessage());
+}
     }
 
     @Override
     public UserDto getByEmailAdress(String emailAddress) {
-        if (adminEntityService.getByEmailAddress(emailAddress) == null) {
-            throw new AdminNotFoundException("Admin not found! :D");
-        }
+
         return convertToUserDto(adminEntityService.getByEmailAddress(emailAddress));
     }
 

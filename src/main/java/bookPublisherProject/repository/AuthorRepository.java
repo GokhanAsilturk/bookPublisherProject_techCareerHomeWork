@@ -12,6 +12,8 @@ public interface AuthorRepository extends MongoRepository<AuthorEntity, String> 
 
     Optional<List<AuthorEntity>> findAllByIsDeletedFalse();
 
+    Optional<AuthorEntity> findByIdAndIsDeletedFalse(String id);
+
     Optional<AuthorEntity> findByName(String name);
 
     Optional<AuthorEntity> findByEmailAddress(String emailAddress);

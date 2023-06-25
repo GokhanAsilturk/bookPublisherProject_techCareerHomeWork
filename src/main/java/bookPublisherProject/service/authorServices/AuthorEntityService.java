@@ -2,6 +2,8 @@ package bookPublisherProject.service.authorServices;
 
 import bookPublisherProject.data.entity.BookEntity;
 import bookPublisherProject.data.entity.users.AuthorEntity;
+import bookPublisherProject.exception.DataNotFoundException;
+import bookPublisherProject.exception.ExceptionType;
 import bookPublisherProject.repository.AuthorRepository;
 import bookPublisherProject.service.bookServices.BookEntityService;
 import lombok.RequiredArgsConstructor;
@@ -28,11 +30,13 @@ public class AuthorEntityService implements IAuthorEntityService {
 
     @Override
     public AuthorEntity register(AuthorEntity authorEntity) {
+
         return this.save(authorEntity);
     }
 
     @Override
     public void permanentlyDelete(AuthorEntity authorEntity) {
+
         this.authorRepository.delete(authorEntity);
     }
 
@@ -45,17 +49,25 @@ public class AuthorEntityService implements IAuthorEntityService {
     @Override
     public List<AuthorEntity> getAll() {
         return this.authorRepository.findAllByIsDeletedFalse().orElseThrow(() ->
-                new NotFoundException("There are no authors here."));
+                new DataNotFoundException(ExceptionType.AUTHOR_LIST_NOT_FOUND,"Author List is Empty! :)"));
     }
 
     @Override
     public AuthorEntity getById(String id) {
-        return this.authorRepository.findById(id).orElseThrow(() -> new NotFoundException("AuthorEntity not found ! :)"));
+        return this.authorRepository.findById(id).orElseThrow(() ->
+                new DataNotFoundException(ExceptionType.AUTHOR_DATA_NOT_FOUND,"AuthorEntity not found ! :)"));
+    }
+
+    @Override
+    public AuthorEntity getByIdAndIsDeletedFalse(String id) {
+        return this.authorRepository.findByIdAndIsDeletedFalse(id).orElseThrow(() ->
+                new DataNotFoundException(ExceptionType.AUTHOR_DATA_NOT_FOUND,"AuthorEntity not found ! :)"));
     }
 
     @Override
     public AuthorEntity getByName(String name) {
-        return this.authorRepository.findByName(name).orElseThrow(() -> new NotFoundException("AuthorEntity not found ! :)"));
+        return this.authorRepository.findByName(name).orElseThrow(()
+                -> new DataNotFoundException(ExceptionType.AUTHOR_DATA_NOT_FOUND,"AuthorEntity not found ! :)"));
     }
 
     @Override
@@ -82,7 +94,8 @@ public class AuthorEntityService implements IAuthorEntityService {
 
     @Override
     public AuthorEntity getByEmailAdress(String emailAddress) {
-        return this.authorRepository.findByEmailAddress(emailAddress).orElseThrow();
+        return this.authorRepository.findByEmailAddress(emailAddress).orElseThrow(()
+                -> new DataNotFoundException(ExceptionType.AUTHOR_DATA_NOT_FOUND,"AuthorEntity not found ! :)"));
     }
 
 

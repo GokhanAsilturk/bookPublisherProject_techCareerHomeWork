@@ -6,9 +6,8 @@ import bookPublisherProject.data.entity.users.AuthorEntity;
 import bookPublisherProject.data.request.adminRequests.DeleteBookRequest;
 import bookPublisherProject.data.request.authorRequests.PublishNewBookRequest;
 import bookPublisherProject.data.request.bookRequests.*;
-import bookPublisherProject.exception.AuthorNotFoundException;
-import bookPublisherProject.exception.BookNotFoundException;
-import bookPublisherProject.exception.ItemListIsEmptyException;
+import bookPublisherProject.exception.DataNotFoundException;
+import bookPublisherProject.exception.ExceptionType;
 import bookPublisherProject.service.authorServices.AuthorEntityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -51,9 +50,7 @@ public class BookService implements IBookService {
     @Override
     public void deleteBook(DeleteBookRequest deleteBookRequest) {
 
-        if (bookEntityService.getById(deleteBookRequest.id()) == null) {
-            throw new BookNotFoundException("");
-        } else if (deleteBookRequest.permanentlyDelete()) {
+        if (deleteBookRequest.permanentlyDelete()) {
             this.permanentlyDeleteBook(deleteBookRequest.id());
         } else {
             this.softDeleteBook(deleteBookRequest.id());
@@ -104,21 +101,21 @@ public class BookService implements IBookService {
 
     }
 
+    //TODO buralarda sıkıntı var. exception handler düzgün çalışmıyor. 404hatası veriyor. getallauthors da vermiyor.
     @Override
     public List<BookDto> getAllBooks() {
-        if (bookEntityService.getAll().isEmpty()) {
-            throw new ItemListIsEmptyException("Book list is empty! :D");
-        }
-        return this.bookEntityService.getAll().stream().map(this::convertToDto).toList();
+
+        List<BookDto> bookDtoList = this.bookEntityService.getAll().stream().map(this::convertToDto).toList();
+           if(bookDtoList.isEmpty()){
+               throw new DataNotFoundException(ExceptionType.BOOK_LIST_NOT_FOUND,"Book List is Empty! :D");
+           }else{
+               return bookDtoList;
+           }
     }
 
     @Override
     public BookDto getBookById(String id) {
-        BookEntity bookEntity = bookEntityService.getById(id);
-        if (bookEntity.getIsDeleted()) {
-            throw new BookNotFoundException("Book Not Found! :D");
-        }
-        return this.convertToDto(bookEntityService.getById(id));
+            return this.convertToDto(bookEntityService.getById(id));
     }
 
     @Override
@@ -126,27 +123,16 @@ public class BookService implements IBookService {
 
         AuthorEntity authorEntity = authorEntityService.getByName(authorName);
 
-        if (authorEntity.getName().isEmpty()) {
-            throw new AuthorNotFoundException("Author Not Found! :D");
-        }
-
         Optional<List<BookEntity>> bookEntityList = bookEntityService.retrieveAllByAuthorId(authorEntity.getId(), false);
 
-        if (bookEntityList.isPresent()) {
             return bookEntityList.get().stream().map(BookEntity::convertToDto).toList();
-        } else {
-            throw new ItemListIsEmptyException("Book List isEmpty! :D");
-        }
-
 
     }
 
     @Override
     public BookDto updateBook(UpdateBookRequest updateBookRequest) {
         BookEntity bookEntity = bookEntityService.getById(updateBookRequest.bookId());
-        if (bookEntity.getIsDeleted() || bookEntity.getName().isEmpty()) {
-            throw new BookNotFoundException("Book Not Found! :D");
-        }
+
         BookEntity updatedBookEntity = this.bookEntityService.update(updateBookRequest.convertToEntity(bookEntity));
 
         return this.convertToDto(updatedBookEntity);
@@ -156,12 +142,6 @@ public class BookService implements IBookService {
     public BookDto updateBookAndAuthor(UpdateBookAndAuthorRequest updateBookAndAuthorRequest) {
 
         BookEntity bookEntity = bookEntityService.getById(updateBookAndAuthorRequest.updateBookRequest().bookId());
-        AuthorEntity authorEntity = authorEntityService.getById(updateBookAndAuthorRequest.updateAuthorRequest().authorId());
-        if (bookEntity.getIsDeleted() || bookEntity.getName().isEmpty()) {
-            throw new BookNotFoundException("Book Not Found! :D");
-        } else if (authorEntity.getIsDeleted() || authorEntity.getName().isEmpty()) {
-            throw new AuthorNotFoundException("Author Not Found! :D");
-        }
 
         //kitabı, yazarını da katarak update ediyoruz.
         BookEntity updatedBookEntity = bookEntityService.update(updateBookAndAuthorRequest.convertToBookEntity(bookEntity));
@@ -176,9 +156,6 @@ public class BookService implements IBookService {
 
         BookEntity bookEntity = bookEntityService.getById(bookId);
 
-        if (bookEntity.getIsDeleted() || bookEntity.getName().isEmpty()) {
-            throw new BookNotFoundException("Book Not Found! :D");
-        }
         //DB de bulunan yazarın adını güncellerken kopya nesne alıyoruz.
         AuthorEntity updatedAuthorEntity = authorEntityService.updateName(bookEntity.getAuthorEntity(), newAuthorName);
 
@@ -197,11 +174,6 @@ public class BookService implements IBookService {
 
     @Override
     public BookDto updateBookNameAndReleaseYear(UpdateBookNameAndReleaseYearRequest updateBookNameAndReleaseYearRequest) {
-
-        BookEntity bookEntity = bookEntityService.getById(updateBookNameAndReleaseYearRequest.bookId());
-        if (bookEntity.getIsDeleted() || bookEntity.getName().isEmpty()) {
-            throw new BookNotFoundException("Book Not Found! :D");
-        }
 
         BookEntity updatedBookEntity = this.bookEntityService.update(updateBookNameAndReleaseYearRequest.convertToEntity(bookEntityService.getById(updateBookNameAndReleaseYearRequest.bookId())));
 

@@ -2,6 +2,9 @@ package bookPublisherProject.controller;
 
 import bookPublisherProject.data.request.userRequests.LoginRequest;
 import bookPublisherProject.data.types.response.TCResponse;
+import bookPublisherProject.exception.CustomExceptionHandler;
+import bookPublisherProject.exception.DataNotFoundException;
+import bookPublisherProject.exception.ErrorResponse;
 import bookPublisherProject.service.authorServices.AuthorService;
 import bookPublisherProject.service.bookServices.BookService;
 import bookPublisherProject.service.userServices.UserService;
@@ -42,15 +45,16 @@ public class UserController {
                 .isSuccess(true)
                 .response(bookService.getBookById(id))
                 .build());
-
     }
 
     @GetMapping("/getAllBooks")
     public ResponseEntity<TCResponse<?>> getAllBooks() {
-        return ResponseEntity.ok(TCResponse.builder()
-                .isSuccess(true)
-                .response(bookService.getAllBooks())
-                .build());
+
+            return ResponseEntity.ok(TCResponse.builder()
+                    .isSuccess(true)
+                    .response(bookService.getAllBooks())
+                    .build());
+
     }
 
     @GetMapping("/getAllAuthors")
