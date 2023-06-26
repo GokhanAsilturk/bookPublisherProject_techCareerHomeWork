@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface AdminRepository extends MongoRepository<AdminEntity, String> {
-    Optional <AdminEntity>findByEmailAddress(String emailAddress);
-    Optional <List<AdminEntity>> findAllByIsDeletedFalse();
+    Optional<AdminEntity> findByEmailAddress(String emailAddress);
+
+    Optional<List<AdminEntity>> findAllByIsDeletedFalse();
 }

@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface CustomerRepository extends MongoRepository<CustomerEntity, String> {
     Optional<CustomerEntity> findByEmailAddress(String emailAddress);
 
-    Optional <List<CustomerEntity>> findAllByIsDeletedFalse();
+    Optional<List<CustomerEntity>> findAllByIsDeletedFalse();
 
     Optional<CustomerEntity> findById(String id);
 }

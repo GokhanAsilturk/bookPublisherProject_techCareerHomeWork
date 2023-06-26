@@ -114,7 +114,6 @@ public class AuthorController {
 
     }
 
-    //TODO burası sıkıntılı. 404 döndürüyor.
 
     //    2-) API, bir kitap kaydını ID'sine göre almak ve veritabanındaki tüm kitapların bir listesini almak için
     //    "Mürekkep Kalem Kitaplarına" izin vermelidir.

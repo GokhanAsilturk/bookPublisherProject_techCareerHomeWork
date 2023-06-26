@@ -24,8 +24,8 @@ public class AdminEntityService implements IAdminEntityService {
 
     @Override
     public List<AdminEntity> getAll() {
-        return adminRepository.findAllByIsDeletedFalse().orElseThrow(()->
-                new DataNotFoundException(ExceptionType.ADMIN_LIST_NOT_FOUND,"Admin List is Empty! :)"));
+        return adminRepository.findAllByIsDeletedFalse().orElseThrow(() ->
+                new DataNotFoundException(ExceptionType.ADMIN_LIST_NOT_FOUND, "Admin List is Empty! :)"));
     }
 
     @Override
@@ -37,6 +37,6 @@ public class AdminEntityService implements IAdminEntityService {
     @Override
     public AdminEntity getByEmailAddress(String emailAddress) {
         return adminRepository.findByEmailAddress(emailAddress).orElseThrow(() ->
-                new DataNotFoundException(ExceptionType.ADMIN_DATA_NOT_FOUND,"Admin Not Found! :)"));
+                new DataNotFoundException(ExceptionType.ADMIN_DATA_NOT_FOUND, "Admin Not Found! :)"));
     }
 }

@@ -1,7 +1,6 @@
 package bookPublisherProject.data.request.adminRequests;
 
 import bookPublisherProject.data.entity.users.AdminEntity;
-import bookPublisherProject.data.types.UserType;
 import lombok.Builder;
 
 @Builder
@@ -19,7 +18,6 @@ public record CreateAdminRequest(
                 .emailAddress(emailAddress)
                 .password(password)
                 .position(position)
-                .userType(UserType.ADMIN)
                 .build();
     }
 }

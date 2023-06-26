@@ -28,7 +28,7 @@ public class AdminController {
     private final AdminService adminService;
 
     @Autowired
-    public AdminController(AuthorService authorService, BookService bookService,AdminService adminService) {
+    public AdminController(AuthorService authorService, BookService bookService, AdminService adminService) {
         this.authorService = authorService;
         this.bookService = bookService;
         this.adminService = adminService;
@@ -36,29 +36,57 @@ public class AdminController {
 
 
     @PostMapping("/createAdmin")
-    public ResponseEntity<TCResponse<?>> createAdmin(CreateAdminRequest createAdminRequest) throws Exception {
+    public ResponseEntity<TCResponse<?>> createAdmin(@RequestBody CreateAdminRequest createAdminRequest) {
         return ResponseEntity.ok(TCResponse.builder()
                 .isSuccess(true)
-                .response(adminService.createAdmin(createAdminRequest))
+                .response(this.adminService.createAdmin(createAdminRequest))
                 .build());
     }
 
-
-    @GetMapping("/getAdminByEmailAdress")
-    public ResponseEntity<TCResponse<?>> getAdminByEmailAdress(
-            @RequestParam("emailAdress") String emailAdress) throws Exception {
+    @GetMapping("/getDetailedBookById{id}")
+    public ResponseEntity<TCResponse<?>> getDetailedBookById(
+            @RequestParam("id") String id) {
 
         return ResponseEntity.ok(TCResponse.builder()
                 .isSuccess(true)
-                .response(adminService.getByEmailAdress(emailAdress))
+                .response(adminService.getDetailedBookById(id))
                 .build());
     }
+
+    @GetMapping("/getAdminByEmailAddress{emailAddress}")
+    public ResponseEntity<TCResponse<?>> getAdminByEmailAddress(
+            @RequestParam("emailAddress") String emailAddress) {
+
+        return ResponseEntity.ok(TCResponse.builder()
+                .isSuccess(true)
+                .response(adminService.getAdminByEmailAddress(emailAddress))
+                .build());
+    }
+
+    @GetMapping("/getAdminDetailedByEmailAddress{emailAddress}")
+    public ResponseEntity<TCResponse<?>> getAdminDetailedByEmailAddress(
+            @RequestParam("emailAddress") String emailAddress) {
+
+        return ResponseEntity.ok(TCResponse.builder()
+                .isSuccess(true)
+                .response(adminService.getAdminDetailedByEmailAddress(emailAddress))
+                .build());
+    }
+
 
     @GetMapping("/getAllAdmins")
-    public ResponseEntity<TCResponse<?>> getAllAdmins() throws Exception {
+    public ResponseEntity<TCResponse<?>> getAllAdmins() {
         return ResponseEntity.ok(TCResponse.builder()
                 .isSuccess(true)
                 .response(adminService.getAllAdmins())
+                .build());
+    }
+
+    @GetMapping("/getAllAdminsDetailed")
+    public ResponseEntity<TCResponse<?>> getAllAdminsDetailed() {
+        return ResponseEntity.ok(TCResponse.builder()
+                .isSuccess(true)
+                .response(adminService.getAllAdminsDetailed())
                 .build());
     }
 

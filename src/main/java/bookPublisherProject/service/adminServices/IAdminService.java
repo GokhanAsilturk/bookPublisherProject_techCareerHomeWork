@@ -1,7 +1,9 @@
 package bookPublisherProject.service.adminServices;
 
+import bookPublisherProject.data.dto.AdminDetailedDto;
+import bookPublisherProject.data.dto.AdminDto;
+import bookPublisherProject.data.dto.ItemDetailedDto;
 import bookPublisherProject.data.dto.UserDto;
-import bookPublisherProject.data.entity.users.AdminEntity;
 import bookPublisherProject.data.request.adminRequests.CreateAdminRequest;
 
 import java.util.List;
@@ -12,7 +14,13 @@ public interface IAdminService {
 
     UserDto createAdmin(CreateAdminRequest createAdminRequest) throws Exception;
 
-    List<AdminEntity> getAllAdmins() throws Exception;
+    ItemDetailedDto<Object> getDetailedBookById(String id);
 
-    UserDto getByEmailAdress(String emailAddress);
+    List<AdminDto> getAllAdmins() throws Exception;
+
+    List<AdminDetailedDto> getAllAdminsDetailed();
+
+    AdminDto getAdminByEmailAddress(String emailAddress);
+
+    AdminDetailedDto getAdminDetailedByEmailAddress(String id);
 }

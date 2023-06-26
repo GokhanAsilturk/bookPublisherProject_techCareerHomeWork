@@ -16,6 +16,7 @@ import java.util.Date;
 @SuperBuilder
 public class BaseEntity {
 
+
     @Builder.Default
     private Boolean isDeleted = false;
 

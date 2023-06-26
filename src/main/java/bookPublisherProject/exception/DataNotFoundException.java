@@ -3,7 +3,7 @@ package bookPublisherProject.exception;
 import lombok.Getter;
 
 @Getter
-public class DataNotFoundException extends RuntimeException{
+public class DataNotFoundException extends RuntimeException {
 
     private final ExceptionType exceptionType;
     private String detail;

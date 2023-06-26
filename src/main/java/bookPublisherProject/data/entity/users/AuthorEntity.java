@@ -5,10 +5,7 @@ import bookPublisherProject.data.dto.AuthorDto;
 import bookPublisherProject.data.dto.UserDto;
 import bookPublisherProject.data.entity.baseEntitties.UserEntity;
 import bookPublisherProject.data.types.UserType;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -20,6 +17,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @SuperBuilder
 public class AuthorEntity extends UserEntity {
 
+    @Builder.Default
+    private final UserType userType = UserType.AUTHOR;
     private String name;
     private String bio;
 

@@ -106,16 +106,16 @@ public class BookService implements IBookService {
     public List<BookDto> getAllBooks() {
 
         List<BookDto> bookDtoList = this.bookEntityService.getAll().stream().map(this::convertToDto).toList();
-           if(bookDtoList.isEmpty()){
-               throw new DataNotFoundException(ExceptionType.BOOK_LIST_NOT_FOUND,"Book List is Empty! :D");
-           }else{
-               return bookDtoList;
-           }
+        if (bookDtoList.isEmpty()) {
+            throw new DataNotFoundException(ExceptionType.BOOK_LIST_NOT_FOUND, "Book List is Empty! :D");
+        } else {
+            return bookDtoList;
+        }
     }
 
     @Override
     public BookDto getBookById(String id) {
-            return this.convertToDto(bookEntityService.getById(id));
+        return this.convertToDto(bookEntityService.getById(id));
     }
 
     @Override
@@ -125,7 +125,7 @@ public class BookService implements IBookService {
 
         Optional<List<BookEntity>> bookEntityList = bookEntityService.retrieveAllByAuthorId(authorEntity.getId(), false);
 
-            return bookEntityList.get().stream().map(BookEntity::convertToDto).toList();
+        return bookEntityList.get().stream().map(BookEntity::convertToDto).toList();
 
     }
 

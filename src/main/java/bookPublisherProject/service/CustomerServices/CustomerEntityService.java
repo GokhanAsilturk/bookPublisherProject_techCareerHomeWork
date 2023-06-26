@@ -23,19 +23,19 @@ public class CustomerEntityService implements ICustomerEntityService {
 
     @Override
     public List<CustomerEntity> getAll() {
-        return customerRepository.findAllByIsDeletedFalse().orElseThrow(()->
-                new DataNotFoundException(ExceptionType.USER_LIST_NOT_FOUND,"User List is Empty! :)"));
+        return customerRepository.findAllByIsDeletedFalse().orElseThrow(() ->
+                new DataNotFoundException(ExceptionType.USER_LIST_NOT_FOUND, "User List is Empty! :)"));
     }
 
     @Override
     public CustomerEntity getByEmailAddress(String emailAddress) {
-        return customerRepository.findByEmailAddress(emailAddress).orElseThrow(()->
-                new DataNotFoundException(ExceptionType.USER_DATA_NOT_FOUND,"User Not Found! :)"));
+        return customerRepository.findByEmailAddress(emailAddress).orElseThrow(() ->
+                new DataNotFoundException(ExceptionType.USER_DATA_NOT_FOUND, "User Not Found! :)"));
     }
 
     @Override
     public CustomerEntity getById(String id) {
-        return customerRepository.findById(id).orElseThrow(()->
+        return customerRepository.findById(id).orElseThrow(() ->
                 new DataNotFoundException(ExceptionType.USER_DATA_NOT_FOUND));
     }
 }
