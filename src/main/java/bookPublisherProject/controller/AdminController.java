@@ -1,5 +1,6 @@
 package bookPublisherProject.controller;
 
+import bookPublisherProject.data.request.adminRequests.CreateAdminRequest;
 import bookPublisherProject.data.request.adminRequests.CreateAuthorRequest;
 import bookPublisherProject.data.request.adminRequests.DeleteAuthorRequest;
 import bookPublisherProject.data.request.adminRequests.DeleteBookRequest;
@@ -7,6 +8,7 @@ import bookPublisherProject.data.request.bookRequests.CreateBookAndAuthorRequest
 import bookPublisherProject.data.request.bookRequests.CreateBookRequest;
 import bookPublisherProject.data.request.bookRequests.UpdateBookNameAndReleaseYearRequest;
 import bookPublisherProject.data.types.response.TCResponse;
+import bookPublisherProject.service.adminServices.AdminService;
 import bookPublisherProject.service.authorServices.AuthorService;
 import bookPublisherProject.service.bookServices.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,12 +25,42 @@ public class AdminController {
 
     private final BookService bookService;
 
+    private final AdminService adminService;
+
     @Autowired
-    public AdminController(AuthorService authorService, BookService bookService) {
+    public AdminController(AuthorService authorService, BookService bookService,AdminService adminService) {
         this.authorService = authorService;
         this.bookService = bookService;
+        this.adminService = adminService;
     }
 
+
+    @PostMapping("/createAdmin")
+    public ResponseEntity<TCResponse<?>> createAdmin(CreateAdminRequest createAdminRequest) throws Exception {
+        return ResponseEntity.ok(TCResponse.builder()
+                .isSuccess(true)
+                .response(adminService.createAdmin(createAdminRequest))
+                .build());
+    }
+
+
+    @GetMapping("/getAdminByEmailAdress")
+    public ResponseEntity<TCResponse<?>> getAdminByEmailAdress(
+            @RequestParam("emailAdress") String emailAdress) throws Exception {
+
+        return ResponseEntity.ok(TCResponse.builder()
+                .isSuccess(true)
+                .response(adminService.getByEmailAdress(emailAdress))
+                .build());
+    }
+
+    @GetMapping("/getAllAdmins")
+    public ResponseEntity<TCResponse<?>> getAllAdmins() throws Exception {
+        return ResponseEntity.ok(TCResponse.builder()
+                .isSuccess(true)
+                .response(adminService.getAllAdmins())
+                .build());
+    }
 
     //    1-) API, şirketin veritabanına yeni bir kitap kaydı oluşturmasına izin vermeli ve bu kayıt, kitabın başlığı,
     //açıklaması, yayın tarihi ve yazar bilgilerini (ad, e-posta ve bio) içermelidir.
